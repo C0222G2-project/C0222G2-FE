@@ -1,0 +1,39 @@
+
+#main {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 50px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("src/assets/img/bg3-hoann.jpg") ;
+}
+
+.img-table {
+  height: 100%;
+  width: 100%;
+
+}
+
+.card-body {
+  background-color: #CA955C;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.card-body p {
+  text-align: center;
+  margin: 0;
+}
+
+.card-table {
+  padding: 0 0 0 0;
+  margin-right: 25px;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.img-table:hover {
+  transform: scale(1.6);
+  transition: .5s;
+}

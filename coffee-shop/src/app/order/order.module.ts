@@ -9,15 +9,18 @@ import {ShareModule} from '../share/share.module';
 
 
 @NgModule({
-  declarations: [
-    AddOrderComponent,
-    ListOrderManagementComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    OrderRoutingModule,
-    ShareModule
-  ]
+    declarations: [
+        AddOrderComponent,
+        ListOrderManagementComponent
+    ],
+    exports: [
+        ListOrderManagementComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        OrderRoutingModule,
+        ShareModule
+    ]
 })
 export class OrderModule { }
