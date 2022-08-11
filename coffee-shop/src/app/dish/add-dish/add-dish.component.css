@@ -1,0 +1,25 @@
+#menu {
+  width: 100%;
+  height: 1000px;
+  background-image: url("src/assets/img/background.png");
+  padding-top: 100px;
+  /*background-image: url("https://media.discordapp.net/attachments/1004041400112922655/1004244771331653662/background.jpg");*/
+}
+
+.validate {
+  color: red;
+}
+
+#suaMonMoi {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.form-label{
+  color: sandybrown;
+}
+label.form-label{
+  font-family: Blippo, fantasy;
+}
+.complain{
+  color: red;
+}

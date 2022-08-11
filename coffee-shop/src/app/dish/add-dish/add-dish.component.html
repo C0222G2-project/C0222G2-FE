@@ -1,1 +1,117 @@
-<p>add-dish works!</p>
+<div id="menu">
+  <div class="container bg-light" >
+
+    <div class="row col-lg-12 management">
+
+      <div  class=" col-lg-8 ">
+        <h2 id="suaMonMoi"  class="text-success" style="text-align: center">Thêm Món Mới</h2>
+        <form >
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label">Tên món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-mug-hot"></i></span>
+                <input type="text" class="form-control" placeholder="vd: Cà Phê Muối" formControlName="dishName"
+                       name="dishName">
+              </div>
+
+              <div class="validate">
+                <p style="color: red">Tên món không được để trống. </p>
+                <p style="color: red">Tên món phải nhiều hơn 5 chữ cái. </p>
+              </div>
+
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Loại Món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-align-justify"></i></span>
+                <select class="form-select" formControlName="dishType" name="dishType">
+                  <option><-----Chọn Loại Món-----></option>
+                  <option>Cà Phê </option>
+                  <option>Đồ Uống </option>
+                </select>
+              </div>
+
+              <div class="validate">
+                <p style="color: red"> Loại món không được để trống. </p>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Mã Số Món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"> <i class="fa-solid fa-qrcode"></i></span>
+                <input type="text" class="form-control" placeholder="vd: CF123" formControlName="dishCode"
+                       name="dishCode">
+              </div>
+              <div class="validate">
+                <p style="color: red">Mã số món không được để trống. </p>
+                <p style="color: red">Mã số phải nhiều hơn 3 chữ cái. </p>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Giá (VNĐ) <span class="complain"> * </span>  <span class="form-label"> :</span> </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                <input type="text" class="form-control" placeholder="Vd: 10000" formControlName="dishPrice"
+                       name="dishPrice">
+              </div>
+              <div class="validate">
+                <p style="color: red">Giá phải lớn hơn 5.000 VNĐ. </p>
+              </div>
+            </div>
+
+
+
+            <div class="col-sm-6">
+              <label class="form-label">Ảnh món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-image"></i></span>
+                <select class="form-select" formControlName="dishType" name="dishType">
+                  <option><-----Chọn Ảnh-----></option>
+                  <option>Ảnh Cà Phê </option>
+                  <option>Ảnh Đồ Uống </option>
+                </select>
+              </div>
+
+
+            </div>
+            <div class="col-sm-6">
+              <div class="form-outline mb-4">
+                <img style="height: 100%; width: 100%" src="../assets/image/anhCaPhe.jpeg">
+              </div>
+
+            </div>
+          </div>
+          <hr>
+          <div class="row" style="padding-bottom: 15px">
+            <div class="col-4">
+              <button type="submit" class="w-10 btn btn-danger col-sm-10" ><i class="fa-solid fa-delete-left"></i> Hủy
+              </button>
+            </div>
+            <div class="col-4">
+              <button type="submit" class="w-10 btn btn-warning col-sm-10" ><i class="fa-solid fa-rotate-left"></i> Xóa Biểu Mẫu
+              </button>
+            </div>
+            <div class="col-4">
+              <button type="submit" class="w-10 btn btn-success col-sm-10"><i class="fa-solid fa-cart-plus"></i> Thêm</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div class=" col-lg-4" style="margin-top: 75px">
+        <div class="row">
+          <img style="height: 100%" src="../assets/image/ảnh%20quảng%20cáo%20cafe.webp">
+        </div>
+        <div class="row">
+          <img style="height: 100%" src="../assets/image/logo.jpeg">
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

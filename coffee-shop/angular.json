@@ -95,8 +95,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -127,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "coffee-shop"
+  "defaultProject": "coffee-shop",
+  "cli": {
+    "analytics": false
+  }
 }
