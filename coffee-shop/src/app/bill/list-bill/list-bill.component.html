@@ -17,7 +17,7 @@
         <form>
           <div class=" row col-12" >
             <div class="col-3"></div>
-            <form class="d-flex center form-search">
+            <form class="d-flex center form-search" [formGroup]="searchForm" (ngSubmit)="getFormSearch()" )>
               <div class="col-3">
                 <input class="form-control w-100 search" type="text"
                        placeholder="Search số hóa đơn">
