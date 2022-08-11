@@ -6,12 +6,14 @@ import {AddOrderComponent} from './add-order/add-order.component';
 import {ListOrderManagementComponent} from './list-order-management/list-order-management.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import { ScreenOrderComponent } from './screen-order/screen-order.component';
 
 
 @NgModule({
   declarations: [
     AddOrderComponent,
-    ListOrderManagementComponent
+    ListOrderManagementComponent,
+    ScreenOrderComponent
   ],
   imports: [
     CommonModule,

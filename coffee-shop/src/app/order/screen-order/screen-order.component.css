@@ -1,0 +1,163 @@
+*{
+    box-sizing: border-box;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-menu-option:hover{
+    background-color: #be9c79 !important;
+}
+
+iframe { 
+    margin: 0px; 
+    padding: 0px; 
+    height: 100%; 
+    border: none; 
+} 
+iframe { 
+    display: block; 
+    width: 100%; 
+    border: none; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+} 
+
+.main{
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+}
+
+.shallow-background{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.09;
+    background-color: #000000;
+    z-index: 0;
+}
+
+.container-main-content{
+    z-index: 999;
+}
+
+
+/* .pagination,
+.row-container,
+.card,
+.page-item,
+.menu-order-list,
+.btn-container,
+.table-order,
+.table-infor{
+    z-index: 999;
+} */
+
+.card-nameProduct{
+    margin: 0;
+}
+
+.card-icon-createNew{
+    position: relative;
+    top: 1px;
+}
+
+.card-container{
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+}
+
+.inner-card{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.09;
+    background-color: #000000;
+}
+
+.card-img-top{
+    height: 300px;
+}
+
+.card-body{
+    background-color: #ffffff;
+}
+
+.modal-body-game{
+    width: 100%;
+    height: 500px;
+}
+
+.modal-dialog-game{
+    max-width: 100% !important;
+    top: 45%;
+    transform: translateY(-50%) !important;
+}
+
+.btn-service-hide{
+    display: none;
+}
+
+.order-header{
+    font-family: 'Bungee', cursive;
+}
+
+.table-infor-date,
+.number-table-infor{
+    font-family: 'Bungee', cursive
+}
+
+.modal-content{
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+}
+
+.number-table-infor{
+    font-size: 28px;
+}
+
+.table-infor-date{
+    font-size: 20px;
+}
+
+.menu-order-list-item{
+    list-style: none;
+    cursor: pointer;
+}
+
+.menu-order-list-content{
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.menu-order-list-content::after{
+    content: "";
+    display: none;
+    position: absolute;
+    bottom: -5px;
+    height: 3px;
+    width: 100%;
+    background-color: #000000;
+    animation: fadeInAnimation .5s;
+}
+
+.menu-order-list-content:hover.menu-order-list-content::after{
+    display: block;
+}
+
+/* Responsive */
+
+/* Animation */
+@keyframes fadeInAnimation {
+    from{
+        opacity: 0;
+        width: 0;
+    }
+    to{
+        opacity: 1;
+        width: 100%;
+    }
+}
