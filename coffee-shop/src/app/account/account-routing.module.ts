@@ -6,11 +6,11 @@ import {ChangePasswordAccountComponent} from './change-password-account/change-p
 
 const routes: Routes = [
   {
-    path: 'account/detail:id',
+    path: 'account/detail',
     component: DetailAccountComponent
   },
   {
-    path: 'account/change-password:id',
+    path: 'account/change-password',
     component: ChangePasswordAccountComponent
   }
 ];

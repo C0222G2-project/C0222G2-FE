@@ -1,1 +1,70 @@
-<p>detail-account works!</p>
+<div style="padding: 80px 100px; background-color: #bebebf">
+  <div class="container" >
+    <div class="container bg-light row col-lg-12" style="padding: 50px">
+      <div class=" col-lg-4 order-md-last">
+        <img style="margin-right: 30px" src="/assets/img/logo-info-account-thongnv.png" height="500" width="450"/>
+      </div>
+      <div class=" col-lg-8">
+        <h1 class="mb-3 text-dark" style="text-align: center">Thông tin tài khoản</h1>
+        <form>
+          <div class="row g-3">
+            <div class="col-sm-12">
+              <img style="display: block; margin-left: auto; margin-right: auto; border-radius: 50%"
+                   src="anh/Image from iOS.jpg" height="140px" width="140px"/>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Tên tài khoản</h5></label>
+              <input type="text" class="form-control" value="ThongNV" readonly>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><h5>Họ và tên</h5></label>
+              <input type="text" class="form-control" value="Nguyễn Văn Thông" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Địa chỉ</h5></label>
+              <input type="text" class="form-control" value="Quảng Nam" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Giới tính</h5></label>
+              <input type="text" class="form-control" value="Nam" readonly>
+              <!--                    <select class="form-select">-->
+              <!--                        <option value="Male">Nam</option>-->
+              <!--                        <option value="Female">Nữ</option>-->
+              <!--                        <option value="Other">Giới tính khác</option>-->
+              <!--                    </select>-->
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Số điện thoại</h5></label>
+              <input type="text" class="form-control" value="0338.592.181" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Ngày sinh</h5></label>
+              <input type="date" class="form-control" value="26/05/2000" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Lương(VND)</h5></label>
+              <input type="text" class="form-control" value="20.000.000" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label"><h5>Vị trí</h5></label>
+              <input type="text" class="form-control" value="Quản lý" readonly>
+              <!--                    <select class="form-select">-->
+              <!--                        <option value="Male">Nhân viên</option>-->
+              <!--                        <option value="Female">Quản lý</option>-->
+              <!--                    </select>-->
+            </div>
+            <hr class="my-4">
+            <div class="col-12">
+              <div class="row justify-content-between">
+                <button routerLink="/" style="color: black" type="button" class="btn btn-outline-secondary col-2">Quay lại</button>
+                <button routerLink="/account/change-password" style="color: black" type="submit" class="btn btn-outline-success col-2">Thay đổi mật khẩu</button>
+                <button style="color: black" type="submit" class="btn btn-outline-success col-2">Cập nhật thông tin</button>
+                <button style="color: black" type="submit" class="btn btn-outline-success col-2">Lưu thay đổi</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
