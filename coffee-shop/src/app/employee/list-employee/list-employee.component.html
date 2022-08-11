@@ -1,1 +1,238 @@
-<p>list-employee works!</p>
+
+<div class="container">
+  <div class="d-flex justify-content-center pb-4">
+    <h2>Danh sách nhân viên</h2>
+  </div>
+  <div class="row pb-3 ">
+    <div class="col-2">
+      <button class="btn btn-outline-light background-btn-add"><i class="fa-solid fa-plus-minus"></i></button>
+    </div>
+    <div class="col-10">
+      <form class="d-flex justify-content-end">
+        <div class="col-3 pe-2">
+          <input class=" form-control" placeholder="Tìm theo tài khoản" type="text">
+        </div>
+        <div class="col-3 pe-2">
+          <input class=" form-control" placeholder="Tìm theo tên" type="text">
+        </div>
+        <div class="col-3 pe-2">
+          <input class=" form-control" placeholder="Tìm theo sdt" type="text">
+        </div>
+        <div class="col-1">
+          <button class="btn btn-outline-light btn-search w-100">Tìm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="table_wrapper">
+    <div>
+
+      <table class="table table-hover tab-content">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên tài khoản</th>
+          <th scope="col">Họ và tên</th>
+          <th scope="col">Số điện thoại</th>
+          <th scope="col">Ngày sinh</th>
+          <th colspan="2" style="text-align: center">Hoạt động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="row-bold">1</td>
+          <td>user1</td>
+          <td><a href="ChiTietNhanVien.html" class="name-employee">Nguyễn Thị Tài</a></td>
+          <!--                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal3">-->
+          <!--                        <i class="fa-solid fa-trash-can"></i>-->
+          <!--                    </button>-->
+          <td>0935922428</td>
+          <td>11-11-1999</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#exampleModalDelete1"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td class="row-bold">2</td>
+          <td style="justify-content: center">user2</td>
+          <td><a href="#" class="name-employee">Nguyễn Thị Hòa</a></td>
+          <td>0935342563</td>
+          <td>03-07-1994</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="row-bold">3</td>
+          <td>user3</td>
+          <td><a href="#" class="name-employee">Nguyễn Thị Luận</a></td>
+          <td>0935922511</td>
+          <td>05-09-2000</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="row-bold">4</td>
+          <td>user4</td>
+          <td><a href="#" class="name-employee">Tôn Tằng Tôn Nữ Tạ Thị PHương</a></td>
+          <td>0935922444</td>
+          <td>09-09-2002</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="row-bold">5</td>
+          <td>user5</td>
+          <td><a href="#" class="name-employee">Nguyễn Thị Hậu</a></td>
+          <td>0935922222</td>
+          <td>12-12-2001</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="row-bold">6</td>
+          <td>user6</td>
+          <td><a href="#" class="name-employee">Nguyễn Thị Phúc</a></td>
+          <td>0935922312</td>
+          <td>12-02-1990</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td class="row-bold">7</td>
+          <td>user7</td>
+          <td><a href="#" class="name-employee">Nguyễn Thị Phúc Long</a></td>
+          <td>0937822312</td>
+          <td>12-12-2002</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td class="row-bold">8</td>
+          <td>user8</td>
+          <td><a href="#" class="name-employee">Nguyễn Trường Sinh</a></td>
+          <td>0937922312</td>
+          <td>27-12-2001</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td class="row-bold">9</td>
+          <td>user9</td>
+          <td><a href="#" class="name-employee">Nguyễn Bạch Lộc</a></td>
+          <td>0935002312</td>
+          <td>12-01-2001</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td class="row-bold">10</td>
+          <td>user10</td>
+          <td><a href="#" class="name-employee">Nguyễn Lương Tâm</a></td>
+          <td>0935924442</td>
+          <td>24-12-2002</td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="modal fade" id="exampleModalDelete1" tabindex="-1" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Xóa nhân viên</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="width: 30px">
+                <p style="width: 15px;overflow-wrap:break-word;">Bạn muốn xóa nhân viên có tài
+                  khoản: <span
+                    style="color: red">user1</span> và tên <span style="color: red">Nguyễn Thị Tài!</span>
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              <button type="button" class="btn btn-outline-danger">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <nav aria-label="Page navigation example d-flex flex-row-reverse">
+          <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Trước</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Sau</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
