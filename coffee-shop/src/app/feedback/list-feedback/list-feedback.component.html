@@ -1,1 +1,543 @@
-<p>list-feedback works!</p>
+<div id="body">
+  <div class="container">
+    <h1 class="title">Quản lý phản hồi</h1>
+    <div class="row">
+      <div class="col-sm-12 col-md-5 col-lg-5">
+        <a class="btn" style="background-color: #744e3a; color: white">Xắp sếp đánh giá</a>
+      </div>
+      <div class="col-sm-12 col-md-7 col-lg-7">
+        <label style="color: white">Ngày tạo phản hồi</label>
+        <form class="d-flex" style="text-align: right">
+          <input class="form-control me-2 buttons1" type="date" name="search"
+                 aria-label="Search">
+          <input class="form-control me-2 buttons2" type="date" name="search"
+                 aria-label="Search">
+          <input class="form-control me-2 buttons3" type="search" name="search"
+                 aria-label="Search" placeholder="Tìm người tạo">
+          <button class="btn" style="background-color: #744e3a; color: white" type="submit"
+                  name="name">Tìm
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="table-wrapper mt-3">
+      <table class="table table-hover table-sm">
+        <thead>
+        <tr style="height: 50px">
+          <th>STT</th>
+          <th>Ngày phản hồi</th>
+          <th>Người tạo</th>
+          <th>Đánh giá</th>
+          <th class="text-center">Phản hồi</th>
+          <th class="text-center">Chi tiết</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="container-fluid">
+          <td style="padding-left: 15px">1</td>
+          <td>02-01-2022</td>
+          <td>Nguyễn Văn thông</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td style="width: 150px"><p class="hide_content">Đồ uống ở đây ngon , giá thành lại vừa với túi tiền</p>
+          </td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo1">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">2</td>
+          <td>12-01-2022</td>
+          <td>Lê Văn Phúc</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Giá thành lại vừa với túi tiền, view đẹp</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo2">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">3</td>
+          <td>11-02-2022</td>
+          <td>Trần Đức Phương</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">1 cốc coffee vào buối sáng chưa đủ giúp bạn tỉnh táo... Hãy thử xóa 1 table
+            trong Database để hiệu
+            quả hơn</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo3">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">4</td>
+          <td>12-02-2022</td>
+          <td>Trần Quốc Bảo</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Quán làm nước khá nhanh không phải chờ lâu</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo4">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">5</td>
+          <td>17-02-2022</td>
+          <td>Phan Xuân Bình</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Quán trang trí đẹp</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo5">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">6</td>
+          <td>01-03-2022</td>
+          <td>Nguyễn Như Hoà</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Quán làm đồ uống kiểu gì không biết ngon dễ sợ :)</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo6">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">7</td>
+          <td>15-04-2022</td>
+          <td>Trần thị Diệp</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Đi uống nước mà hao tiền quá :(</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo7">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">8</td>
+          <td>15-04-2022</td>
+          <td>Lê Văn Tài</td>
+          <td>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Quán làm cà phê ngon hơn người yêu cũ :)))</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo8">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">9</td>
+          <td>02-07-2022</td>
+          <td>Nguyễn Văn thông</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Đồ uống ở đây ngon , giá thành lại vừa với túi tiền</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo9">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">10</td>
+          <td>10-09-2022</td>
+          <td>Chu Đức Hiếu</td>
+          <td><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </td>
+          <td><p class="hide_content">Đồ uống quá là ok</p></td>
+          <td class="mid">
+            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo10">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-number">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item disabled">
+            <a class="page-link">Sau</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Trước</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="demo1">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://afamilycdn.com/2018/photo-8-1515053366464.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB001</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>02-01-2022</span> <br>
+            <label>Người tạo: </label> <span>Nguyễn Văn Thông</span> <br>
+            <label>Email:</label> <span>nguyenvanthongdn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Đồ uống ở đây ngon , giá thành lại vừa với túi tiền</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo2">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://brand4u.vn/wp-content/uploads/2020/04/Chu%CC%A3p-a%CC%89nh-%C4%91%C3%B4%CC%80-u%C3%B4%CC%81ng-va%CC%A3n-ng%C6%B0%C6%A1%CC%80i-m%C3%AA-v%C6%A1%CC%81i-ca%CC%81c-me%CC%A3o-nho%CC%89-%C4%91%C6%A1n-gia%CC%89n_1.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB002</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>12-01-2022</span> <br>
+            <label>Người tạo: </label> <span>Lê Văn Phúc</span> <br>
+            <label>Email:</label> <span>levanphucdn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Giá thành lại vừa với túi tiền, view đẹp</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo3">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://www.hoteljob.vn/files/Anh-HTJ-Hong/phan-biet-8-loai-thuc-uong-ca-phe-hot-nhat-hien-nay-3.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB003</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>11-02-2022</span> <br>
+            <label>Người tạo: </label> <span>Trần Đức Phương</span> <br>
+            <label>Email:</label> <span>tranducphuongdn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>1 cốc coffee vào buối sáng chưa đủ giúp bạn tỉnh táo... Hãy thử xóa 1 table trong Database để hiệu
+                        quả hơn</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo4">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://cdnimg.vietnamplus.vn/uploaded/hotnnz/2020_04_27/thucuongdinhduong1.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB004</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>12-02-2022</span> <br>
+            <label>Người tạo: </label> <span>Trần Quốc Bảo</span> <br>
+            <label>Email:</label> <span>tranquocbaodn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Quán làm nước khá nhanh không phải chờ lâu</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo5">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://noithatkendesign.vn/storage/app/media/uploaded-files/thiet-ke-quan-ca-phe-1-tang-03.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB005</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>17-02-2022</span> <br>
+            <label>Người tạo: </label> <span>Phan Xuân Bình</span> <br>
+            <label>Email:</label> <span>phanxuanbinhdn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Quán trang trí đẹp</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo6">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://chupanhmonan.com/wp-content/uploads/2017/11/strawberry-juice-1024x767.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB006</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>01-03-2022</span> <br>
+            <label>Người tạo: </label> <span>Nguyễn Như Hoà</span> <br>
+            <label>Email:</label> <span>nguyennhuhoadn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Quán làm đồ uống kiểu gì không biết ngon dễ sợ :)</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="demo7">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://i.pinimg.com/474x/a0/18/f4/a018f47bf82262891914dbd18e7bd5bb.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB007</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>15-04-2022</span> <br>
+            <label>Người tạo: </label> <span>Trần thị Diệp</span> <br>
+            <label>Email:</label> <span>tranthidiepdn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Đi uống nước mà hao tiền quá :(</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-end" id="demo8">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://www.danang43.vn/wp-content/uploads/2015/07/foody-mobile-3-jpg-469-635718776640473212.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB008</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>15-04-2022</span> <br>
+            <label>Người tạo: </label> <span>Lê Văn Tài</span> <br>
+            <label>Email:</label> <span>levantaidn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Quán làm cà phê ngon hơn người yêu cũ :)))</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="demo9">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://nguyenlieuphachehanoi.com/wp-content/uploads/2019/12/nguyen-tac-chup-hinh.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB009</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>18-04-2022</span> <br>
+            <label>Người tạo: </label> <span>Từ Như Tuyến</span> <br>
+            <label>Email:</label> <span>tunhutuyendn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Đồ uống ở đây, giá thành lại vừa với túi tiền</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="demo10">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <div class="card">
+          <img
+            src="https://i.imgur.com/MQ1jFf9.jpg"
+            class="card-img-top" alt="Phản hồi này không có ảnh">
+          <div class="card-body">
+            <label>Mã phản hồi: </label><span> FB010</span> <br>
+            <label>Đánh giá: </label>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <br>
+            <label>Ngày phản hồi: </label> <span>10-05-2022</span> <br>
+            <label>Người tạo: </label> <span>Chu Đức Hiếu</span> <br>
+            <label>Email:</label> <span>chuduchieudn@gmail.com</span> <br>
+            <label>Phản hồi:</label> <span>Đồ uống quá là ok</span>
+          </div>
+        </div>
+      </div>
+      <div class="button_close">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

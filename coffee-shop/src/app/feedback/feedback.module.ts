@@ -5,6 +5,7 @@ import { FeedbackRoutingModule } from './feedback-routing.module';
 import {ListFeedbackComponent} from './list-feedback/list-feedback.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {ShareModule} from '../share/share.module';
     CommonModule,
     RouterModule,
     FeedbackRoutingModule,
-    ShareModule
+    ShareModule,
+    HttpClientModule
   ]
 })
 export class FeedbackModule { }
