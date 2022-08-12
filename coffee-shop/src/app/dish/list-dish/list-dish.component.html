@@ -1,1 +1,88 @@
-<p>list-dish works!</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<div id="menu">
+
+  <div id="padding" class="container text-center ">
+    <a [routerLink]="['/dish/add']" class="btn btn-success">Thêm Món Mới</a>
+  </div>
+
+
+  <div class="container ">
+    <div class="row">
+      <table id="table" class="table table-striped">
+        <thead>
+        <tr>
+          <td>Mã Món</td>
+          <td>Giá</td>
+          <td>Tên Món</td>
+          <td>Ảnh</td>
+          <td>Nhóm Món</td>
+          <td>Action</td>
+
+        </tr>
+        </thead>
+        <thead>
+        <tr *ngFor="let item of dishList  index as i ">
+          <td>{{item.code}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.name}}</td>
+          <td><img style="width: 100px; height: 100px" src="{{item.image}}"></td>
+          <td>{{item.dishType.name}}</td>
+          <td><a [routerLink]="['/dish/edit',item.id]" id="iconEdit">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          </td>
+          <td>
+            <!-- Button trigger modal -->
+            <button type="button" id="iconDelete" data-bs-toggle="modal"
+                    [attr.data-bs-target]="'#exampleModal'+item.id">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 style="color: sandybrown" class="modal-title" id="exampleModalLabel">XÓA SẢN PHẨM</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                  </div>
+                  <div style="color: brown" class="modal-body">
+                    bạn có muốn xóa thông tin lô hàng <span>{{item.name}}</span> nhập ngày
+                    <span> {{item.code}}</span>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      Không
+                    </button>
+                    <!--                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"-->
+                    <!--                            (click)="deleteLoHang(item.id)">Có-->
+                    <!--                    </button>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+
+
+</div>
+
+<!--        phan trang -->
+<!--        | paginate:{itemsPerPage: 2, currentPage: p};-->
+
+<!--<div class="d-flex justify-content-end container " style="color: black">-->
+<!--  <pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+<!--</div>-->
+
+
+
+
+

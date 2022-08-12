@@ -13,6 +13,7 @@ import {BillModule} from './bill/bill.module';
 import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {DishTypeModule} from "./dish-type/dish-type.module";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ToastrModule} from 'ngx-toastr';
     ToastrModule.forRoot(),
     EmployeeModule,
     DishModule,
+    DishTypeModule,
     FeedbackModule,
     BillModule,
     LoginModule

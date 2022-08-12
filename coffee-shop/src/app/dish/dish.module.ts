@@ -7,6 +7,12 @@ import {EditDishComponent} from './edit-dish/edit-dish.component';
 import {ListDishComponent} from './list-dish/list-dish.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import {HttpClientModule} from "@angular/common/http";
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../../environments/environment";
+import {ReactiveFormsModule} from "@angular/forms";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {AngularFireStorageModule} from "@angular/fire/storage";
 
 
 @NgModule({
@@ -19,7 +25,13 @@ import {ShareModule} from '../share/share.module';
     CommonModule,
     RouterModule,
     DishRoutingModule,
-    ShareModule
+    ShareModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    ReactiveFormsModule,
+
   ]
 })
 export class DishModule { }

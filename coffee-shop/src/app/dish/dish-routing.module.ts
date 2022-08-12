@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ListDishComponent
   },
   {
-    path: 'dish/edit:id',
+    path: 'dish/edit/:id',
     component: EditDishComponent
   },
   {
