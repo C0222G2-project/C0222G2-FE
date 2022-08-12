@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { DishRoutingModule } from './dish-routing.module';
+import {DishRoutingModule} from './dish-routing.module';
 import {AddDishComponent} from './add-dish/add-dish.component';
 import {EditDishComponent} from './edit-dish/edit-dish.component';
 import {ListDishComponent} from './list-dish/list-dish.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -19,7 +20,9 @@ import {ShareModule} from '../share/share.module';
     CommonModule,
     RouterModule,
     DishRoutingModule,
-    ShareModule
+    ShareModule,
+    HttpClientModule
   ]
 })
-export class DishModule { }
+export class DishModule {
+}
