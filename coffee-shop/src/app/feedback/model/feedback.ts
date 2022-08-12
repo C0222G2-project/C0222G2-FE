@@ -5,7 +5,7 @@ export interface Feedback {
   email?: string;
   content?: string;
   rating?: number;
-  feedbackDate?: Date;
+  feedbackDate?: string;
   image?: string;
   isDeleted?: boolean;
 }

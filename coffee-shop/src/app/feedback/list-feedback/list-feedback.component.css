@@ -6,7 +6,7 @@
 }
 
 #body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/backgroundlist.jpg)
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/luanbackground.jpg)
 }
 
 .table-wrapper {
@@ -122,4 +122,14 @@ header li {
 
 .page-number {
   padding: 10px;
+}
+
+material-icons{
+  color: #363535;
+  text-align: center;
+  font-size: 25px;
+  margin: 2px;
+}
+.material-icons:hover{
+  color: orange !important;
 }
