@@ -26,7 +26,8 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -95,8 +96,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "coffee-shop"
+  "defaultProject": "coffee-shop",
+  "cli": {
+    "analytics": false
+  }
 }
