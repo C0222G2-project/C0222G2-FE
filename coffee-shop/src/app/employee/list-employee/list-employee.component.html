@@ -1,1 +1,150 @@
-<p>list-employee works!</p>
+<div class="img-background-component py-5">
+  <div class="container ">
+    <div class="d-flex justify-content-center pb-4">
+      <h2>Danh sách nhân viên</h2>
+    </div>
+    <div class="row pb-3 ">
+      <div class="col-2">
+        <button class="btn btn-primary background-btn-add" [routerLink]="['/employee/add']">add</button>
+      </div>
+      <div class="col-10">
+        <form class="d-flex justify-content-end" [formGroup]="formSearch" (ngSubmit)="searchEmployeeFormByProperty()">
+          <div class="col-3 pe-2">
+            <input class=" form-control" placeholder="Tìm theo tài khoản" type="text" formControlName="accountForm"
+                   name="accountForm">
+          </div>
+
+          <div class="col-3 pe-2">
+            <input class=" form-control" placeholder="Tìm theo tên" type="text" formControlName="nameForm"
+                   name="nameForm">
+          </div>
+          <div class="col-3 pe-2">
+            <input class=" form-control" placeholder="Tìm theo sdt" type="text" formControlName="phoneForm"
+                   name="phoneForm">
+          </div>
+          <div class="col-1">
+            <button class="btn btn-outline-light btn-search w-100">Tìm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="table_wrapper py-4">
+      <div>
+        <table class="table table-hover tab-content">
+          <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên tài khoản</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Vị trí</th>
+            <th scope="col">Lương</th>
+            <th colspan="2" style="text-align: center">Hoạt động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of employeeList; index as i">
+            <td class="row-bold" style="padding-left: 15px">{{1+i + pageCurrent*size}}</td>
+            <td>{{item.appUser}}</td>
+            <td><a class="name-employee" [routerLink]="['/employee/detail',item.id]">{{item.name}}</a></td>
+            <td>{{item.phoneNumber}}</td>
+            <td>{{item.position}}</td>
+            <td>{{item.salary | currency: 'VND':'' }} VNĐ</td>
+
+            <td style="text-align: center">
+              <a class="btn btn-sm btn-outline-warning" [routerLink]="['/employee/edit',item.id]">Edit
+              </a>
+            </td>
+            <td style="text-align: center">
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                      data-bs-target="#exampleModalDelete1" (click)="modalDelete(item)">Xóa</button>
+            </td>
+          </tr>
+          </tbody>
+          <div class="d-flex justify-content-center">
+            <p *ngIf="employeeList.length==0" style="font-weight: 600;text-align: center">Không có dữ liệu</p>
+          </div>
+        </table>
+        <div class="modal fade" id="exampleModalDelete1" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Banh muốn xóa nhân viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <div>
+                    <table class="table table-responsive">
+                      <thead>
+                      <tr>
+                        <th>Tên</th>
+                        <th>Số điện thoại</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{employee.name}}</td>
+                        <td>{{employee.phoneNumber}}</td>
+                      </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-outline-danger" (click)="deleteEmployee(employee.id)"
+                        data-bs-dismiss="modal">Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-3" *ngIf="employeeList.length>0">
+          <nav aria-label="Page navigation example d-flex flex-row-reverse">
+            <ul class="pagination justify-content-end">
+              <div *ngIf="pageCurrent == 0">
+                <li class="page-item disabled">
+                  <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+                </li>
+              </div>
+              <div *ngIf="pageCurrent != 0">
+                <li class="page-item">
+                  <button class="page-link" (click)="goPrevious()">Trước</button>
+                </li>
+              </div>
+              <div *ngFor="let count of arrayPage; index as i">
+                <div *ngIf="i == pageCurrent">
+                  <li class="page-item active">
+                    <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                  </li>
+                </div>
+                <div *ngIf="i != pageCurrent">
+                  <li class="page-item">
+                    <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                  </li>
+                </div>
+              </div>
+              <div *ngIf="pageCurrent == totalPages - 1">
+                <li class="page-item disabled">
+                  <button class="page-link" (click)="goNext()" hidden>Sau</button>
+                </li>
+              </div>
+              <div *ngIf="pageCurrent != totalPages - 1">
+                <li class="page-item">
+                  <button class="page-link" (click)="goNext()">Sau</button>
+                </li>
+              </div>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
