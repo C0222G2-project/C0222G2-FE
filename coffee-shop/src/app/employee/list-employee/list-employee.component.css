@@ -42,7 +42,7 @@ th {
 
 table thead tr {
   /*height: 60px;*/
-  /*background: #804707;*/
+  background: #804707;
   background: #6c5c48;
 }
 
@@ -68,4 +68,13 @@ table thead tr {
 h2 {
   color: white;
 }
-
+table th a{
+  border-width: 0 !important;
+  height: 18px !important;
+  padding: 0 !important;
+  padding-left: 3px !important;
+  color: rgba(255, 255, 255, 0.27);
+}
+table th a:hover{
+  color: white;
+}

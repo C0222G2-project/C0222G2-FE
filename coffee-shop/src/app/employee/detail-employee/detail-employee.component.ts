@@ -14,8 +14,13 @@ export class DetailEmployeeComponent implements OnInit {
   constructor(private employeeService:EmployeeService, private activatedRoute:ActivatedRoute,private toast: ToastrService,
               private router:Router) { }
 
+  /**
+   * Create by TuyenTN
+   * Date: 13/8/2022
+   *
+   */
   ngOnInit(): void {
-      this.activatedRoute.paramMap.subscribe((paramMap)=>{
+    this.activatedRoute.paramMap.subscribe((paramMap)=>{
           const id = parseInt(paramMap.get('id'));
           this.employeeService.findById(id).subscribe(data=>{
             this.employeeDetailDTO = data;
