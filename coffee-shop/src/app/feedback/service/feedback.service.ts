@@ -14,11 +14,21 @@ export class FeedbackService {
   }
 
 
-  getAllFeedback(page: number, searchName, searchStartDate, searchEndDate) {
+  /**
+   * Creator : LuanTV
+   * Date : 13/08/2022
+   * Function : page, search, sort
+   *
+   * @param page
+   * @param searchName
+   * @param searchStartDate
+   * @param searchEndDate
+   * @param sortRating
+   */
+  getAllFeedback(page: number, searchName, searchStartDate, searchEndDate, sortRating) {
     let creator;
     let startDate;
     let endDate;
-    let rating;
     if (searchName == null) {
       creator = '';
     } else {
@@ -34,12 +44,19 @@ export class FeedbackService {
     } else {
       endDate = searchEndDate;
     }
-
     return this.httpClient.get<Feedback[]>(this.URL_FEEDBACK + '/page?page=' + page + '&searchCreator=' + creator +
-      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate);
+      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating);
   }
 
-  findFeedbackById(idEdit: number): Observable<Feedback> {
-    return this.httpClient.get(this.URL_FEEDBACK + '/' +idEdit);
+
+  /**
+   * Creator : LuanTV
+   * Date : 13/08/2022
+   * Function : find by id
+   *
+   * @param id
+   */
+  findFeedbackById(id: number): Observable<Feedback> {
+    return this.httpClient.get(this.URL_FEEDBACK + '/' +id);
   }
 }

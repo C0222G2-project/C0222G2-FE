@@ -71,14 +71,18 @@ a, th, td, label {
 }
 
 .bi {
+  font-size: 120%;
   color: black;
 }
 
 .checked {
   color: orange;
 }
+.fontSize{
+  font-family: "Poppins", sans-serif;
+}
 
-/*header*/
+header
 header * {
   box-sizing: border-box;
 }
@@ -91,7 +95,7 @@ header #menu {
   width: 100%;
   top: 0;
   z-index: 100;
-  font-family: 'Montserrat', sans-serif;
+  /*font-family: 'Montserrat', sans-serif;*/
 }
 
 header .dropdown:hover .dropdown-menu {
