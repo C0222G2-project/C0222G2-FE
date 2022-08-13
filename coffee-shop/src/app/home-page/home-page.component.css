@@ -105,7 +105,7 @@ p{
   align-items: center;
 }
 
-h2 {
+.text-in-box {
   font-family: 'Bungee', cursive;
   color: #fff;
   margin: 20px;
@@ -113,119 +113,22 @@ h2 {
   transition: opacity 1s;
 }
 
-.card0 {
-  background: url("src/assets/img/baocaffee1.jpg") center center no-repeat;
+.card {
+  background: center center no-repeat;
   background-size: 250px;
 }
-.card0:hover {
-  background: url("src/assets/img/baocaffee1.jpg") left center no-repeat;
+.card:hover {
+  background: rgba(0, 0, 0, 0.89) left center no-repeat;
   background-size: 300px;
+  transform: scale(1.1);
+  border: solid 5px #ad593e;
+  z-index: 200;
 }
-.card0:hover h2 {
-  opacity: 1;
-}
-.card1 {
-  background: url("src/assets/img/baocaffee2.jpg") center center no-repeat;
-  background-size: 250px;
-}
-.card1:hover {
-  background: url("src/assets/img/baocaffee2.jpg") left center no-repeat;
-  background-size: 300px;
-}
-.card1:hover h2 {
-  opacity: 1;
-}
-.card2 {
-  background: url("src/assets/img/baocaffee3.jpg") center center no-repeat;
-  background-size: 250px;
-}
-.card2:hover {
-  background: url("src/assets/img/baocaffee3.jpg") left center no-repeat;
-  background-size: 300px;
-}
-.card2:hover h2 {
-  opacity: 1;
-}
-.card3 {
-  background: url("src/assets/img/baocaffee4.jpg") center center no-repeat;
-  background-size: 250px;
-}
-.card3:hover {
-  background: url("src/assets/img/baocaffee4.jpg") left center no-repeat;
-  background-size: 300px;
-}
-.card3:hover h2 {
+
+.card:hover .text-in-box {
   opacity: 1;
 }
 
-.card4 {
-  background: url("src/assets/img/bao15.png") center center no-repeat;
-  background-size: 250px;
-}
-.card4:hover {
-  background: url("src/assets/img/bao15.png") left center no-repeat;
-  background-size: 300px;
-}
-.card4:hover h2 {
-  opacity: 1;
-}
-
-.card5 {
-  background: url("src/assets/img/bao16.png") center center no-repeat;
-  background-size: 250px;
-}
-.card5:hover {
-  background: url("src/assets/img/bao16.png") left center no-repeat;
-  background-size: 300px;
-}
-.card5:hover h2 {
-  opacity: 1;
-}
-
-.card6 {
-  background: url("src/assets/img/bao17.png") center center no-repeat;
-  background-size: 250px;
-}
-.card6:hover {
-  background: url("src/assets/img/bao17.png") left center no-repeat;
-  background-size: 300px;
-}
-.card6:hover h2 {
-  opacity: 1;
-}
-
-.card7 {
-  background: url("src/assets/img/bao18.png") center center no-repeat;
-  background-size: 250px;
-}
-.card7:hover {
-  background: url("src/assets/img/bao18.png") left center no-repeat;
-  background-size: 300px;
-}
-.card7:hover h2 {
-  opacity: 1;
-}
-
-.card8 {
-  background: url("src/assets/img/bao19.png") center center no-repeat;
-  background-size: 250px;
-}
-.card8:hover {
-  background: url("src/assets/img/bao19.png") left center no-repeat;
-  background-size: 300px;
-}
-.card8:hover h2 {
-  opacity: 1;
-}
-
-.card9 {
-  background: url("src/assets/img/bao20.png") center center no-repeat;
-  background-size: 250px;
-}
-.card9:hover {
-  background: url("src/assets/img/bao20.png") left center no-repeat;
-  background-size: 300px;
-}
-.card9:hover h2 {
-  opacity: 1;
+.text-in-box h2 {
+  -webkit-text-stroke: 2px #963f3f;
 }
