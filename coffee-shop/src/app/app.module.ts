@@ -19,7 +19,6 @@ import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +42,7 @@ import {environment} from "../environments/environment";
     FeedbackModule,
     BillModule,
     LoginModule,
+
     ShareModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebase),

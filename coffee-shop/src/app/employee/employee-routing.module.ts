@@ -12,7 +12,7 @@ const routes: Routes = [
     component: ListEmployeeComponent
   },
   {
-    path: 'employee/detail:id',
+    path: 'employee/detail/:id',
     component: DetailEmployeeComponent
   },
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     component: AddEmployeeComponent,
   },
   {
-    path: 'employee/edit:id',
+    path: 'employee/edit/:id',
     component: EditEmployeeComponent
   }
 ];

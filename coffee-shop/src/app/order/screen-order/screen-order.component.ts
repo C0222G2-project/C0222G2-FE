@@ -78,7 +78,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    */
   getAllDish(page){
     this.orderService.getAllDish(page).subscribe(dishes => {
-       this.dishes = dishes.content;
+       // @ts-ignore
+      this.dishes = dishes.content;
       //  this.totalPages = Array.from({length: dishes}, (v,k)=> k+1);
     });
   }
@@ -91,7 +92,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    */
   getAllDishType(){
     this.orderService.getAllDishType().subscribe(dishTypes => {
-       this.dishTypes = dishTypes.content;
+       // @ts-ignore
+      this.dishTypes = dishTypes.content;
     });
   }
 
