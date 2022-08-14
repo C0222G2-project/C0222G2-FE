@@ -121,6 +121,8 @@ export class AddEmployeeComponent implements OnInit {
 
 
 
+
+
   validateCustomSalary(salary: AbstractControl) {
     let value = salary.value;
     if (value % 100000 != 0) {

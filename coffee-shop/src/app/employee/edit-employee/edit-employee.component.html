@@ -27,20 +27,20 @@
             </div>
 
             <div class="col-md-6">
-              <label for="id" class="form-label">Mã nhân viên<span style="color: red"> *</span></label>
+              <label for="id" class="form-label">Mã nhân viên<span style="color: red"> (*)</span></label>
               <input type="text" class="form-control" id="id" formControlName="id" readonly>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Tên tài khoản<span style="color: red"> *</span></label>
+              <label class="form-label">Tên tài khoản<span style="color: red"> (*)</span></label>
               <select formControlName="appUser" id="appUser" class="form-control"
-                      [compareWith]="compareUserName" [(ngModel)]="employee.appUser" >
+                      [compareWith]="compareUserName" [(ngModel)]="employee.appUser" readonly>
                 <option *ngFor="let item of appUser" [ngValue]="item" readonly>{{item.userName}}</option>
               </select>
             </div>
 
             <div class="col-md-6">
-              <label for="name" class="form-label">Tên nhân viên<span style="color: red"> *</span></label>
+              <label for="name" class="form-label">Tên nhân viên<span style="color: red"> (*)</span></label>
               <input type="text" class="form-control" id="name" formControlName="name">
               <div *ngIf="!name.valid && (name.dirty || name.touched)">
                   <div class="text-danger" [hidden]="!name.errors.required">Vui lòng nhập tên</div>
