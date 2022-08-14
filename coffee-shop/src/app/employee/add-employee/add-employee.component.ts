@@ -16,7 +16,7 @@ import {Position} from "../../model/employee/position";
   styleUrls: ['./add-employee.component.css']
 })
 export class AddEmployeeComponent implements OnInit {
-  employeeForm: FormGroup;
+  employeeFormCreate: FormGroup;
   employee: Employee = {};
   position: Position[] = [];
 
@@ -32,7 +32,7 @@ export class AddEmployeeComponent implements OnInit {
 
   getEmployeeForm() {
     // @ts-ignore
-    this.employeeForm = new FormGroup({
+    this.employeeFormCreate = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(6),
         Validators.pattern("^[A-Za-z][a-zA-Z0-9 ]{1,}$")]),
       image: new FormControl('', [Validators.required]),
@@ -51,24 +51,25 @@ export class AddEmployeeComponent implements OnInit {
     this.employeeService.getAllPosition().subscribe(data => {
       // @ts-ignore
       this.position = data;
-    }, error => {
-    }, () => {
       this.getEmployeeForm();
     });
   }
 
   createEmployee() {
-    console.log(this.employeeForm.value)
+    if(this.employeeFormCreate.value == ''){
+      this.toast.success('vui lòng thêm dữ liệu')
+    }
+    console.log(this.employeeFormCreate.value)
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRel = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
       finalize(() => {
         fileRel.getDownloadURL().subscribe((url) => {
-          this.employeeForm.patchValue({image: url});
+          this.employeeFormCreate.patchValue({image: url});
           const appUser: AppUser = {
-            userName: this.employeeForm.value.username
+            userName: this.employeeFormCreate.value.username
           }
-          const employee: Employee = this.employeeForm.value;
+          const employee: Employee = this.employeeFormCreate.value;
           employee.appUser = appUser;
             this.employeeService.saveEmployee(employee).subscribe(() => {
               this.router.navigateByUrl('/employee').then(r => this.toast.success('thêm mới thành công'));
@@ -86,41 +87,43 @@ export class AddEmployeeComponent implements OnInit {
     return formatDate(new Date(), 'dd-MM-yyyy-hh:mm:ss', 'en-US');
   }
 
+  get username() {
+    return this.employeeFormCreate.get('username');
+  }
+
   get name() {
-    return this.employeeForm.get('name');
+    return this.employeeFormCreate.get('name');
   }
 
   get email() {
-    return this.employeeForm.get('email');
+    return this.employeeFormCreate.get('email');
   }
 
   get address() {
-    return this.employeeForm.get('address');
+    return this.employeeFormCreate.get('address');
   }
 
   get image() {
-    return this.employeeForm.get('image');
+    return this.employeeFormCreate.get('image');
   }
 
   get gender() {
-    return this.employeeForm.get('gender');
+    return this.employeeFormCreate.get('gender');
   }
 
   get phoneNumber() {
-    return this.employeeForm.get('phoneNumber');
+    return this.employeeFormCreate.get('phoneNumber');
   }
 
   get birthday() {
-    return this.employeeForm.get('birthday');
+    return this.employeeFormCreate.get('birthday');
   }
 
   get salary() {
-    return this.employeeForm.get('salary');
+    return this.employeeFormCreate.get('salary');
   }
 
-  get username() {
-    return this.employeeForm.get('username');
-  }
+
 
   validateCustomSalary(salary: AbstractControl) {
     let value = salary.value;

@@ -3,13 +3,38 @@
     <div class="row col-lg-12 management">
       <div class=" col-lg-8 ">
         <h1 class="mb-5 text-success text-center title">Chỉnh Sửa Thông Tin Nhân Viên</h1>
-        <form class="row g-3" [formGroup]="employeeForm" *ngIf="employeeForm" (ngSubmit)="updateEmployee()">
+        <form class="row g-3" [formGroup]="employeeFormEdit" *ngIf="employeeFormEdit" (ngSubmit)="updateEmployee()">
           <div class="row g-3">
 
+            <div class="col-sm-6">
+              <label class="form-label">Ảnh nhân viên <span class="complain"> (*) </span> <span
+                class="form-label"> :</span></label>
+              <input id="avata" formControlName="image" name="image"
+                     type="file"  #fileUploader (change)="showPreview($event)" class="form-control"/>
+              <div *ngIf="!image.valid && (image.dirty || image.touched)">
+                <div class="text-danger" [hidden]="!image.errors.required">Salary not required</div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 " id="xoa" >
+              <div class=" form-outline mb-4" >
+                <img  id="image" src="{{employeeFormEdit.value.image}}" style="height: 100% ; width: 100% ; ">
+              </div>
+              <div class=" form-outline mb-4"  >
+                <img id="img" [src]="imgSrc"  style="height: 100%; width: 100%; display: none "
+                     (click)="fileUploader.click()">
+              </div>
+            </div>
+
             <div class="col-md-6">
-              <label>Tên Tài Khoản<span style="color: red"> *</span></label>
-              <select formControlName="username" id="appUser" class="form-control"
-                      [compareWith]="compareUserName" [(ngModel)]="employee.appUser">
+              <label for="id" class="form-label">Mã nhân viên<span style="color: red"> *</span></label>
+              <input type="text" class="form-control" id="id" formControlName="id" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tên tài khoản<span style="color: red"> *</span></label>
+              <select formControlName="appUser" id="appUser" class="form-control"
+                      [compareWith]="compareUserName" [(ngModel)]="employee.appUser" >
                 <option *ngFor="let item of appUser" [ngValue]="item" readonly>{{item.userName}}</option>
               </select>
             </div>
@@ -24,26 +49,10 @@
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Hình ảnh<span class="complain">(*)</span> </label>
-              <input id="image" type="file" class="form-control" formControlName="image" name="image">
-              <div *ngIf="!image.valid && (image.dirty || image.touched)">
-                <div class="text-danger" [hidden]="!image.errors.required">Vui lòng nhập thông tin hình ảnh</div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
               <label for="birthday" class="form-label">Ngày sinh</label>
               <input type="date" class="form-control" id="birthday" formControlName="birthday">
               <div *ngIf="!birthday.valid && (birthday.dirty || birthday.touched)">
                 <div class="text-danger" [hidden]="!birthday.errors.pattern">Vui lòng theo định dang dd/MM/yyyy</div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label for="address" class="form-label">địa chỉ<span style="color: red"> (*)</span></label>
-              <input type="text" class="form-control" id="address" formControlName="address">
-              <div *ngIf="!address.valid && (address.dirty || address.touched)">
-                <div class="text-danger" [hidden]="!address.errors.required">Vui lòng nhập địa chỉ</div>
               </div>
             </div>
 
@@ -67,6 +76,14 @@
             </div>
 
             <div class="col-md-6">
+              <label for="address" class="form-label">địa chỉ<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="address" formControlName="address">
+              <div *ngIf="!address.valid && (address.dirty || address.touched)">
+                <div class="text-danger" [hidden]="!address.errors.required">Vui lòng nhập địa chỉ</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
               <label for="email" class="form-label">Email<span style="color: red"> (*)</span></label>
               <input type="text" class="form-control" id="email" formControlName="email">
               <div *ngIf="!email.valid && (email.dirty || email.touched)">
@@ -84,6 +101,7 @@
                 <div class="text-danger" [hidden]="!salary.errors.format">Vui lòng nhập thông tin lương là bội của 100000</div>
               </div>
             </div>
+
             <div class="col-md-6">
               <label for="position" class="form-label">Vị trí<span style="color: red">(*)</span></label>
               <select formControlName="position" name="position" class="form-control"
@@ -91,10 +109,11 @@
                 <option *ngFor="let item of position" [ngValue]="item">{{item.name}}</option>
               </select>
             </div>
+
             <hr class="my-4">
             <div class="row col-12">
               <div class="col-6 text-center">
-                <button type="submit" class=" w-75 btn btn-success" [disabled]="!employeeForm.valid">Lưu</button>
+                <button type="submit" class=" w-75 btn btn-success" >Lưu</button>
               </div>
               <div class="col-6 text-center">
                 <a [routerLink]="['/employee']" type="button" class=" w-75 btn btn-secondary">Quay lại</a>
