@@ -10,4 +10,12 @@ export class AppComponent {
   title = 'coffee-shop';
 
 
+  onActivate(event) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
 }
