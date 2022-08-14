@@ -5,11 +5,13 @@ import { FeedbackRoutingModule } from './feedback-routing.module';
 import {ListFeedbackComponent} from './list-feedback/list-feedback.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import { CreateFeedbackComponent } from './create-feedback/create-feedback.component';
 
 
 @NgModule({
   declarations: [
-    ListFeedbackComponent
+    ListFeedbackComponent,
+    CreateFeedbackComponent
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,9 @@ import {BillModule} from './bill/bill.module';
 import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -25,12 +28,20 @@ import {ToastrModule} from 'ngx-toastr';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      closeButton: true,
+      progressBar: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     EmployeeModule,
     DishModule,
     FeedbackModule,
     BillModule,
-    LoginModule
+    LoginModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
