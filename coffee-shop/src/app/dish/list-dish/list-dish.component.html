@@ -1,2 +1,125 @@
-<p>list-dish works!</p>
-<h1>hello1</h1>
+<div class="background">
+  <h1>Danh sách món</h1>
+  <br>
+  <a style="margin-left: 110px" type="button" class="btn btn-secondary"><img
+    src="https://cdn-icons-png.flaticon.com/128/992/992651.png"
+    alt="create dish"
+    height="30">
+  </a>
+  <div class="main">
+    <div class="limiter"></div>
+    <div class="container-table100">
+      <div class="wrap-table100 table_wrapper">
+        <div>
+          <form [formGroup]="searchForm" (ngSubmit)="searchDish()" class="d-flex">
+            <label for="service_code" style="margin: 5px">Mã số món:</label>
+            <input id="service_code" type="text" class="form-control" name="dishCode" formControlName="dishCode" placeholder="Nhập mã số món">
+
+            <label for="service">Tên :</label>
+            <input id="service" type="text" class="form-control" name="dishName" formControlName="dishName" placeholder="Nhập tên món">
+
+            <label for="service_type">Loại món </label>
+            <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel="1" class="form-control" >
+              <option value="1">Coffee</option>
+              <option value="2">Bánh</option>
+              <option value="3">Nước tăng lực</option>
+              <option value="4">Nước trái cây</option>
+            </select>
+
+            <label for="price">Giá :</label>
+            <input id="price" type="number" class="form-control" name="dishPrice" formControlName="dishPrice" placeholder="Nhập giá món">
+            <button style="margin-left: 5px" class="btn btn-success buttons1" type="submit">Tìm kiếm</button>
+          </form>
+
+        </div>
+        <table class="table table-hover mt-3">
+          <thead>
+          <tr class="table100-head">
+            <th class="col-1">#</th>
+            <th class="col-2">Mã số món</th>
+            <th class="col-2">Tên món</th>
+            <th class="col-2">Giá</th>
+            <th class="col-2">Nhóm món</th>
+            <th class="col-1" colspan="2">Chức năng</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let element of dishArray; index as i">
+            <td>{{i + 1}}</td>
+            <td>{{element.code}}</td>
+            <td>{{element.name}}</td>
+            <td>{{element.price| currency:'VND'}}</td>
+            <td>{{element.dishType.name}}</td>
+            <td><a href="#" class="btn btn-outline-warning">
+              <img src="../../../assets/img/hieucd_editing.png"
+                   alt="" height="30"></a></td>
+            <td>        <!-- Button trigger modal -->
+              <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                      [attr.data-bs-target]="'#exampleModal' + element.id">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/3221/3221845.png"
+                  alt=""
+                  height="30">
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{element.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Xóa món</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                    </div>
+                    <div class="modal-body">
+                      Bạn có chắc chắn muốn xóa không?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Trở về</button>
+                      <button type="button" class="btn btn-danger" (click)="deleteDishById(element.id)">Xóa</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <div *ngIf="number == 0">
+          <li class="page-item disabled">
+            <button class="page-link" hidden>Previous</button>
+          </li>
+        </div>
+        <div *ngIf="number != 0">
+          <li class="page-item">
+            <button class="page-link" (click)="goPrevious()">trước</button>
+          </li>
+        </div>
+        <div *ngFor="let count of countTotalPages; index as i">
+          <div *ngIf="i == number">
+            <li class="page-item active">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
+          </div>
+          <div *ngIf="i != number">
+            <li class="page-item">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
+          </div>
+        </div>
+        <div *ngIf="number == totalPages - 1">
+          <li class="page-item disabled">
+            <button class="page-link" hidden>Next</button>
+          </li>
+        </div>
+        <div *ngIf="number != totalPages - 1">
+          <li class="page-item">
+            <button class="page-link" (click)="goNext()">sau</button>
+          </li>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</div>

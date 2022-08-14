@@ -13,16 +13,27 @@ export class DishService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getDishPage(): Observable<Dish[]> {
-    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish");
+  getDishPage(page: number): Observable<Dish[]> {
+    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page);
   }
 
-  getDishById() {
 
+  deleteDishById(id: number): Observable<Dish> {
+    // @ts-ignore
+    return this.httpClient.patch<Dish>(this.URL_DISH + "/delete/" + id)
   }
 
-  searchDish
-  ///delete/{id}
-  ///findById/{id}
+  getDishPageSearch(searchObj: any): Observable<Dish[]> {
+    let dishName = searchObj.dishName;
+    let dishCode = searchObj.dishCode;
+    let dishPrice = searchObj.dishPrice;
+    let dishTypeId = searchObj.dishTypeId;
+    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish"+"?dishName="+dishName+"&dishCode="+dishCode+"&dishPrice="+dishPrice+"&dishTypeId="+dishTypeId);
+  }
+
+  getDishType(): Observable<Dish[]> {
+    return this.httpClient.get<Dish[]>(this.URL_DISH + "/getDishTypePage" );
+  }
+
 
 }
