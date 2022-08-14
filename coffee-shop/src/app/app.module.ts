@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomePageComponent} from './home-page/home-page.component';
@@ -14,6 +13,10 @@ import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {ShareModule} from './share/share.module';
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
+
 
 @NgModule({
   declarations: [
@@ -26,13 +29,22 @@ import {ShareModule} from './share/share.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      closeButton: true,
+      progressBar: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     EmployeeModule,
     DishModule,
     FeedbackModule,
     BillModule,
     LoginModule,
-    ShareModule
+    ShareModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
+
   ],
   providers: [],
   bootstrap: [AppComponent]
