@@ -1,1 +1,76 @@
-<p>detail-employee works!</p>
+<div class="img-background-component">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-8">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-4 col-lg-4 d-none d-md-block">
+              <img src="{{employeeDetailDTO.image}}" alt="login form" class="img-fluid">
+            </div>
+            <div class="col-md-8 col-lg-8 ">
+              <div class="card-body  text-black" style="padding-bottom: 0 !important;">
+                <div class="d-flex justify-content-center">
+                  <h1>Chi tiết nhân viên</h1>
+                </div>
+                <div class="table-responsive">
+                  <table class="table ">
+                    <thead>
+                    <tr>
+                      <th colspan="2"></th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                      <td class="font-bold col-4">Họ và tên:</td>
+                      <td>{{employeeDetailDTO.name}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Tên user:</td>
+                      <td>{{employeeDetailDTO.appUser}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Vị trí:</td>
+                      <td>{{employeeDetailDTO.position}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Số điện thoại:</td>
+                      <td>{{employeeDetailDTO.phoneNumber}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Địa chỉ:</td>
+                      <td>{{employeeDetailDTO.address}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Ngày sinh:</td>
+                      <td>{{employeeDetailDTO.birthday | date :"dd-MM-yyyy"}}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold col-4">Lương:</td>
+                      <td>{{employeeDetailDTO.salary | currency:'VND':''}}đ</td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+                <div class="row my-2">
+
+                  <div class="pb-md-3 d-flex justify-content-center">
+                    <a class="btn btn-outline-secondary text-decoration-none px-2" routerLink="/employee"> Quay lại</a>
+                    <a [routerLink]="['/employee/edit',employeeDetailDTO.id]"
+                       class="btn btn-outline-warning text-decoration-none px-2">Sửa</a>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
