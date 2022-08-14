@@ -1,1 +1,56 @@
-<p>header works!</p>
+<nav class="navbar navbar-expand-lg navbar-light " id="menu" style="height: 100px">
+    <div class="container-fluid">
+
+      <a class="navbar-brand logo" routerLink="/home" style="margin-left: 50px">
+        <span style="margin-left: 10px">COFFEE</span>
+        <img src="assets/img/baologo1-removebg.png" height="80" alt="logo">
+      </a>
+      <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" aria-haspopup="true">
+        <span class="navbar-toggler-icon" style="text-align: end"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 mr-auto justify-content-end" >
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home">TRANG CHỦ</a>
+          </li>
+          <li class="nav-item" *ngIf="token !== ''">
+            <a class="nav-link" routerLink="/order/screen">ĐẶT MÓN</a>
+          </li>
+          <li class="nav-item" *ngIf="role === 'ROLE_ADMIN' || role === 'ROLE_STAFF'">
+            <a class="nav-link" routerLink="/order/list">THANH TOÁN</a>
+          </li>
+          <li class="nav-item" *ngIf="role === 'ROLE_ADMIN'">
+            <a class="nav-link" routerLink="/employee" >NHÂN VIÊN</a>
+          </li>
+          <li class="nav-item" *ngIf="role === 'ROLE_ADMIN'">
+            <a class="nav-link" routerLink="/bill">QUẢN LÝ</a>
+          </li>
+          <li class="nav-item" *ngIf="role === 'ROLE_ADMIN'">
+            <a class="nav-link" routerLink="/feedback">ĐÁNH GIÁ</a>
+          </li>
+          <!--        <li class="nav-item dropdown">-->
+          <!--          <a class="nav-link" id="navbarDropdown" role="button" aria-expanded="false">-->
+          <!--            Dropdown-->
+          <!--          </a>-->
+          <!--          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+          <!--            <li><a class="dropdown-item" href="#">Action</a></li>-->
+          <!--            <li><a class="dropdown-item" href="#">Another action</a></li>-->
+          <!--            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+          <!--          </ul>-->
+          <!--        </li>-->
+          <li class="nav-item" style="" *ngIf="token === ''">
+            <button class="btn btn-light nav-link d-flex align-items-center" style="height: 100%;border: solid 1px; border-radius: 10px" [routerLink]="['/login']">
+              ĐĂNG NHẬP<mat-icon style=" font-size: 150%">account_circle</mat-icon>
+            </button>
+          </li>
+          <li class="nav-item" style="" *ngIf="token !== ''">
+            <button class="btn btn-light nav-link d-flex align-items-center" style="height: 100%;border: solid 1px; border-radius: 10px" (click)="onLogout()">
+              ĐĂNG XUẤT<mat-icon style=" font-size: 150%">account_circle</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+

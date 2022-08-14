@@ -5,8 +5,9 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {LoginService} from "../service/login.service";
 import {AuthService} from "../service/auth.service";
-import {LogoutService} from "../service/logout.service";
 import {ForgotService} from "../service/forgot.service";
+import {CommonService} from "../service/common.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-home-login',
@@ -14,21 +15,28 @@ import {ForgotService} from "../service/forgot.service";
   styleUrls: ['./home-login.component.css']
 })
 export class HomeLoginComponent implements OnInit {
+
   loginForm: FormGroup;
   forgotForm: FormGroup;
+  messageReceived: any;
+  private subscriptionName: Subscription;
 
   constructor(private cookieService: CookieService,
               private router: Router,
               private toastrService: ToastrService,
               private loginService: LoginService,
               private authService: AuthService,
-              private logoutService: LogoutService,
-              private forgotService: ForgotService) {
+              private forgotService: ForgotService,
+              private commonService: CommonService) {
+    this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
+      console.log(message)
+      this.messageReceived = message;
+    });
   }
 
   ngOnInit(): void {
-    const username = this.cookieService.getCookie("username");
-    const password = this.cookieService.getCookie("password");
+    const username = this.cookieService.getCookie("usernameRemember");
+    const password = this.cookieService.getCookie("passwordRemember");
     if (username != '' && password != '') {
       this.createLoginForm(username, password);
     } else {
@@ -56,8 +64,8 @@ export class HomeLoginComponent implements OnInit {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
       if (this.loginForm.value.rememberMe) {
-        this.cookieService.setCookie("username", username, 100);
-        this.cookieService.setCookie("password", password, 100);
+        this.cookieService.setCookie("usernameRemember", username, 100);
+        this.cookieService.setCookie("passwordRemember", password, 100);
       }
       this.loginService.onLogin(username, password).subscribe(value => {
         this.authService.isLogin(value);
@@ -74,32 +82,13 @@ export class HomeLoginComponent implements OnInit {
             break;
         }
       }, () => {
-        this.toastrService.success("Đăng nhập thành công!")
+        this.router.navigateByUrl('/home').then(() => {
+          this.toastrService.success("Đăng nhập thành công!")
+          this.sendMessage();
+        });
       });
     } else {
       this.toastrService.error("Thông tin bạn nhập không chính xác!");
-    }
-  }
-
-  onLogout() {
-    if (this.cookieService.getCookie('jwToken') != null) {
-      this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe((value) => {
-        this.cookieService.deleteCookie('role');
-        this.cookieService.deleteCookie('jwToken');
-        this.router.navigateByUrl("/login").then(() => {
-          this.toastrService.success("Đăng xuất thành công!");
-        })
-      }, error => {
-        console.log(error)
-        switch (error.error) {
-          case "isLogout":
-            this.toastrService.warning("Bạn chưa đăng nhập!");
-            break;
-        }
-      }, () => {
-      });
-    } else {
-      this.toastrService.warning("Bạn chưa đăng nhập!");
     }
   }
 
@@ -113,7 +102,7 @@ export class HomeLoginComponent implements OnInit {
       }, error => {
         //@ts-ignore
         $("#staticBackdropForgot").modal('hide');
-        this.router.navigateByUrl("/login").then(()=>{
+        this.router.navigateByUrl("/login").then(() => {
           this.toastrService.warning("Tên tài khoản không tồn tại!");
           //@ts-ignore
           $("#staticBackdropForgot").modal('show');
@@ -129,6 +118,10 @@ export class HomeLoginComponent implements OnInit {
     } else {
       this.toastrService.warning("Thông tin bạn nhập chưa chính xác!")
     }
+  }
 
+  sendMessage(): void {
+    // send message to subscribers via observable subject
+    this.commonService.sendUpdate('Đăng Nhập thành công!');
   }
 }

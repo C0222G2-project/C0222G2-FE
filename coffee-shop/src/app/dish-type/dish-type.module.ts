@@ -7,6 +7,7 @@ import { AddDishTypeComponent } from './add-dish-type/add-dish-type.component';
 import { EditDishTypeComponent } from './edit-dish-type/edit-dish-type.component';
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {ShareModule} from '../share/share.module';
     CommonModule,
     RouterModule,
     DishTypeRoutingModule,
-    ShareModule
+    ShareModule,
+    HttpClientModule
   ]
 })
 export class DishTypeModule { }
