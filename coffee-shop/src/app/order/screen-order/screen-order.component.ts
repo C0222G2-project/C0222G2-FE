@@ -34,7 +34,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   date: Date;
 
   constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, 
-    private db: AngularFireDatabaseModule, private notificationService: NotificationService) { 
+    private db: AngularFireDatabaseModule, private notificationService: NotificationService, 
+    ) { 
       // this.notificationService.requestPermission();
       this.date = new Date();
   }
@@ -95,7 +96,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   }
 
 
-
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
@@ -106,7 +106,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
          this.dish = dish;
       })
   }
-
 
 
   /**
@@ -121,8 +120,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     this.orderMenu.push(order);
     this.inputQuantity.nativeElement.value = '';
   }
-
-
 
 
    /**
@@ -152,12 +149,21 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   deleteDish(){
     this.selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
     let index: number;
-    for(let i=0; i<= this.selectCheckBox.value.length; i++){
+    let containerRemoveIndex = [];
+    for(let i=0; i< this.selectCheckBox.value.length; i++){
+      let removeIndex = this.selectCheckBox.value.indexOf(this.selectCheckBox.value[i]);
       index = this.selectCheckBox.value[i];
       this.orderMenu.splice(index, 1);
-      console.log(index);
-      console.log(this.selectCheckBox.value);
-      this.selectCheckBox.value[i]='';
+      // console.log(index);
+      // console.log(this.selectCheckBox.value[i]);
+      console.log(this.selectCheckBox.value[i]);
+      console.log(removeIndex);
+      containerRemoveIndex.push(removeIndex);
+      console.log(containerRemoveIndex);
+      // this.selectCheckBox.removeAt(removeIndex);
+    }
+    for(let i of containerRemoveIndex){
+      this.selectCheckBox.removeAt(i);
     }
     this.uncheckAll();
   }
@@ -177,8 +183,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
   }
-
-
 
 
   /**
@@ -202,7 +206,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     }
   }
 
-  
   goItem(page: number) {
     this.getAllDish(page);
   }
