@@ -7,9 +7,10 @@
 }
 
 #fate {
-  background-image: url("/../assets/img/tailv-background.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/luanbackground.jpg);
   position: relative;
-  padding: 70px;
+  padding: 150px;
+
 }
 .s{
   background-color: white;

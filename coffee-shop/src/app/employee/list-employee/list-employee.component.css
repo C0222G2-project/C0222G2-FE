@@ -3,7 +3,9 @@
   overflow-x: auto;
   white-space: nowrap;
 }
-
+.main {
+  padding-top: 150px;
+}
 .input-search {
   border-radius: 10px;
   border: #75644b solid 1px;
