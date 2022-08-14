@@ -22,6 +22,11 @@ export class HomePageComponent implements OnInit {
     this.get5DishNewest();
   }
 
+  /**
+   * @date 14/08/2022
+   * @author BaoTQ
+   * @Function get 5 dish most order to display on homepage
+   */
 
 
   get5DishMostOrder(){
@@ -33,6 +38,12 @@ export class HomePageComponent implements OnInit {
       this.mess.error('Server have some problem, try reload page','ERROR')
     })
   }
+
+  /**
+   * @date 14/08/2022
+   * @author BaoTQ
+   * @Function get 5 dish newest to display on homepage
+   */
 
   get5DishNewest(){
     this.getDishList.get5DishNewest().subscribe( data => {
