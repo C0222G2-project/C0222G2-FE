@@ -23,8 +23,7 @@ iframe {
 } 
 
 .main{
-    position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+
 }
 
 .shallow-background{
@@ -40,6 +39,8 @@ iframe {
 
 .container-main-content{
     z-index: 999;
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
 }
 
 
@@ -56,6 +57,7 @@ iframe {
 
 .card-nameProduct{
     margin: 0;
+    min-width: 120px;
 }
 
 .card-icon-createNew{
@@ -65,7 +67,7 @@ iframe {
 
 .card-container{
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('src/assets/img/binhpx-background.jpg');
 }
 
 .inner-card{
@@ -79,11 +81,29 @@ iframe {
 }
 
 .card-img-top{
+    display: block;
     height: 300px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
 }
 
 .card-body{
     background-color: #ffffff;
+}
+
+.my-card{
+    height: 400px;
+    border-radius: 32px;
+}
+
+.my-card-body{
+    background-color: #ffffff;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+}
+
+.btn-createOrder{
+    min-width: 55px;
 }
 
 .modal-body-game{
@@ -111,7 +131,8 @@ iframe {
 }
 
 .modal-content{
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('src/assets/img/baobg.jpg');
 }
 
 .number-table-infor{
@@ -148,6 +169,47 @@ iframe {
     display: block;
 }
 
+.show-service-on-mobile{
+    display: none;
+}
+
+.menu-onMobile{
+    width: 200px;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+}
+
+.buttonOrder {
+    height: 40px;
+    width: 160px;
+    background-color: rgba(0, 0, 0, 0.77);
+    color: #ffffff;
+    border-color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.buttonOrder:hover {
+    background-color: #6c5c48;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container-menu{
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.03)), url('src/assets/img/baobg.jpg');
+}
+
+.buttonOrder .btn-modal{
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.buttonOrder .btn-modal-red{
+    background-color: rgba(222, 125, 125, 111) !important;
+}
+  
+  
+
 /* Responsive */
 
 /* Animation */
@@ -159,5 +221,22 @@ iframe {
     to{
         opacity: 1;
         width: 100%;
+    }
+}
+
+@media (max-width: 941px) {
+    .show-service-on-mobile{
+        display: block;
+        position: relative;
+    }
+
+    .show-service-on-desktop{
+        display: none;
+    }
+}
+
+@media (min-width: 942px) {
+    .show-service-on-desktop{
+        display: flex;
     }
 }

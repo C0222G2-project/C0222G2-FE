@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OrderRoutingModule } from './order-routing.module';
@@ -7,7 +7,9 @@ import {ListOrderManagementComponent} from './list-order-management/list-order-m
 import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
 import { ScreenOrderComponent } from './screen-order/screen-order.component';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,13 @@ import { ScreenOrderComponent } from './screen-order/screen-order.component';
     CommonModule,
     RouterModule,
     OrderRoutingModule,
-    ShareModule
-  ]
+    ShareModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
+  ],
+  providers: [{
+    provide: DEFAULT_CURRENCY_CODE,
+    useValue: 'fr' // 'de' for Germany, 'fr' for France ...
+  }]
 })
 export class OrderModule { }

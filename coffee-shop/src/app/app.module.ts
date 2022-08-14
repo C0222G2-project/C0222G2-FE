@@ -15,6 +15,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import { OrderModule } from './order/order.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,

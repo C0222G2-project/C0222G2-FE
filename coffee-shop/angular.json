@@ -22,7 +22,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/img"
+              "src/assets/img",
+              "src/menifest.json",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "src/custom-theme.scss",
@@ -97,6 +99,7 @@
               "src/styles.css"
             ],
             "scripts": [
+              
             ]
           }
         },
