@@ -130,7 +130,7 @@ export class ListEmployeeComponent implements OnInit {
   deleteEmployee(id: number) {
     this.employeeService.deleteEmployee(id).subscribe(d => {
       // @ts-ignore
-      this.toast.success('Delete success.', 'Delete employee', 300);
+      this.toast.success('Xóa thành công!!!.', 'Xóa Nhân Viên', 600);
       if(this.checkSort){
         if(this.totalElement-1 == this.size*(this.totalPages-1)){
           this.getAllSearch(this.pageCurrent-1,this.searchName,this.searchPhone,this.searchAccount,this.sort);
@@ -148,7 +148,7 @@ export class ListEmployeeComponent implements OnInit {
     }, error => {
       if (error.status == 404) {
         // @ts-ignore
-        this.toast.error('Delete failure.', 'Delete employee', 300);
+        this.toast.error('Xóa thất bại.', 'Xóa Nhân Viên', 600);
       }
     })
   }
@@ -210,9 +210,9 @@ export class ListEmployeeComponent implements OnInit {
    * Method use sort by name
    */
   sortByName() {
-      this.checkSort= true;
-      this.sort = 'name';
-      this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+    this.checkSort= true;
+    this.sort = 'name';
+    this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
   }
   /**
    * Create by TuyenTN

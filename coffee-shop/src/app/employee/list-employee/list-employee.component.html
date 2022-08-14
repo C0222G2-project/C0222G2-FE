@@ -5,7 +5,7 @@
     </div>
     <div class="row pb-3 ">
       <div class="col-2">
-        <button class="btn btn-outline-light background-btn-add"><i class="fa-solid fa-plus-minus"></i></button>
+        <button class="btn btn-outline-light background-btn-add" [routerLink]="['/employee/add']" ><i class="fa-solid fa-plus-minus"></i></button>
       </div>
       <div class="col-10 d-flex justify-content-end">
         <form class="d-flex justify-content-end" [formGroup]="formSearch" (ngSubmit)="searchEmployeeFormByProperty()">

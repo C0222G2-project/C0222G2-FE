@@ -1,1 +1,163 @@
-<p>add-employee works!</p>
+<div id="fate">
+  <div class="container bg-light">
+    <div class="row col-lg-12 management">
+      <div class=" col-lg-8 ">
+        <h1 class="mb-5 text-success text-center title">Tạo Mới Nhân Viên</h1>
+        <form  [formGroup]="employeeFormCreate" *ngIf="employeeFormCreate" (ngSubmit)="createEmployee()">
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label for="appUser" class="form-label">Tên tài khoản<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="appUser" formControlName="username">
+              <div *ngIf="!username.valid && (username.dirty || username.touched)">
+                <div class="text-danger" [hidden]="!username.errors.pattern">Vui lòng không nhập số đầu</div>
+                <div class="text-danger" [hidden]="!username.errors.minlength">Vui lòng nhập trên 6 kí tự</div>
+                <div class="text-danger" [hidden]="!username.errors.required">Vui lòng nhập tên tài khoản</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="name" class="form-label">Tên nhân viên<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="name" formControlName="name">
+              <div *ngIf="!name.valid && (name.dirty || name.touched)">
+                <div class="text-danger" [hidden]="!name.errors.required">Vui lòng nhập thông tin</div>
+                <div class="text-danger" [hidden]="!name.errors.pattern">Vui lòng tên viết hoa đầu mỗi từ</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Hình ảnh<span class="complain">(*)</span> </label>
+              <input id="image" type="file" class="form-control" (change)="showPreview($event)">
+              <div *ngIf="!image.valid && (image.dirty || image.touched)">
+                <div class="text-danger" [hidden]="!image.errors.required">Vui lòng nhập thông tin hình ảnh</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="birthday" class="form-label">Ngày sinh</label>
+              <input type="date" class="form-control" id="birthday" formControlName="birthday">
+              <div *ngIf="!birthday.valid && (birthday.dirty || birthday.touched)">
+                <div class="text-danger" [hidden]="!birthday.errors.pattern">Vui lòng theo định dang dd/MM/yyyy</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="address" class="form-label">địa chỉ<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="address" formControlName="address">
+              <div *ngIf="!address.valid && (address.dirty || address.touched)">
+                <div class="text-danger" [hidden]="!address.errors.required">Vui lòng nhập thông tin địa chỉ</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label"> Giới tính </label>
+              <select id="gender" formControlName="gender" name="gender" class="form-control">
+                <option value="">Chọn giới tính</option>
+                <option value="1">Nam</option>
+                <option value="2">Nữ</option>
+                <option value="0">Giới tính khác</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="phoneNumber" class="form-label">Số điện thoại<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+              <div *ngIf="!phoneNumber.valid && (phoneNumber.dirty || phoneNumber.touched)">
+                <div class="text-danger" [hidden]="!phoneNumber.errors.required">Vui lòng nhập số điện thoại </div>
+                <div class="text-danger" [hidden]="!phoneNumber.errors.pattern">Vui lòng nhập đầu số 091 090 hoặc (84)+91, (84)+90 và 7 số sau</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="email" formControlName="email">
+              <div *ngIf="!email.valid && (email.dirty || email.touched)">
+                <div class="text-danger" [hidden]="!email.errors.required">Vui lòng nhập thông tin email</div>
+                <div class="text-danger" [hidden]="!email.errors.email">Vui lòng nhập định dạng email</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="salary" class="form-label">Lương (VND)<span style="color: red"> (*)</span></label>
+              <input type="text" class="form-control" id="salary" formControlName="salary">
+              <div *ngIf="!salary.valid && (salary.dirty || salary.touched)">
+                <div class="text-danger" [hidden]="!salary.errors.required">Vui lòng nhập thông tin lương</div>
+                <div class="text-danger" [hidden]="!salary.errors.format">Vui lòng nhập thông tin lương là bội của 100000</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="position" class="form-label">Vị trí<span style="color: red"> (*)</span></label>
+              <select id="position" class="form-select" formControlName="position">
+                <option value="">Chọn vị trí</option>
+                <option *ngFor="let c of position" [ngValue]="c">{{c.name}}</option>
+              </select>
+            </div>
+            <hr class="my-4">
+            <div class="row col-md-12">
+              <div class="col-md-6 text-center">
+                <button type="submit" class=" w-75 btn btn-success" >Lưu</button>
+              </div>
+              <div class="col-md-6 text-center">
+                <a [routerLink]="['/employee']" type="button" class=" w-75 btn btn-secondary">Quay lại</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class=" col-lg-4 order-md-last form">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-success">Coffee Market</span>
+          <span class="badge bg-success rounded-pill">$</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">Vietnamese</h6>
+              <small class="text-muted">Smart Coffee</small>
+            </div>
+            <span class="text-muted">$1200</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">US-UK</h6>
+              <small class="text-muted">Smart Coffee</small>
+            </div>
+            <span class="text-muted">$1600</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">America</h6>
+              <small class="text-muted">Smart Coffee</small>
+            </div>
+            <span class="text-muted">$1600</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">China</h6>
+              <small class="text-muted">Smart Coffee</small>
+            </div>
+            <span class="text-muted">$1</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">C0222G2</h6>
+              <small>Smart Coffee</small>
+            </div>
+            <span class="text-success">−$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>$2000</strong>
+          </li>
+        </ul>
+
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search market">
+          <button type="submit" class="btn btn-outline-success">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

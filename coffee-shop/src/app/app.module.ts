@@ -13,6 +13,8 @@ import {BillModule} from './bill/bill.module';
 import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {ToastrModule} from 'ngx-toastr';
     DishModule,
     FeedbackModule,
     BillModule,
-    LoginModule
+    LoginModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
+
   ],
   providers: [],
   bootstrap: [AppComponent]
