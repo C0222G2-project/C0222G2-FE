@@ -21,7 +21,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   checkButton:boolean = true;
   checkButtonOption: boolean = false;
   dishes: Dish[] = [];
-  dishTypes: DishType[] = [];
+  dishTypes: any;
   dish: Dish;
   orderMenu = [];
   checkOrderMenu = [];
@@ -33,9 +33,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   hasPrevious: false;
   date: Date;
 
-  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, 
-    private db: AngularFireDatabaseModule, private notificationService: NotificationService, 
-    ) { 
+  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService,
+    private db: AngularFireDatabaseModule, private notificationService: NotificationService,
+    ) {
       // this.notificationService.requestPermission();
       this.date = new Date();
   }
@@ -57,7 +57,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to open and close menu 
+   *  This function to open and close menu
    *  when web site responsive which width is less than 930px
    */
   openMenuService(){
@@ -74,7 +74,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to get all dish have when api return 
+   *  This function to get all dish have when api return
    */
   getAllDish(page){
     this.orderService.getAllDish(page).subscribe(dishes => {
@@ -87,7 +87,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to get all dish type have when api return 
+   *  This function to get all dish type have when api return
    */
   getAllDishType(){
     this.orderService.getAllDishType().subscribe(dishTypes => {
@@ -125,14 +125,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    /**
    *  Author: BinhPx
    *  Date: 12/08/2022
-   *  This function check event check box and push it into selectCheckBox 
+   *  This function check event check box and push it into selectCheckBox
    */
   onCheckBoxChange(event){
     this.selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
     if(event.target.checked){
       this.selectCheckBox.push(new FormControl(event.target.value));
       console.log(this.selectCheckBox);
-      
+
     }
     else{
       const index = this.selectCheckBox.controls.findIndex(i => i.value === event.target.value);
@@ -233,7 +233,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   //   let timer = 1;
   //   let timerString;
   //   console.log(timerString +=this.displayTimer(timer));
-    
+
   //   return timerString += this.displayTimer(timer);
   // }
 
