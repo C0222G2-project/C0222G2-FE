@@ -21,10 +21,14 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/img",
+              "src/menifest.json",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "src/custom-theme.scss",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
@@ -93,10 +97,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -127,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "coffee-shop"
+  "defaultProject": "coffee-shop",
+  "cli": {
+    "analytics": false
+  }
 }

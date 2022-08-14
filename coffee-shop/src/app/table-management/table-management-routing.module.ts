@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ListTableManagementComponent
   },
   {
-    path: 'table/edit:id',
+    path: 'table/edit/:id',
     component: EditTableManagementComponent
   },
   {
