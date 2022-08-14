@@ -4,7 +4,15 @@ import {HomePageComponent} from './home-page/home-page.component';
 
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent},
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/home'
+  },
+  {
+    path: 'home',
+    component: HomePageComponent
+  }
 ];
 
 @NgModule({
