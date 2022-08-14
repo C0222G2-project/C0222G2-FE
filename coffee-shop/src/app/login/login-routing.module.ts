@@ -4,6 +4,7 @@ import {HomeLoginComponent} from './home-login/home-login.component';
 import {ForgotPasswordLoginComponent} from './forgot-password-login/forgot-password-login.component';
 import {ChangePasswordLoginComponent} from './change-password-login/change-password-login.component';
 import {Error403PageComponent} from "./error403-page/error403-page.component";
+import {LoadingComponent} from "./loading/loading.component";
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: HomeLoginComponent
   },
   {
-    path: 'forgot',
+    path: 'forgot/:token',
     component: ForgotPasswordLoginComponent
   },
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'error403',
     component: Error403PageComponent
+  },
+  {
+    path: 'loading',
+    component: LoadingComponent
   }
 ];
 

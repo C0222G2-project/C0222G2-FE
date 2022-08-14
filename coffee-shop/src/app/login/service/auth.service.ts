@@ -14,10 +14,11 @@ export class AuthService {
       this.cookieService.setCookie("role", "ROLE_ADMIN", 1);
     } else if (this.isStaff(value.grantList)) {
       this.cookieService.setCookie("role", "ROLE_STAFF", 1);
+    } else {
+      this.cookieService.setCookie("role", "ROLE_USER", 1);
     }
-    this.cookieService.setCookie("status", "on", 1);
     this.cookieService.setCookie("username", value.username, 1);
-    this.cookieService.setCookie("token", value.token, 1);
+    this.cookieService.setCookie("jwToken", value.token, 1);
   }
 
   isAdmin(grantList: string[]): boolean {
