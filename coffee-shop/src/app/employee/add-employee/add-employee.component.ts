@@ -56,10 +56,6 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   createEmployee() {
-    if(this.employeeFormCreate.value == ''){
-      this.toast.success('vui lòng thêm dữ liệu')
-    }
-    console.log(this.employeeFormCreate.value)
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRel = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
