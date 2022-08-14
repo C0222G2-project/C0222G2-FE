@@ -2,11 +2,14 @@
 #menu {
   width: 100%;
   height: 1000px;
-  background-image: url("../../../assets/img/PhucLV.background.png");
+  background-image: url("../../../assets/img/PhucLV.background.jpeg");
   padding-top: 100px;
 
 
   /*background-image: url("https://media.discordapp.net/attachments/1004041400112922655/1004244771331653662/background.jpg");*/
+}
+#logo{
+  margin-top: 50px;
 }
 
 .validate {

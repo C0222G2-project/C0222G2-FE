@@ -1,110 +1,131 @@
-
 <div id="menu">
-  <div class="container bg-light" >
+  <div class="container bg-light">
 
     <div class="row col-lg-12 management">
 
-      <div  class=" col-lg-8 ">
-        <h2 id="suaMonMoi"  class="text-success" style="text-align: center"> Sửa Món Mới</h2>
+      <div class=" col-lg-8 ">
+        <h2 id="suaMonMoi" class="text-success" style="text-align: center">Sửa Món Mới</h2>
         <form [formGroup]="formDish" (ngSubmit)="EditDish(id)" *ngIf="formDish">
+
           <div class="row g-3">
             <div class="col-sm-6">
-              <label class="form-label">Tên món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
-
+              <label class="form-label">Tên món <span class="complain"> * </span> <span
+                class="form-label"> :</span></label>
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="fa-solid fa-mug-hot"></i></span>
                 <input type="text" class="form-control" placeholder="vd: Cà Phê Muối" formControlName="name"
                        name="name">
               </div>
-
+              <div class="validate">
+                <p style="color: red"
+                   *ngIf="formDish.controls.name.hasError('required') && formDish.controls.name.touched">Tên món không
+                  được để trống. </p>
+                <p style="color: red"
+                   *ngIf="formDish.controls.name.hasError('minlength') && formDish.controls.name.touched">Tên món phải
+                  nhiều hơn 5 chữ cái. </p>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <label class="form-label">Loại Món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
 
+            <div class="col-sm-6">
+              <label class="form-label">Loại Món <span class="complain"> * </span> <span
+                class="form-label"> :</span></label>
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="fa-solid fa-align-justify"></i></span>
-                <select value="A" class="form-select" formControlName="dishType" name="dishType" >
-                  <option value="A" selected disabled hidden>Choose here</option>
+                <select class="form-select" formControlName="dishType" name="dishType"
+                        [compareWith]="compareDishType" [(ngModel)]="dish.dishType">
+                  <option id="opt" value="">Vui Lòng Chọn </option>
                   <option *ngFor="let item of dishTypeList" [ngValue]="item"> {{item.name}}</option>
                 </select>
               </div>
 
-
-
-
+              <div class="validate">
+                <p style="color: red"
+                   *ngIf="formDish.controls.dishType.hasError('required') && formDish.controls.dishType.touched">Nhóm
+                  món không được để trống. </p>
+              </div>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Mã Số Món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
+              <label class="form-label">Mã Số Món <span class="complain"> * </span> <span
+                class="form-label"> :</span></label>
               <div class="input-group mb-3">
                 <span class="input-group-text"> <i class="fa-solid fa-qrcode"></i></span>
                 <input type="text" class="form-control" placeholder="vd: CF123" formControlName="code"
                        name="code">
               </div>
-
+              <div class="validate">
+                <p style="color: red"
+                   *ngIf="formDish.controls.code.hasError('required') && formDish.controls.code.touched">Mã số món không
+                  được để trống. </p>
+                <p style="color: red"
+                   *ngIf="formDish.controls.code.hasError('minlength') && formDish.controls.code.touched">Mã số món phải
+                  nhiều hơn 3 chữ cái. </p>
+              </div>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Giá (VNĐ) <span class="complain"> * </span>  <span class="form-label"> :</span> </label>
+              <label class="form-label">Giá (VNĐ) <span class="complain"> * </span> <span class="form-label"> :</span>
+              </label>
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
                 <input type="text" class="form-control" placeholder="Vd: 10000" formControlName="price"
                        name="price">
               </div>
-
-            </div>
-
-
-
-              <div class="col-sm-6">
-                <label class="form-label">Ảnh món <span class="complain"> * </span>  <span class="form-label"> :</span></label>
-                <div class="input-group mb-3">
-                  <span class="input-group-text"><i class="fa-solid fa-image"></i></span>
-                  <input id="avata"
-                        formControl="image" name="image" type="file" #fileUploader (change)="showPreview($event)" class="form-control"/>
-                </div>
-
+              <div class="validate">
+                <p style="color: red"
+                   *ngIf="formDish.controls.price.hasError('required') && formDish.controls.price.touched">Giá không
+                  được để trống. </p>
+                <p style="color: red"
+                   *ngIf="formDish.controls.price.hasError('min') && formDish.controls.price.touched">Giá phải lớn hơn
+                  5000. </p>
               </div>
 
+            </div>
 
             <div class="col-sm-6">
-              <div class="form-outline mb-4">
-                <img  [src]="imgSrc" style="height: 100%; width: 100%" (click)="fileUploader.click()">
+              <label class="form-label">Ảnh món <span class="complain"> * </span> <span
+                class="form-label"> :</span></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-image"></i></span>
+                <input id="avata" formControlName="image" name="image"
+                    type="file"  #fileUploader (change)="showPreview($event)" class="form-control"/>
               </div>
 
             </div>
+
+            <div class="col-sm-6 " id="xoa" >
+              <div class=" form-outline mb-4" >
+                <img  id="image" src="{{formDish.value.image}}" style="height: 100%; width: 100% ; ">
+              </div>
+              <div class=" form-outline mb-4"  >
+                <img id="img" [src]="imgSrc"  style="height: 100%; width: 100%; display: none "
+                     (click)="fileUploader.click()">
+              </div>
+            </div>
+
           </div>
 
           <hr>
-          <div class="row" style="padding-bottom: 15px">
+          <div class="row" style="padding-bottom: 20px">
             <div class="col-4">
-              <button type="button"routerLink="/dish" class="w-10 btn btn-danger col-sm-10" ><i class="fa-solid fa-delete-left"></i> Hủy
+              <button type="button" routerLink="/dish" class="w-10 btn btn-danger col-sm-10"><i
+                class="fa-solid fa-delete-left"></i> Hủy
               </button>
             </div>
             <div class="col-4">
-              <button type="button" (click)="resetForm()" class="w-10 btn btn-warning col-sm-10" ><i class="fa-solid fa-rotate-left"></i> Xóa Biểu Mẫu
+              <button type="button" (click)="resetForm()" class="w-10 btn btn-warning col-sm-10"><i
+                class="fa-solid fa-rotate-left"></i> Xóa Biểu Mẫu
               </button>
             </div>
             <div class="col-4">
-              <button type="submit" class="w-10 btn btn-success col-sm-10"><i class="fa-solid fa-cart-plus"></i> Sửa</button>
+              <button type="submit" class="w-10 btn btn-success col-sm-10"><i class="fa-solid fa-cart-plus"></i> Sửa
+              </button>
             </div>
           </div>
         </form>
       </div>
 
-
-
-      <!--      <div class=" col-lg-4" style="margin-top: 75px">-->
-      <!--        <div class="row">-->
-      <!--          <img style="height: 100%" src="../src/assets/img/ảnh%20quảng%20cáo%20cafe.webp">-->
-      <!--        </div>-->
-      <!--        <div class="row">-->
-      <!--          <img style="height: 100%" src="../src/assets/img/logo.jpeg">-->
-      <!--        </div>-->
-
-      <!--      </div>-->
-
-      <div class=" col-lg-4 order-md-last form">
+      <div id="logo" class=" col-lg-4 order-md-last form">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-success">Coffee Market</span>
           <span class="badge bg-success rounded-pill">$</span>
@@ -156,8 +177,6 @@
           <button type="submit" class="btn btn-outline-secondary">Search</button>
         </div>
       </div>
-
-
 
     </div>
   </div>

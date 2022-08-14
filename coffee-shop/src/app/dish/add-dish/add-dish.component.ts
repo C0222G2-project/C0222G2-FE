@@ -8,6 +8,7 @@ import {finalize} from "rxjs/operators";
 import {formatDate} from "@angular/common";
 import {Dish} from "../model/dish";
 import {DishTypeService} from "../service/dish-type.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-add-dish',
@@ -23,7 +24,8 @@ export class AddDishComponent implements OnInit {
   constructor(private dishService: DishService,
               private dishTypeService: DishTypeService,
               private router: Router,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private toastrService : ToastrService) {
   }
 
   ngOnInit(): void {
@@ -37,12 +39,9 @@ export class AddDishComponent implements OnInit {
       image: new FormControl('', [Validators.required]),
       isDeleted: new FormControl('', [Validators.required]),
       dishType: new FormControl('', [Validators.required]),
-      creationDate: new FormControl('', [Validators.required]),
-
-
+      creationDate: new FormControl('', [Validators.required])
     });
   }
-
 
   getAllDishType() {
     this.dishTypeService.getAll().subscribe(data => {
@@ -60,9 +59,8 @@ export class AddDishComponent implements OnInit {
           let dish: Dish = this.formDish.value;
           dish.image = url;
           this.dishService.saveDish(dish).subscribe(value => {
-            alert("Thành công!");
+            this.toastrService.success("Thành Công","Thêm Mới")
             this.router.navigateByUrl("/dish").then()
-
           });
         });
       })
@@ -79,6 +77,7 @@ export class AddDishComponent implements OnInit {
       reader.onload = (o: any) => this.imgSrc = o.target.result;
       reader.readAsDataURL(event.target.files[0]);
       this.selectedImage = event.target.files[0];
+      document.getElementById('img').style.display = 'block';
     } else {
       this.imgSrc = '';
       this.selectedImage = null;
@@ -87,5 +86,7 @@ export class AddDishComponent implements OnInit {
 
   resetForm() {
     this.formDish.reset()
+    document.getElementById('img').style.display='none'
+
   }
 }
