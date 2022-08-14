@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ListBillComponent} from './list-bill/list-bill.component';
 import {DetailBillComponent} from './detail-bill/detail-bill.component';
-import {IncomeBillComponent} from './income-bill/income-bill.component';
 
 
 const routes: Routes = [
@@ -11,13 +10,9 @@ const routes: Routes = [
     component: ListBillComponent
   },
   {
-    path: 'bill/detail:id',
+    path: 'bill/detail',
     component: DetailBillComponent
   },
-  {
-    path: 'bill/income',
-    component: IncomeBillComponent
-  }
 ];
 
 @NgModule({

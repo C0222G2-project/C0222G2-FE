@@ -27,7 +27,7 @@ import {EditDishComponent} from "./edit-dish/edit-dish.component";
     DishRoutingModule,
     ShareModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
