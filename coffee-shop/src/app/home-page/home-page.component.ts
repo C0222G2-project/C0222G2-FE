@@ -3,8 +3,6 @@ import {GetDishList} from './service/getDishList';
 import {DishWithAmountOrder} from './model/DishWithAmountOrder';
 import {DishWithTimeCreate} from './model/DishWithTimeCreate';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from "@angular/router";
-import {HeaderComponent} from "../header/header.component";
 
 @Component({
   selector: 'app-home-page',
@@ -24,14 +22,13 @@ export class HomePageComponent implements OnInit {
     this.get5DishMostOrder();
     this.get5DishNewest();
   }
-
   get5DishMostOrder(){
     this.getDishList.get5DishMostOrder().subscribe( data => {
       this.dishMostOrderList = data;
       console.log(data)
     }, error => {
       this.checkData = false;
-      // this.mess.error('Server have some problem, try reload page','ERROR')
+      this.mess.error('Server have some problem, try reload page','ERROR')
     })
   }
 
@@ -41,7 +38,7 @@ export class HomePageComponent implements OnInit {
       console.log(data)
     }, error => {
       this.checkData = false;
-      // this.mess.error('Server have some problem, try reload page','ERROR')
+      this.mess.error('Server have some problem, try reload page','ERROR')
     })
   }
 

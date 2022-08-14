@@ -144,3 +144,6 @@ material-icons {
   padding-bottom: 10px;
   padding-top: 10px
 }
+.material-icons:hover{
+  color: orange !important;
+}

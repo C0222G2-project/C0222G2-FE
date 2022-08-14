@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'employee',
     component: ListEmployeeComponent,
-    // canActivate: [AdminGuard]
+    canActivate: [AdminGuard]
   },
   {
     path: 'employee/detail/:id',

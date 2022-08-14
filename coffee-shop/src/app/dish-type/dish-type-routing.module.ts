@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditDishTypeComponent} from './edit-dish-type/edit-dish-type.component';
 import {AddDishTypeComponent} from './add-dish-type/add-dish-type.component';
 import {ListDishTypeComponent} from "./list-dish-type/list-dish-type.component";
-import {ListDishComponent} from "../dish/list-dish/list-dish.component";
 import {AdminGuard} from "../login/authguard/admin.guard";
 
 

@@ -10,7 +10,7 @@ import {ShareModule} from '../share/share.module';
 @NgModule({
   declarations: [
     ListBillComponent,
-    DetailBillComponent,
+    DetailBillComponent
   ],
   exports: [],
   imports: [

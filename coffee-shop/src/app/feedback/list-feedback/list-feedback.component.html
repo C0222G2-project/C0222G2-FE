@@ -7,8 +7,7 @@
       </div>
       <div class="col-sm-12 col-md-7 col-lg-7">
         <label style="color: white">Ngày tạo phản hồi</label>
-        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() "
-              *ngIf="searchForm">
+        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() " *ngIf="searchForm">
           <input class="form-control me-2 buttons1" type="date" name="search" formControlName="searchStartDate"
                  aria-label="Search">
           <input class="form-control me-2 buttons2" type="date" name="search" formControlName="searchEndDate"
@@ -54,6 +53,7 @@
         </tbody>
         <p *ngIf="listFeedback.length == 0" style="border-top: none; text-align: center">Không có đữ liệu</p>
       </table>
+<<<<<<< HEAD
     </div>
 
     <!--      Phần trang-->
@@ -94,6 +94,48 @@
       </ul>
     </nav>
     <!--end-->
+=======
+
+      <!--      Phần trang-->
+      <div class="container-fluid mt-3" [hidden]=" listFeedback.length == 0 ">
+        <ul class="pagination float-end">
+          <div *ngIf="number == 0">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+            </li>
+          </div>
+          <div *ngIf="number != 0">
+            <li class="page-item">
+              <button class="page-link" (click)="goPrevious()">Trước</button>
+            </li>
+          </div>
+          <div *ngFor="let count of countTotalPages; index as i">
+            <div *ngIf="i == number">
+              <li class="page-item active">
+                <button class="page-link" (click)="goItem(i)" >{{i + 1}}</button>
+              </li>
+            </div>
+            <div *ngIf="i != number">
+              <li class="page-item">
+                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+              </li>
+            </div>
+          </div>
+          <div *ngIf="number == totalPages - 1">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goNext()" hidden>Sau</button>
+            </li>
+          </div>
+          <div *ngIf="number != totalPages - 1">
+            <li class="page-item">
+              <button class="page-link" (click)="goNext()">Sau</button>
+            </li>
+          </div>
+        </ul>
+      </div>
+      <!--end-->
+    </div>
+>>>>>>> a72649eb806442c6930e6103d9bd0df64e10d6e2
   </div>
 
   <!--  màn hình chi tiết-->
@@ -126,7 +168,8 @@
     </div>
   </div>
   <!--  end-->
-</div>
-
 <div style="background-color: beige; height: 2px">
 </div>
+<button class="btn btn-danger"
+        routerLink="/createFeedback">Gửi phản hồi
+</button>
