@@ -13,7 +13,10 @@ import {BillModule} from './bill/bill.module';
 import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import { OrderModule } from './order/order.module';
+
 import {ShareModule} from './share/share.module';
+
 
 @NgModule({
   declarations: [
@@ -26,14 +29,21 @@ import {ShareModule} from './share/share.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot( { timeOut: 2000, 
+      closeButton: true, 
+      progressBar: true, 
+      positionClass: 'toast-top-right', 
+      preventDuplicates: true, 
+    } ),
     EmployeeModule,
     DishModule,
     FeedbackModule,
     BillModule,
     LoginModule,
-    ShareModule
+    ShareModule,
+    OrderModule
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
