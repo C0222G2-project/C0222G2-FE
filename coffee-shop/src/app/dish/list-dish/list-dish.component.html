@@ -1,7 +1,7 @@
 <div class="background">
   <h1>Danh sách món</h1>
   <br>
-  <a style="margin-left: 110px" type="button" class="btn btn-secondary"><img
+  <a href="" [routerLink]="['/dish/add']" style="margin-left: 110px" type="button" class="btn btn-secondary"><img
     src="https://cdn-icons-png.flaticon.com/128/992/992651.png"
     alt="create dish"
     height="30">
@@ -50,7 +50,7 @@
             <td>{{element.name}}</td>
             <td>{{element.price| currency:'VND'}}</td>
             <td>{{element.dishType.name}}</td>
-            <td><a href="#" class="btn btn-outline-warning">
+            <td><a href="" [routerLink]="['/dish/edit', element.id]" class="btn btn-outline-warning">
               <img src="../../../assets/img/hieucd_editing.png"
                    alt="" height="30"></a></td>
             <td>        <!-- Button trigger modal -->
