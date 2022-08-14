@@ -4,15 +4,13 @@
 
 export const environment = {
   production: false,
-  firebaseConfig : {
-    apiKey: "AIzaSyDwYk94pVi2d7BQpy9ObXdFpM98a3hMvdA",
-    authDomain: "upload-image-with-firebase.firebaseapp.com",
-    databaseURL: "https://upload-image-with-firebase-default-rtdb.firebaseio.com",
-    projectId: "upload-image-with-firebase",
-    storageBucket: "upload-image-with-firebase.appspot.com",
-    messagingSenderId: "422778131988",
-    appId: "1:422778131988:web:cc51dd4d74876996117901",
-    measurementId: "G-K0R6V38Q9Q"
+  firebaseConfig: {
+    apiKey: "AIzaSyCsrF2SQ5PRuUi-IrIW_khM1_z9GYPlwgU",
+    authDomain: "c0222g2-4cf09.firebaseapp.com",
+    projectId: "c0222g2-4cf09",
+    storageBucket: "c0222g2-4cf09.appspot.com",
+    messagingSenderId: "184074448800",
+    appId: "1:184074448800:web:2bc5f589b22959ec64bec5"
   }
 };
 

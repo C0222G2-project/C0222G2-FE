@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DishType} from "../model/dish-type";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DishService} from "../service/dish.service";
@@ -20,21 +20,21 @@ export class AddDishComponent implements OnInit {
   selectedImage: any = null;
   imgSrc: any;
   formDish: FormGroup;
+  dish: Dish;
 
   constructor(private dishService: DishService,
               private dishTypeService: DishTypeService,
               private router: Router,
               private storage: AngularFireStorage,
-              private toastrService : ToastrService) {
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
     this.getAllDishType()
-
     this.formDish = new FormGroup({
       id: new FormControl('', [Validators.required]),
       code: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      price: new FormControl('', [Validators.required,Validators.min(5000)]),
+      price: new FormControl('', [Validators.required, Validators.min(5000)]),
       name: new FormControl('', [Validators.required, Validators.minLength(5)]),
       image: new FormControl('', [Validators.required]),
       isDeleted: new FormControl('', [Validators.required]),
@@ -45,7 +45,7 @@ export class AddDishComponent implements OnInit {
 
   getAllDishType() {
     this.dishTypeService.getAll().subscribe(data => {
-      this.dishTypeList = data ;
+      this.dishTypeList = data;
     });
   }
 
@@ -59,7 +59,7 @@ export class AddDishComponent implements OnInit {
           let dish: Dish = this.formDish.value;
           dish.image = url;
           this.dishService.saveDish(dish).subscribe(value => {
-            this.toastrService.success("Thành Công","Thêm Mới")
+            this.toastrService.success("Thành Công", "Thêm Mới")
             this.router.navigateByUrl("/dish").then()
           });
         });
@@ -68,7 +68,7 @@ export class AddDishComponent implements OnInit {
   }
 
   private getCurrentDateTime(): string {
-    return formatDate(new Date(),'dd-MM-YYY','en-US');
+    return formatDate(new Date(), 'dd-MM-YYY', 'en-US');
   }
 
   showPreview(event: any) {
@@ -86,7 +86,23 @@ export class AddDishComponent implements OnInit {
 
   resetForm() {
     this.formDish.reset()
-    document.getElementById('img').style.display='none'
+    document.getElementById('img').style.display = 'none'
+
+    const check: string = document.getElementById("opt").getAttribute("selected");
+    if (check != "true") {
+      document.getElementById("opt").setAttribute("selected", "true");
+      document.getElementById("opt").setAttribute("disabled", "true");
+    } else {
+      document.getElementById("opt").removeAttribute("selected");
+      document.getElementById("opt").removeAttribute("disabled");
+
+      document.getElementById("opt").setAttribute("selected", "true");
+      document.getElementById("opt").setAttribute("disabled", "true");
+    }
 
   }
+
+
+
+
 }

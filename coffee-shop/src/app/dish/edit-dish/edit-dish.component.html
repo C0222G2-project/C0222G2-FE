@@ -60,6 +60,7 @@
                 <p style="color: red"
                    *ngIf="formDish.controls.code.hasError('minlength') && formDish.controls.code.touched">Mã số món phải
                   nhiều hơn 3 chữ cái. </p>
+
               </div>
             </div>
 
@@ -107,18 +108,18 @@
 
           <hr>
           <div class="row" style="padding-bottom: 20px">
-            <div class="col-4">
-              <button type="button" routerLink="/dish" class="w-10 btn btn-danger col-sm-10"><i
+            <div class="col-4 ">
+              <button type="button" routerLink="/dish" class="w-10 btn btn-danger col-sm-10 "><i
                 class="fa-solid fa-delete-left"></i> Hủy
               </button>
             </div>
-            <div class="col-4">
-              <button type="button" (click)="resetForm()" class="w-10 btn btn-warning col-sm-10"><i
+            <div  class="col-4">
+              <button type="button" (click)="resetForm()" class="w-10 btn btn-warning col-sm-10 "><i
                 class="fa-solid fa-rotate-left"></i> Xóa Biểu Mẫu
               </button>
             </div>
-            <div class="col-4">
-              <button type="submit" class="w-10 btn btn-success col-sm-10"><i class="fa-solid fa-cart-plus"></i> Sửa
+            <div  class="col-4">
+              <button type="submit" class="w-10 btn btn-success col-sm-10 "><i class="fa-solid fa-cart-plus"></i> Sửa
               </button>
             </div>
           </div>
@@ -164,7 +165,7 @@
               <h6 class="my-0">C0222G2</h6>
               <small>Smart Coffee</small>
             </div>
-            <span class="text-success">$0</span>
+            <span class="text-success">$10000</span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (USD)</span>
