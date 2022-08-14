@@ -15,12 +15,11 @@ import {ToastrModule} from 'ngx-toastr';
 
 import {DishTypeModule} from "./dish-type/dish-type.module";
 
-import { OrderModule } from './order/order.module';
+import {OrderModule} from './order/order.module';
 import {ShareModule} from './share/share.module';
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
-
 
 
 @NgModule({
@@ -34,13 +33,22 @@ import {environment} from "../environments/environment";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot( { timeOut: 2000,
+    ToastrModule.forRoot(
+      {
+        timeOut: 2000,
+        closeButton: true,
+        progressBar: true,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      }
+    ),
+    ToastrModule.forRoot({
+      timeOut: 2000,
       closeButton: true,
       progressBar: true,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-    } ),
-
+    }),
     EmployeeModule,
     DishModule,
     DishTypeModule,

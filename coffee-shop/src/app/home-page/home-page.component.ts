@@ -15,15 +15,13 @@ export class HomePageComponent implements OnInit {
   checkData: boolean = true;
 
   constructor(private getDishList: GetDishList,
-              private mess: ToastrService) { }
+              private mess: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.get5DishMostOrder();
     this.get5DishNewest();
   }
-
-
-
   get5DishMostOrder(){
     this.getDishList.get5DishMostOrder().subscribe( data => {
       this.dishMostOrderList = data;

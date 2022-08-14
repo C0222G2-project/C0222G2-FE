@@ -3,20 +3,24 @@ import { Routes, RouterModule } from '@angular/router';
 import {ListDishComponent} from './list-dish/list-dish.component';
 import {AddDishComponent} from "./add-dish/add-dish.component";
 import {EditDishComponent} from "./edit-dish/edit-dish.component";
+import {AdminGuard} from "../login/authguard/admin.guard";
 
 
 const routes: Routes = [
   {
     path: 'dish',
-    component: ListDishComponent
+    component: ListDishComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'dish/edit/:id',
-    component: EditDishComponent
+    component: EditDishComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'dish/add',
-    component: AddDishComponent
+    component: AddDishComponent,
+    canActivate: [AdminGuard]
   }
 ];
 
