@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Bill} from "../model/bill";
 import {FormControl, FormGroup} from "@angular/forms";
 import {BillService} from "../service/bill.service";
 import {ToastrService} from "ngx-toastr";
+import html2canvas from 'html2canvas';
+import {jsPDF} from 'jspdf';
+
 
 @Component({
   selector: 'app-list-bill',
@@ -13,55 +16,63 @@ export class ListBillComponent implements OnInit {
 
   bills: Bill[] = [];
   searchForm: FormGroup;
-  p: number;
+  p: number = 0;
   totalPages: number;
   number: number;
   countTotalPages: number[];
+  searchBillCode: string;
+  searchBillDate: string;
 
   constructor(private billService: BillService,
               private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
+    this.getAllBill("", "", 0);
+    this.formSearch();
   }
 
-  getAllBill(searchBillCode: string, searchBillDate: Date, page: number){
-    this.billService.getAllBill(searchBillCode, searchBillDate, page).subscribe((data:Bill[]) =>{
+  getAllBill(searchCode: string, searchDate: string, page: number) {
+    // @ts-ignore
+    this.billService.getAllBill(searchCode, searchDate, page).subscribe(data => {
       // @ts-ignore
       this.totalPages = data.totalPages;
+      // @ts-ignore
+      console.log(data.content)
       // @ts-ignore
       this.countTotalPages = new Array(data.totalPages);
       // @ts-ignore
       this.number = data.number;
       // @ts-ignore
-      this.loHangs = data.content;
-    })
+      this.bills = data.content
+    }, error => {
+      console.log(error);
+    });
+    this.formSearch();
   }
 
   goPrevious() {
-    let numberPages: number = this.number;
-    if (numberPages > 0) {
-      numberPages--;
-      // @ts-ignore
-      this.getAllBill("",numberPages);
+    let numberPage: number = this.number;
+    if (numberPage > 0) {
+      numberPage--;
+      this.getAllBill("", "", numberPage);
     }
   }
 
   goNext() {
-    let numberPages: number = this.number;
-    if (numberPages < this.totalPages - 1) {
-      numberPages++;
-      // @ts-ignore
-      this.getAllBill("",numberPages);
+    let numberPage: number = this.number;
+    if (numberPage < this.totalPages - 1) {
+      numberPage++;
+      this.getAllBill("", "", numberPage);
     }
   }
 
   goItem(i: number) {
-    // @ts-ignore
-    this.getAllBill("",i);
+    this.getAllBill("", "", i);
   }
 
-  formSearch(){
+
+  formSearch() {
     this.searchForm = new FormGroup({
       searchBillCode: new FormControl(""),
       searchBillDate: new FormControl("")
@@ -69,17 +80,36 @@ export class ListBillComponent implements OnInit {
   }
 
   getFormSearch() {
-
     let searchCode = this.searchForm.value.searchBillCode;
     let searchDate = this.searchForm.value.searchBillDate;
-    if (searchCode== null || searchDate == null){
-      searchCode="";
-      searchDate="";
+    if (searchCode == null) {
+      searchCode = "";
     }
-    // @ts-ignore
-    this.getAllBill(searchCode,0)
-    // @ts-ignore
-    this.getAllBill(searchDate,0)
+    if (searchDate == null) {
+      searchDate = "";
+    }
+    this.getAllBill(searchCode, searchDate, this.number);
   }
+
+
+  // HauLT-PDF
+
+  generatePDF() {
+    var data = document.getElementById('contentToConvert');
+    html2canvas(data).then(canvas => {
+      var imgWidth = 300;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png')
+      // @ts-ignore
+      let doc = new jsPDF('p', 'pt', 'a4');
+      var position = 0;
+      doc.addImage(contentDataURL, 'a4', 0, position, imgWidth, imgHeight)
+      doc.save('newPDF.pdf');
+    });
+  }
+
+  // showDowloaadPDF() {
+  //   this.toastrService.success("Xuất Thành Công!", );
+  // }
 
 }

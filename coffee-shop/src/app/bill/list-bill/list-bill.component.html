@@ -1,282 +1,349 @@
 <div id="fate">
-  <header>
-    <div>
-      <div class="p-3 text-center"
-           style="height: 60px;">
-        <div class="mask">
-          <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="text-white">
-              <h1 class="mb-3">
-                <b>Danh Sách Hóa Đơn</b>
-              </h1>
+  <div class="container">
+    <header>
+      <div>
+        <div class="p-3 text-center"
+             style="height: 60px;">
+          <div class="mask">
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="text-white mt-4">
+                <h1 class="mb-3">
+                  <b>Danh Sách Hóa Đơn</b>
+                </h1>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="container mt-5" >
-        <form>
-          <div class=" row col-12" >
-            <div class="col-3"></div>
-            <form class="d-flex center form-search" [formGroup]="searchForm" (ngSubmit)="getFormSearch()" )>
+
+        <div class="container mt-5">
+          <div class=" row col-12">
+
+            <form class="d-flex center" [formGroup]="searchForm" (ngSubmit)="getFormSearch()">
+              <div class="col-3"></div>
               <div class="col-3">
-                <input class="form-control w-100 search" type="text"
-                       placeholder="Search số hóa đơn">
+                <input class="form-control me-3 search1" type="text" name="searchBillCode"
+                       formControlName="searchBillCode"
+                       placeholder="Search số hóa đơn" aria-label="Search" aria-describedby="search-addon">
               </div>
-              <div class="col-3">
-                <input class="form-control w-100 search" type="date"
-                       placeholder="Search Ngày tạo">
+              <div class="col-3" style="margin-left: 5px">
+                <input class="form-control me-3 search1" type="date" name="searchBillDate"
+                       formControlName="searchBillDate"
+                       placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
               </div>
-              <div class="col-3">
-                <button class="btn btn-success" type="submit" name="name" style="color: white">Tìm kiếm
+              <div class="col-3" style="margin-left: 5px">
+                <button class="btn btn-success search1" type="submit" name="name" style="color: white">Tìm kiếm
                 </button>
               </div>
             </form>
           </div>
-        </form>
+        </div>
+      </div>
+    </header>
+    <div class="table_wrapper mt-2">
+      <table class="table table-hover table-bill">
+        <thead class="thead-bill">
+        <tr class="table100-head">
+          <th class="th-bill">STT</th>
+          <th class="th-bill">Số Hóa Đơn</th>
+          <th class="th-bill">Ngày Tạo</th>
+          <th class="th-bill">Người Tạo</th>
+          <th class="th-bill">Số Bàn</th>
+          <th class="vnd th-bill">Tổng Tiền (VND)</th>
+          <th class="th-bill">Chi Tiết</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let bill of bills index as i">
+          <td class="td-bill">{{i + 1}}</td>
+          <td class="td-bill">{{bill.billCode}}</td>
+          <td class="td-bill">{{bill.creationDate|date: 'dd-MM-yyyy'}}</td>
+          <td class="td-bill">{{bill.employeeName}}</td>
+          <td class="td-bill">{{bill.coffeeTableCode}}</td>
+          <td class="td-bill" style="text-align: right">{{bill.dishPrice| currency: 'VND': ''}}đ</td>
+          <td class="td-bill">
+            <a href="#"
+               class="button-detail" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
+              <mat-icon class="bi">remove_red_eye</mat-icon>
+            </a>
+
+            <div class="container  offcanvas offcanvas-end detail " id="offcanvas{{bill.id}}">
+              <div style="display: none">
+                <div class="text-center">
+                  <h1 class="offcanvas-title text-black" style="padding-top: 20px"><b>Chi Tiết Hóa Đơn</b></h1>
+                </div>
+
+                <div class="row" style="text-align: left">
+                  <div class="col-4"><b>Số Hóa Đơn:</b></div>
+                  <div class="col-8"><p>{{bill.billCode}}</p></div>
+                </div>
+                <div class="row" style="text-align: left">
+                  <div class="col-4"><b>Số Bàn:</b></div>
+                  <div class="col-8"><p>{{bill.coffeeTableCode}}</p></div>
+                </div>
+                <div class="row" style="text-align: left">
+                  <div class="col-4"><b>Ngày Tạo:</b></div>
+                  <div class="col-8"><p>{{bill.creationDate|date: 'dd-MM-yyyy'}}</p></div>
+                </div>
+                <div class="row" style="text-align: left">
+                  <div class="col-4"><b>Nhân Viên:</b></div>
+                  <div class="col-8"><p>{{bill.employeeName}}</p></div>
+                </div>
+
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th><b>Tên Món</b></th>
+                    <th><b>Số Lương</b></th>
+                    <th><b>Giá(VND)</b></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>{{bill.dishName}}</td>
+                    <td>{{bill.dishOrderQuantity}}</td>
+                    <td class="tien">{{bill.dishPrice| currency: 'VND': ''}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="row">
+                  <div class="col-3">
+                    <b>Tổng Tiền:</b>
+                  </div>
+                  <div class="col-6"></div>
+                  <div class="col-3" style="text-align: right">
+                    160.000
+                  </div>
+                </div>
+              </div>
+
+
+              <!--              <div class="col-md-8" id="htmlData" #htmlData>-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h1>C0222G2 COFFEE</h1>-->
+              <!--                </div>-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h5>DC: 295 Nguyen Tat Thanh - Da Nang</h5>-->
+              <!--                </div>-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h5>SDT: 0236 6517 021</h5>-->
+              <!--                </div>-->
+              <!--                -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h4><b>Hoa Don Thanh Toan</b></h4>-->
+              <!--                </div>-->
+              <!--                <div class="row" style="text-align: left">-->
+              <!--                  <div class="col-4"><b>So:</b></div>-->
+              <!--                  <div class="col-8"><p>{{bill.billCode}}</p></div>-->
+              <!--                </div>-->
+              <!--                <div class="row" style="text-align: left">-->
+              <!--                  <div class="col-4"><b>Ban:</b></div>-->
+              <!--                  <div class="col-8"><p>{{bill.coffeeTableCode}}</p></div>-->
+              <!--                </div>-->
+              <!--                <div class="row" style="text-align: left">-->
+              <!--                  <div class="col-4"><b>Ngay:</b></div>-->
+              <!--                  <div class="col-8"><p>{{bill.creationDate|date: 'dd-MM-yyyy'}}</p></div>-->
+              <!--                </div>-->
+              <!--                <div class="row" style="text-align: left">-->
+              <!--                  <div class="col-4"><b>Nhan Vien:</b></div>-->
+              <!--                  <div class="col-8"><p>{{bill.employeeName}}</p></div>-->
+              <!--                </div>-->
+
+              <!--                <table class="table">-->
+              <!--                  <thead>-->
+              <!--                  <tr>-->
+              <!--                    <th><b>Ten Mon</b></th>-->
+              <!--                    <th><b>So Luong</b></th>-->
+              <!--                    <th><b>Gia(VND)</b></th>-->
+              <!--                  </tr>-->
+              <!--                  </thead>-->
+              <!--                  <tbody>-->
+              <!--                  <tr>-->
+              <!--                    <td>{{bill.dishName}}</td>-->
+              <!--                    <td>{{bill.dishOrderQuantity}}</td>-->
+              <!--                    <td class="tien">{{bill.dishPrice| currency: 'VND': ''}}</td>-->
+              <!--                  </tr>-->
+              <!--                  </tbody>-->
+              <!--                </table>-->
+              <!--                <div class="row">-->
+              <!--                  <div class="col-3">-->
+              <!--                    <b>Tong Thanh Tien:</b>-->
+              <!--                  </div>-->
+              <!--                  <div class="col-6"></div>-->
+              <!--                  <div class="col-3" style="text-align: right">-->
+              <!--                    160.000-->
+              <!--                  </div>-->
+              <!--                </div>-->
+
+              <!--                <div class="row">-->
+              <!--                  <div class="col-3">-->
+              <!--                    <b>Tien Khach Tra:</b>-->
+              <!--                  </div>-->
+              <!--                  <div class="col-6"></div>-->
+              <!--                  <div class="col-3" style="text-align: right">-->
+              <!--                    160.000-->
+              <!--                  </div>-->
+              <!--                </div>-->
+
+              <!--                <div class="row">-->
+              <!--                  <div class="col-3">-->
+              <!--                    <b>Tien Thua:</b>-->
+              <!--                  </div>-->
+              <!--                  <div class="col-6"></div>-->
+              <!--                  <div class="col-3" style="text-align: right">-->
+              <!--                    0-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--                &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h5><b>Xin cam on, hen gap lai quy khach</b></h5>-->
+              <!--                </div>-->
+              <!--                <div class="row text-center">-->
+              <!--                  <h6>Mat Khau wifi: codegym@2021</h6>-->
+              <!--                </div>-->
+              <!--              </div>-->
+
+              <div class="col-md-8" id="contentToConvert">
+                <table border="1" class="table table-bordered">
+                  <thead>
+                  <tr class="table-primary">
+                    <th colspan="6">
+                      <h1>C0222G2 COFFEE</h1>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="6">
+                      <h5>DC: 295 Nguyen Tat Thanh - Da Nang</h5>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td colspan="6">
+                      <h5>SDT: 0236 6517 021</h5>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6">
+                      -------------------------
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6">
+                      <h4><b>Hoa Don Thanh Toan</b></h4>
+                    </td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td colspan="1" style="text-align: left">
+                      <div class="row" style="text-align: left">
+                        <div class="col-4"><b>So:</b></div>
+                        <div class="col-8"><p>{{bill.billCode}}</p></div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="1">
+                      <div class="row" style="text-align: left">
+                        <div class="col-4"><b>Ban:</b></div>
+                        <div class="col-8"><p>{{bill.coffeeTableCode}}</p></div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="1">
+                      <div class="row" style="text-align: left">
+                        <div class="col-4"><b>Ngay:</b></div>
+                        <div class="col-8"><p>{{bill.creationDate|date: 'dd-MM-yyyy'}}</p></div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="1">
+                      <div class="row" style="text-align: left">
+                        <div class="col-4"><b>Nhan Vien:</b></div>
+                        <div class="col-8"><p>{{bill.employeeName}}</p></div>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <!--                              <table class="table">-->
+                <!--                                <thead>-->
+                <!--                                <tr>-->
+                <!--                                  <th><b>Ten Mon</b></th>-->
+                <!--                                  <th><b>So Luong</b></th>-->
+                <!--                                  <th><b>Gia(VND)</b></th>-->
+                <!--                                </tr>-->
+                <!--                                </thead>-->
+                <!--                                <tbody>-->
+                <!--                                <tr>-->
+                <!--                                  <td></td>-->
+                <!--                                  <td></td>-->
+                <!--                                  <td class="tien"></td>-->
+                <!--                                </tr>-->
+                <!--                                </tbody>-->
+                <!--                              </table>-->
+              </div>
+
+
+              <div class="row mt-4">
+                <div class="col-4" style="text-align: right">
+                  <button class="btn btn-success btn-block" >Xem Hóa Đơn</button>
+                </div>
+                <div class="col-5" style="text-align: right">
+                  <button class="btn btn-danger btn-block" (click)="generatePDF()">Xuất Hóa Đơn</button>
+                </div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">
+                    <b style="color: white">Đóng</b>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="container-fluid mt-3">
+        <ul class="pagination float-end">
+          <div *ngIf="number == 0">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goPrevious()">Previous</button>
+            </li>
+          </div>
+          <div *ngIf="number != 0">
+            <li class="page-item">
+              <button class="page-link" (click)="goPrevious()">Previous</button>
+            </li>
+          </div>
+          <div *ngFor="let count of countTotalPages; index as i">
+            <div *ngIf="i == number">
+              <li class="page-item active">
+                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+              </li>
+            </div>
+            <div *ngIf="i != number">
+              <li class="page-item">
+                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+              </li>
+            </div>
+          </div>
+          <div *ngIf="number == totalPages - 1">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goNext()">Next</button>
+            </li>
+          </div>
+          <div *ngIf="number != totalPages - 1">
+            <li class="page-item">
+              <button class="page-link" (click)="goNext()">Next</button>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
-  </header>
-
-  <div class="container mt-4">
-    <div class="table_wrapper">
-      <div class="wrap-table100">
-        <table class="table table-hover">
-          <thead>
-          <tr class="table100-head">
-            <th>STT</th>
-            <th>Số Hóa Đơn</th>
-            <th>Ngày Tạo</th>
-            <th>Người Tạo</th>
-            <th>Số Bàn</th>
-            <th class="vnd">Tổng Tiền (VND)</th>
-            <th>Chi Tiết</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>1</td>
-            <td>HD01</td>
-            <td>20/10/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB001</td>
-            <td class="tien">100.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>2</td>
-            <td>HD02</td>
-            <td>12/02/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB004</td>
-            <td class="tien">50.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>3</td>
-            <td>HD03</td>
-            <td>11/02/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB005</td>
-            <td class="tien">60.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>4</td>
-            <td>HD04</td>
-            <td>03/02/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB004</td>
-            <td class="tien">70.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>5</td>
-            <td>HD05</td>
-            <td>20/10/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB003</td>
-            <td class="tien">90.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>6</td>
-            <td>HD06</td>
-            <td>12/04/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB012</td>
-            <td class="tien">60.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>7</td>
-            <td>HD07</td>
-            <td>11/09/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB011</td>
-            <td class="tien">100.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>8</td>
-            <td>HD08</td>
-            <td>31/10/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB009</td>
-            <td class="tien">100.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>9</td>
-            <td>HD09</td>
-            <td>22/10/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB003</td>
-            <td class="tien">90.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>10</td>
-            <td>HD010</td>
-            <td>21/05/2021</td>
-            <td>Nguyễn Văn A</td>
-            <td>TB002</td>
-            <td class="tien">100.000</td>
-            <td>
-              <button type="button" class="btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
-                      style="font-size: 150%">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-end">
-        <li class="page-item disabled">
-          <a class="page-link">Trước</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Sau</a>
-        </li>
-      </ul>
-    </nav>
   </div>
-
-  <div class="container  offcanvas offcanvas-end" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title text-white">Chi Tiết Hóa Đơn</h1>
-      <button type="button" class="btn-close"  data-bs-dismiss="offcanvas"></button>
-    </div>
-    <table>
-      <hr class="mt-0">
-      <thead>
-      <tr class="table100-head">
-        <th>Món</th>
-        <th>Số Lượng</th>
-        <th>Giá(VND)</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Cafe Sữa:</td>
-        <td>1</td>
-        <td class="tien">20.000</td>
-      </tr>
-      <tr>
-        <td>Cafe Đen:</td>
-        <td>1</td>
-        <td class="tien">20.000</td>
-      </tr>
-      <tr>
-        <td>Trà Sữa :</td>
-        <td>1</td>
-        <td class="tien">30.000</td>
-      </tr>
-      <tr>
-        <td>Sting :</td>
-        <td>4</td>
-        <td class="tien">15.000</td>
-      </tr>
-      <tr>
-        <td>trà sữa truyền thống:</td>
-        <td>2</td>
-        <td class="tien">30.000</td>
-      </tr>
-      <tr>
-        <td colspan="1"><b>Tổng Tiền:</b></td>
-        <td></td>
-        <td class="tien">160.000</td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="row mt-5" >
-      <div class="col-9"style="text-align: right">
-        <button type="submit" class="btn btn-success "><b style="color: white">Xuất Hóa Đơn</b></button>
-      </div>
-      <div class="col-3">
-        <button type="button" class="btn btn-secondary"><b style="color: white">Đóng</b></button>
-      </div>
-    </div>
-  </div>
-
-
 </div>
+

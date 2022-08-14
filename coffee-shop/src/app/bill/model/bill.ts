@@ -1,6 +1,11 @@
 export interface Bill {
   id?: number;
-  code?: string;
+  billCode?: string;
   creationDate?: string;
   isDeleted?: boolean;
+  employeeName?: string;
+  coffeeTableCode?: string;
+  dishName?: string;
+  dishPrice?: number;
+  dishOrderQuantity?: number;
 }
