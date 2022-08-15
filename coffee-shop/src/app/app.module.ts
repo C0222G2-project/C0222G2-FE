@@ -12,14 +12,12 @@ import {BillModule} from './bill/bill.module';
 import {LoginModule} from './login/login.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
-
-import {DishTypeModule} from "./dish-type/dish-type.module";
-
+import {DishTypeModule} from './dish-type/dish-type.module';
 import {OrderModule} from './order/order.module';
 import {ShareModule} from './share/share.module';
-import {AngularFireStorageModule} from "@angular/fire/storage";
-import {AngularFireModule} from "@angular/fire";
-import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -38,29 +36,20 @@ import {environment} from "../environments/environment";
         timeOut: 2000,
         closeButton: true,
         progressBar: true,
-        positionClass: 'toast-top-right',
+        positionClass: 'toast-top-left',
         preventDuplicates: true,
       }
     ),
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      closeButton: true,
-      progressBar: true,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-    }),
     EmployeeModule,
     DishModule,
     DishTypeModule,
     FeedbackModule,
     BillModule,
     LoginModule,
-
     ShareModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebase),
     OrderModule
-
   ],
 
   providers: [],
