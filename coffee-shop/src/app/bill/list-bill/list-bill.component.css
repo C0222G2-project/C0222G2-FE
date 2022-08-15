@@ -5,7 +5,7 @@
   white-space: nowrap;
 }
 
-.button-detail{
+.a-bill{
   color: black;
 }
 
@@ -33,9 +33,22 @@
   text-align: right;
 }
 
+.search-1{
+  width: 400px;
+}
+
 .thead-bill {
   height: 60px;
-  background: #6c5c48;
+  background: #744e3a;
+}
+
+.button-page{
+  background: #744e3a;
+  color: white;
+}
+
+.button-1{
+  background: #744e3a;
 }
 
 .table100-head th {
@@ -60,11 +73,6 @@
   width: 100%;
 }
 
-/*.detail{*/
-/*  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/backgroundlist.jpg);*/
-/*}*/
 
-.form-search{
-  padding-left: 300px;
-}
+
 
