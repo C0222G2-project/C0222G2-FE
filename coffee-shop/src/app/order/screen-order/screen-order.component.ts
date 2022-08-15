@@ -24,7 +24,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   checkButton:boolean = true;
   checkButtonOption: boolean = false;
   dishes: Dish[] = [];
-  dishTypes: DishType[] = [];
+  dishTypes: any;
   dish: Dish;
   orderMenu = [];
   checkOrderMenu = [];
@@ -58,7 +58,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to open and close menu 
+   *  This function to open and close menu
    *  when web site responsive which width is less than 930px
    */
   openMenuService(){
@@ -75,14 +75,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to get all dish have when api return 
+   *  This function to get all dish have when api return
    */
-  // getAllDish(id:number, page){
-  //   this.orderService.getAllDish(id).subscribe(dishes => {
-  //      this.dishes = dishes.content;
-  //      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
-  //   });
-  // }
 
   getAllDish(id:number, page){
     this.dishId = id;
@@ -96,11 +90,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
-   *  This function to get all dish type have when api return 
+   *  This function to get all dish type have when api return
    */
   getAllDishType(){
     this.orderService.getAllDishType().subscribe(dishTypes => {
-       this.dishTypes = dishTypes.content;
+       // @ts-ignore
+      this.dishTypes = dishTypes.content;
     });
   }
 
@@ -148,14 +143,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    /**
    *  Author: BinhPx
    *  Date: 12/08/2022
-   *  This function check event check box and push it into selectCheckBox 
+   *  This function check event check box and push it into selectCheckBox
    */
   onCheckBoxChange(event){
     this.selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
     if(event.target.checked){
       this.selectCheckBox.push(new FormControl(event.target.value));
       console.log(this.selectCheckBox);
-      
+
     }
     else{
       const index = this.selectCheckBox.controls.findIndex(i => i.value === event.target.value);
@@ -253,7 +248,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     this.presentPage = page;
     this.getAllDish(this.dishId, page);
   }
-
 
 
 

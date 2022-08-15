@@ -1,0 +1,82 @@
+.table_wrapper {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.main {
+  padding-top: 150px;
+}
+.input-search {
+  border-radius: 10px;
+  border: #75644b solid 1px;
+}
+
+.name-employee {
+  text-decoration: none;
+  color: black;
+}
+
+.name-employee:hover {
+  color: cornflowerblue;
+}
+
+table {
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.background-btn-add {
+  background: #4c4234;
+}
+
+.img-background-component {
+  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/background-tuyen.jpg);
+}
+
+th {
+  color: white;
+}
+
+table thead tr {
+  /*height: 60px;*/
+  background: #804707;
+  background: #6c5c48;
+}
+
+.table100-head th {
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
+
+.row-bold {
+  font-weight: bold;
+}
+
+.wrap-table100 {
+  width: 100%;
+}
+
+.btn-search {
+  background: #4c4234;
+}
+
+h2 {
+  color: white;
+}
+table th a{
+  border-width: 0 !important;
+  height: 18px !important;
+  padding: 0 !important;
+  padding-left: 3px !important;
+  color: rgba(255, 255, 255, 0.27);
+}
+table th a:hover{
+  color: white;
+}

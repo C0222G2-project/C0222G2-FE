@@ -1,5 +1,4 @@
 <div class="main">
-    
     <div class="container-fluid px-5 container-main-content">
         <div class="row mb-5 align-item-center pt-5 table-infor">
             <div class="col-4">
@@ -22,23 +21,25 @@
             </div>
             <div class="col-8 btn-container service-container d-flex flex-row-reverse">
                 <div class="row show-service-on-desktop flex-row-reverse">
-                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" 
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
                         style="font-size: 20px; align-content: center" (click)="sendNotification('Gọi phục vụ', 'T-001', 'yêu cầu phục vụ')">
                         Gọi phục vụ
                     </button>
-                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" 
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
                         style="font-size: 20px; align-content: center">
                         Phản hồi
                     </button>
-                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" 
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
                         style="font-size: 20px; align-content: center">
                         Game
                     </button>
                 </div>
                 <div class="show-service-on-mobile">
-                    <button mat-icon-button class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3" 
+                    < mat-icon-button class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3" 
                     style="font-size: 20px; align-content: center" 
-                    aria-label="Example icon-button with menu icon" (click)="openMenuService()">
+                    aria-label="Example icon-buttson with menu icon" (click)="openMenuService()">
+                    <button mat-menu-item class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3"
+                    style="font-size: 20px; align-content: center" (click)="openMenuService()">
                         Menu
                     </button>
                     <ul class="list-group menu-onMobile" *ngIf="hideMenu">
@@ -176,7 +177,7 @@
                                 <div class="container">
                                 <div class="row">
                                     <div class="col-3">
-                                        <label for="" class="text-dark">Tên món:</label>
+                                        <label class="text-dark">Tên món:</label>
                                     </div>
                                     <div class="col-9">
                                         <p class="text-dark">{{dish.name}}</p>
@@ -184,7 +185,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-3">
-                                        <label for="" class="text-dark">Số lượng:</label>
+                                        <label class="text-dark">Số lượng:</label>
                                     </div>
                                     <div class="col-9">
                                         <input type="number" placeholder="số lượng" class="form-control" #quantity id="quantity" required>
@@ -193,24 +194,22 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" 
+                                <button type="button" class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
                                     style="font-size: 20px; align-content: center" data-bs-dismiss="modal">
                                     Đóng
                                 </button>
-                                <button type="button" class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" 
-                                    style="font-size: 20px; align-content: center" data-bs-dismiss="modal" 
+                                <button type="button" class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
+                                    style="font-size: 20px; align-content: center" data-bs-dismiss="modal"
                                     (click)="addIntoMenuOrder(quantity.value, tableCode.value)">
                                     Thêm món
                                 </button>
                             </div>
-                        </div>   
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-
-<script>
-</script>
+<div style="background-color: beige; height: 2px">
+</div>
