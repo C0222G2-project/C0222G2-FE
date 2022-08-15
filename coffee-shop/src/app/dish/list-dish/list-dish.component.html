@@ -1,4 +1,5 @@
 <div class="background" style="margin-top: 100px">
+  <br>
   <h1>Danh sách món</h1>
   <br>
   <a href="" [routerLink]="['/dish/add']" style="margin-left: 110px" type="button" class="btn btn-secondary"><img
@@ -28,7 +29,7 @@
 
             <label for="price">Giá :</label>
             <input id="price" type="number" class="form-control" name="dishPrice" formControlName="dishPrice" placeholder="Nhập giá món">
-            <button style="margin-left: 5px" class="btn btn-success buttons1" type="submit">Tìm kiếm</button>
+            <button style="margin-left: 5px;background-color:#744e3a;color: white" class="btn  buttons1" type="submit">Tìm kiếm</button>
           </form>
 
         </div>
@@ -82,44 +83,50 @@
             </td>
           </tr>
           </tbody>
+          <div class="d-flex justify-content-center">
+            <p *ngIf="dishArray.length==0" style="font-weight: 600">Không có dữ liệu</p>
+          </div>
         </table>
+        <br>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <div *ngIf="number == 0">
+              <li class="page-item disabled">
+                <button class="page-link" hidden>Previous</button>
+              </li>
+            </div>
+            <div *ngIf="number != 0">
+              <li class="page-item">
+                <button class="page-link" (click)="goPrevious()">trước</button>
+              </li>
+            </div>
+            <div *ngFor="let count of countTotalPages; index as i">
+              <div *ngIf="i == number">
+                <li class="page-item active">
+                  <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                </li>
+              </div>
+              <div *ngIf="i != number">
+                <li class="page-item">
+                  <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                </li>
+              </div>
+            </div>
+            <div *ngIf="number == totalPages - 1">
+              <li class="page-item disabled">
+                <button class="page-link" hidden>Next</button>
+              </li>
+            </div>
+            <div *ngIf="number != totalPages - 1">
+              <li class="page-item">
+                <button class="page-link" (click)="goNext()">sau</button>
+              </li>
+            </div>
+          </ul>
+        </nav>
       </div>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <div *ngIf="number == 0">
-          <li class="page-item disabled">
-            <button class="page-link" hidden>Previous</button>
-          </li>
-        </div>
-        <div *ngIf="number != 0">
-          <li class="page-item">
-            <button class="page-link" (click)="goPrevious()">trước</button>
-          </li>
-        </div>
-        <div *ngFor="let count of countTotalPages; index as i">
-          <div *ngIf="i == number">
-            <li class="page-item active">
-              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
-            </li>
-          </div>
-          <div *ngIf="i != number">
-            <li class="page-item">
-              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
-            </li>
-          </div>
-        </div>
-        <div *ngIf="number == totalPages - 1">
-          <li class="page-item disabled">
-            <button class="page-link" hidden>Next</button>
-          </li>
-        </div>
-        <div *ngIf="number != totalPages - 1">
-          <li class="page-item">
-            <button class="page-link" (click)="goNext()">sau</button>
-          </li>
-        </div>
-      </ul>
-    </nav>
   </div>
 </div>
+
+

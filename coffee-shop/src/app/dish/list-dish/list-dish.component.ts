@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Dish} from "../../model/dish";
 import {DishService} from "../../service/dish.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-dish',
@@ -17,25 +19,30 @@ export class ListDishComponent implements OnInit {
   number: number;
 
 
-  constructor(private dishService: DishService) {
+  constructor(private dishService: DishService,private toast : ToastrService,private router:Router) {
 
   }
 
   ngOnInit(): void {
     this.getDishPage(0);
     this.createSearchForm();
+    this.showSuccess();
   }
 
   getDishPage(page: number) {
     this.dishService.getDishPage(page).subscribe((data: Dish[]) => {
-      // @ts-ignore
-      this.totalPages = data.totalPages;
-      // @ts-ignore
-      this.countTotalPages = new Array(data.totalPages);
-      // @ts-ignore
-      this.number = data.number;
-      // @ts-ignore
-      this.dishArray = data.content;
+      if (data !== null) {
+        // @ts-ignore
+        this.totalPages = data.totalPages;
+        // @ts-ignore
+        this.countTotalPages = new Array(data.totalPages);
+        // @ts-ignore
+        this.number = data.number;
+        // @ts-ignore
+        this.dishArray = data.content;
+      } else {
+        this.dishArray = [];
+      }
     }, error => {
       console.log(error);
     });
@@ -67,6 +74,7 @@ export class ListDishComponent implements OnInit {
       // @ts-ignore
       $('#exampleModal' + id).modal('hide');
       this.getDishPage(0);
+      this.router.navigateByUrl('/dish').then(next => this.toast.error('Xóa thành công'));
     });
   }
 
@@ -81,10 +89,19 @@ export class ListDishComponent implements OnInit {
 
   searchDish() {
     this.dishService.getDishPageSearch(this.searchForm.value).subscribe((value: Dish[]) => {
-      // @ts-ignore
-      this.dishArray = value.content;
+
+      if (value !=null){
+        // @ts-ignore
+        this.dishArray = value.content;
+      }else{
+        this.dishArray =[];
+      }
 
     });
   }
+  showSuccess() {
+    this.toast.success('Hello world!', 'Toastr fun!',{progressBar:true})
+  }
+
 
 }
