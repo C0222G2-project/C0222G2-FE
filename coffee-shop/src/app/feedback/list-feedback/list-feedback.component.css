@@ -80,6 +80,13 @@ a, th, td, label {
 .fontSize{
   font-family: "Poppins", sans-serif;
 }
+.pagination{
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  padding-top: 10px
+}
+
+
 
 header
 header * {

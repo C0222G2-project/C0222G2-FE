@@ -6,7 +6,7 @@
         <a class="btn" style="background-color: #744e3a; color: white" (click)="getSort()"> Xắp sếp đánh giá</a>
       </div>
       <div class="col-sm-12 col-md-7 col-lg-7">
-        <label style="color: white">Ngày tạo phản hồi</label>
+        <label style="color: white">Ngày phản hồi trước</label>
         <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() " *ngIf="searchForm">
           <input class="form-control me-2 buttons1" type="date" name="search" formControlName="searchStartDate"
                  aria-label="Search">
@@ -20,9 +20,8 @@
         </form>
       </div>
     </div>
-
     <div class="table-wrapper mt-3" style="padding-bottom: 10px">
-      <table class="table table-hover table-sm" >
+      <table class="table table-hover  table-sm">
         <thead>
         <tr style="height: 50px">
           <th>STT</th>
@@ -54,53 +53,52 @@
         </tbody>
         <p *ngIf="listFeedback.length == 0" style="border-top: none; text-align: center">Không có đữ liệu</p>
       </table>
-
-      <!--      Phần trang-->
-      <div class="container-fluid mt-3" [hidden]=" listFeedback.length == 0 ">
-        <ul class="pagination float-end">
-          <div *ngIf="number == 0">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
-            </li>
-          </div>
-          <div *ngIf="number != 0">
-            <li class="page-item">
-              <button class="page-link" (click)="goPrevious()">Trước</button>
-            </li>
-          </div>
-          <div *ngFor="let count of countTotalPages; index as i">
-            <div *ngIf="i == number">
-              <li class="page-item active">
-                <button class="page-link" (click)="goItem(i)" >{{i + 1}}</button>
-              </li>
-            </div>
-            <div *ngIf="i != number">
-              <li class="page-item">
-                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
-              </li>
-            </div>
-          </div>
-          <div *ngIf="number == totalPages - 1">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goNext()" hidden>Sau</button>
-            </li>
-          </div>
-          <div *ngIf="number != totalPages - 1">
-            <li class="page-item">
-              <button class="page-link" (click)="goNext()">Sau</button>
-            </li>
-          </div>
-        </ul>
-      </div>
-      <!--end-->
     </div>
+
+    <!--      Phần trang-->
+    <nav aria-label="Page navigation  example" [hidden]=" listFeedback.length == 0 ">
+      <ul class="pagination justify-content-end" >
+        <div *ngIf="number == 0">
+          <li class="page-item disabled">
+            <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+          </li>
+        </div>
+        <div *ngIf="number != 0">
+          <li class="page-item">
+            <button class="page-link" (click)="goPrevious()">Trước</button>
+          </li>
+        </div>
+        <div *ngFor="let count of countTotalPages; index as i">
+          <div *ngIf="i == number">
+            <li class="page-item active">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
+          </div>
+          <div *ngIf="i != number">
+            <li class="page-item">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
+          </div>
+        </div>
+        <div *ngIf="number == totalPages - 1">
+          <li class="page-item disabled">
+            <button class="page-link" (click)="goNext()" hidden>Sau</button>
+          </li>
+        </div>
+        <div *ngIf="number != totalPages - 1">
+          <li class="page-item">
+            <button class="page-link" (click)="goNext()">Sau</button>
+          </li>
+        </div>
+      </ul>
+    </nav>
+    <!--end-->
   </div>
 
   <!--  màn hình chi tiết-->
   <div class="offcanvas offcanvas-end" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <div class="offcanvas-header row text-center" >
+      <h1 class="offcanvas-title" >Phản hồi chi tiết</h1>
     </div>
     <div class="offcanvas-body">
       <div>
