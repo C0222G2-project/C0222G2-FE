@@ -18,7 +18,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -28,7 +28,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -38,7 +38,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -75,7 +75,7 @@
             <div class="text-in-box">
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
-              <button class="btn btn-light">Đặt món</button>
+              <button class="btn btn-light" *ngIf="token !== ''">Đặt món</button>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@
             <div class="text-in-box">
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
-              <button class="btn btn-light">Đặt món</button>
+              <button class="btn btn-light" *ngIf="token !== ''">Đặt món</button>
             </div>
           </div>
         </div>
