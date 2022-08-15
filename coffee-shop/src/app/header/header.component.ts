@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.token = this.readCookieService('jwToken');
     // subscribe to sender component messages
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
-      console.log(message)
       this.messageReceived = message;
       this.role = this.readCookieService('role');
       this.username = this.readCookieService('username');
@@ -55,7 +54,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.cookieService.deleteCookie('jwToken');
         this.cookieService.deleteCookie('username');
       }, error => {
-        console.log(error)
         switch (error.error) {
           case "isLogout":
             this.toastrService.warning("Bạn chưa đăng nhập!");
