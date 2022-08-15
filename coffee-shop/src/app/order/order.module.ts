@@ -26,7 +26,7 @@ import { environment } from 'src/environments/environment';
       OrderRoutingModule,
       ShareModule,
       AngularFireModule.initializeApp(environment.firebase),
-      AngularFireDatabaseModule
+      AngularFireDatabaseModule,
     ],
   providers: [{
     provide: DEFAULT_CURRENCY_CODE,
