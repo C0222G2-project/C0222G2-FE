@@ -18,7 +18,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -28,7 +28,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -38,7 +38,7 @@
           COFFEE FACTORY
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''">
           ĐẶT MÓN
         </button>
       </div>
@@ -65,41 +65,18 @@
     <div class="container firstBodyContent">
       <div class="row" style="text-align: center">
         <h1>5 MÓN ĐƯỢC DÙNG NHIỀU NHẤT</h1>
+        <div *ngIf="checkData === false" style="color: #a80d0d">
+          <h3>Lỗi dữ liệu, Xin hãy tải lại!</h3>
+        </div>
       </div>
       <div class="menu row d-flex justify-content-center" style="text-align: center">
-        <div class="card card0  col-md-2 col-sm-6 col-12">
+        <div *ngFor="let dish of dishMostOrderList" class="card col-md-2 col-sm-6 col-12" [style.background-image]="'url('+dish.image+')'" >
           <div class="box">
-            <h2>Cà Phê Trứng
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card1  col-md-2 col-sm-6 col-12 ">
-          <div class="box">
-            <h2>Cà Phê Muối
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card2 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Bạc Sĩu
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card3 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Capuchino
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card4 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Capuchino
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
+            <div class="text-in-box">
+              <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
+              <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
+              <button class="btn btn-light" *ngIf="token !== ''">Đặt món</button>
+            </div>
           </div>
         </div>
       </div>
@@ -107,41 +84,18 @@
     <div class="container firstBodyContent">
       <div class="row" style="text-align: center">
         <h1>5 MÓN MỚI NHẤT</h1>
+        <div *ngIf="checkData === false" style="color: #a80d0d">
+          <h3>Lỗi dữ liệu, Xin hãy tải lại!</h3>
+        </div>
       </div>
       <div class="menu row d-flex justify-content-center" style="text-align: center">
-        <div class="card card5  col-md-2 col-sm-6 col-12">
+        <div *ngFor="let dish of distNewestList" class="card col-md-2 col-sm-6 col-12" [style.background-image]="'url('+dish.image+')'">
           <div class="box">
-            <h2>Cà Phê Trứng
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card6  col-md-2 col-sm-6 col-12 ">
-          <div class="box">
-            <h2>Cà Phê Muối
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card7 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Bạc Sĩu
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card8 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Capuchino
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
-          </div>
-        </div>
-        <div class="card card9 col-md-2 col-sm-6 col-12">
-          <div class="box">
-            <h2>Capuchino
-              <button class="btn btn-light">Đặt món</button>
-            </h2>
+            <div class="text-in-box">
+              <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
+              <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
+              <button class="btn btn-light" *ngIf="token !== ''">Đặt món</button>
+            </div>
           </div>
         </div>
       </div>
@@ -210,4 +164,3 @@
 
   </div>
 </main>
-

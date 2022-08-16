@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Feedback} from "../model/feedback";
 import {FeedbackService} from "../service/feedback.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {FormControl, FormGroup} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-list-feedback',
@@ -29,9 +30,10 @@ export class ListFeedbackComponent implements OnInit {
   endDate: string;
   sortRating: string = 'DESC';
   checkSortOrNot: boolean = false;
+  submit = false;
 
 
-  constructor(private feedbackService: FeedbackService) {
+  constructor(private feedbackService: FeedbackService, private toast: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -77,6 +79,22 @@ export class ListFeedbackComponent implements OnInit {
       });
   }
 
+  // getCurrentDateTime(): string {
+  //   return formatDate(new Date(), 'đ-MM-yyyy', 'en-US');
+  // }
+
+  showToastError() {
+    // if (this.searchForm.value.searchStartDate > this.getCurrentDateTime()){
+    //   this.toast.error('Ngày bắt đầu không vượt quá ngày hiện tại!', 'Lỗi tìm kiếm');
+    // }
+    // if(this.searchForm.value.searchEndDate > this.getCurrentDateTime()){
+    //   this.toast.error('Ngày kết thúc không vượt quá ngày hiện tại!', 'Lỗi tìm kiếm');
+    // }
+
+    if (this.searchForm.value.searchStartDate > this.searchForm.value.searchEndDate){
+      this.toast.error('Ngày bắt đầu không vượt quá ngày kết thúc!', 'Lỗi tìm kiếm');
+    }
+  }
 
   /**
    *  Creator : LuanTV
@@ -134,7 +152,7 @@ export class ListFeedbackComponent implements OnInit {
     if(this.checkSortOrNot){
       this.getAllFeedback(0, this.name, this.startDate, this.endDate, this.sortRating)
     }else {
-      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'rating')
     }
   }
 
@@ -151,7 +169,7 @@ export class ListFeedbackComponent implements OnInit {
       if (this.checkSortOrNot) {
         this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate, this.sortRating)
       } else {
-        this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate,'ASC');
+        this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate,'rating');
       }
     }
   }
@@ -169,7 +187,7 @@ export class ListFeedbackComponent implements OnInit {
       if (this.checkSortOrNot) {
         this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate, this.sortRating)
       } else {
-        this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate,'ASC');
+        this.getAllFeedback(numberPage, this.name, this.startDate, this.endDate,'rating');
       }
     }
   }
@@ -184,7 +202,7 @@ export class ListFeedbackComponent implements OnInit {
     if (this.checkSortOrNot) {
       this.getAllFeedback(i, this.name, this.startDate, this.endDate, this.sortRating)
     } else {
-      this.getAllFeedback(i, this.name, this.startDate, this.endDate,'ASC');
+      this.getAllFeedback(i, this.name, this.startDate, this.endDate,'rating');
     }
   }
 
