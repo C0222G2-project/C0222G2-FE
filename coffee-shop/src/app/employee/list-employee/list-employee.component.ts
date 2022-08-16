@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {IEmployeeDto} from "../dto/i-employee-dto";
 import {EmployeeService} from "../service/employee.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {IEmployeeDto} from "../model/employee/i-employee-dto";
 
 @Component({
   selector: 'app-list-employee',
@@ -88,7 +88,7 @@ export class ListEmployeeComponent implements OnInit {
    * Method use
    */
   searchEmployeeFormByProperty() {
-    if (this.formSearch.value.nameForm == null) {
+    if (this.formSearch.value.nameForm != null) {
       this.searchName = '';
     } else {
       this.searchName = this.formSearch.value.nameForm;

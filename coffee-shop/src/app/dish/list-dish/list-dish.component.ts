@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Dish} from "../../model/dish";
 import {DishService} from "../../service/dish.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {Dish} from "../model/dish";
 
 @Component({
   selector: 'app-list-dish',
