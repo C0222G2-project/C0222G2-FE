@@ -15,15 +15,18 @@ export class ListOrderManagementComponent implements OnInit {
   totalPage: number;
   countTotalPage: number[];
   listOrderInTable: CoffeeTable[];
-  totalNeedPayment: number;
+  totalNeedPayment: number = 0;
   idTable: number;
   codeTable: any;
+  disableButtonGetBill: boolean = true;
 
   constructor(private paymentOrderService: PaymentOrderService, private toast: ToastrService) {
   }
 
   ngOnInit(): void {
     this.getAllPage(this.numberPage);
+    this.reset();
+
   }
 
   // lấy list bàn và phân trang bàn
@@ -40,6 +43,7 @@ export class ListOrderManagementComponent implements OnInit {
     }, error => {
     }, () => {
       console.log(this.coffeeTableList)
+
     })
   }
 
@@ -73,7 +77,7 @@ export class ListOrderManagementComponent implements OnInit {
     }, error => {
     }, () => {
       this.idTable = id;
-
+      this.totalNeedPayment = 0;
     })
   }
 
@@ -89,6 +93,8 @@ export class ListOrderManagementComponent implements OnInit {
       }, () => {
         //@ts-ignore
         $('#modalPayment').modal('show');
+        this.ngOnInit();
+
       })
     }
   }
@@ -103,12 +109,18 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   addBill(idTable: number) {
+    console.log(this.totalNeedPayment);
     this.paymentOrderService.createBill(idTable).subscribe(value => {
     }, error => {
     }, () => {
-      this.ngOnInit();
       //@ts-ignore
       $('#modalPayment').modal('hide');
+      this.totalNeedPayment = 0;
+      this.getListById(this.idTable);
+      this.idTable = null;
+      this.ngOnInit()
     });
   }
+
+
 }

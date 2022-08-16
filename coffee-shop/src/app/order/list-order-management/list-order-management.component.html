@@ -5,7 +5,7 @@
         <div class="container col-lg-12 col-md-6 col-sm-6" style="padding-right: 0; ">
           <div class="row" style="margin-left: 50px">
 
-            <div class="card col-lg-3 col-md-3 col-sm-6 card-table"
+            <div class="card col-lg-3 col-md-12 col-sm-12 card-table"
                  *ngFor="let coffeePage of coffeeTableList; index as i">
 
               <div [ngSwitch]="coffeePage.status">
@@ -110,13 +110,13 @@
           <div style="margin-top: 1rem">
             <ul class="pagination justify-content-center">
 
-              <li class="page-item" *ngIf="idTable == null">
+              <li class="page-item" *ngIf="idTable == null  && totalNeedPayment == 0 ">
                 <!-- Button trigger modal -->
                 <a type="button"
-                   class="btn button-bg disabled" style="margin-right: 3rem; border-color: white">Tính tiền</a>
+                   class="btn button-bg disabled"  style="margin-right: 3rem; border-color: white">Tính tiền</a>
               </li>
 
-              <li class="page-item" *ngIf="idTable != null">
+              <li class="page-item" *ngIf="idTable != null ">
                 <!-- Button trigger modal -->
                 <a type="button" (click)="payment()"
                    class="btn button-bg" style="margin-right: 3rem; border-color: white">Tính tiền</a>
