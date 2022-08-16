@@ -1,4 +1,7 @@
 import {Component} from '@angular/core';
+import {CookieService} from "./login/service/cookie.service";
+import {LogoutService} from "./login/service/logout.service";
+import {CommonService} from "./login/service/common.service";
 
 
 @Component({
@@ -9,6 +12,12 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'coffee-shop';
 
+  constructor(private cookieService: CookieService,
+              private logoutService: LogoutService,
+              private commonService: CommonService) {
+    this.stayLogged();
+  }
+
   onActivate(event) {
     window.scroll({
       top: 0,
@@ -17,4 +26,17 @@ export class AppComponent {
     });
   }
 
+  stayLogged() {
+    if (this.cookieService.getCookie('stayLogged') != 'true') {
+      this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
+        this.cookieService.deleteAllCookies()
+        this.sendMessage()
+      })
+    }
+  }
+
+  sendMessage(): void {
+    // send message to subscribers via observable subject
+    this.commonService.sendUpdate('Đăng Nhập thành công!');
+  }
 }
