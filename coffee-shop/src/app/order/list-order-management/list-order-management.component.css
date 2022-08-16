@@ -4,7 +4,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   padding-bottom: 50px;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("src/assets/img/bg3-hoann.jpg");
 
 }
@@ -39,13 +39,19 @@
   transition: .5s;
 }
 .button-bg{
-  background-color: #6c5c48;
-  color: #c9c7c7;
-  border-color: #ffffff;
+  background-color: #f1f0f0;
+  color: #1d1b1b;
   font-family: 'Montserrat', sans-serif;
 }
-.button-bg:hover {
-  background-color: #c78c46;
-  color: #c9c7c7;
-  font-family: 'Montserrat', sans-serif;
+
+.paging-css{
+  background-color: #4c4234  !important;
+  color: #f3efeb !important;
+  display: block;
+  border: 1px solid white;
 }
+/*.button-bg:hover {*/
+/*  background-color: #c78c46;*/
+/*  color: #c9c7c7;*/
+/*  font-family: 'Montserrat', sans-serif;*/
+/*}*/

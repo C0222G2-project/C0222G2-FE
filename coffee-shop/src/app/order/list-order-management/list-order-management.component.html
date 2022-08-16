@@ -15,7 +15,7 @@
                          class="card-img-top img-table" alt="...">
                   </div>
                   <div class="card-body">
-                    <p>Bàn {{coffeePage.code}}</p>
+                    <p>Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
                 <div *ngSwitchCase="false">
@@ -24,7 +24,7 @@
                          class="card-img-top" alt="...">
                   </div>
                   <div class="card-body bg-secondary">
-                    <p class="">Bàn {{coffeePage.code}}</p>
+                    <p class="">Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
               </div>
@@ -51,7 +51,7 @@
                   </div>
                   <div *ngFor="let count of countTotalPage, index as i">
                     <div *ngIf="i == numberPage">
-                      <li class="page-item "><a class="page-link button-bg disabled" (click)="item(i)">{{i + 1}}</a></li>
+                      <li class="page-item "><a class="page-link button-bg paging-css" (click)="item(i)">{{i + 1}}</a></li>
                     </div>
                     <div *ngIf="i != numberPage">
                       <li class="page-item "><a class="page-link button-bg" (click)="item(i)">{{i + 1}}</a></li>
@@ -84,14 +84,14 @@
             <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable == null">VUI LÒNG CHỌN BÀN</h4></div>
             <div style="padding: 0 10px 0 10px">
               <table class="table table-bordered table-sm table-striped table-hover"
-                     style="; padding-top: 2px ; border-color: #CEE5D0">
+                     style="; padding-top: 2px ; border-color: #eeeeee">
                 <thead>
-                <tr class="table-secondary text-center" style="background: #A3DA8D; color: #041C32; ">
+                <tr class="table-secondary text-center" style="background: #f1f1f1; color: #041c32; ">
                   <td>STT</td>
                   <td>Tên món</td>
                   <td>Số lượng(Ly/Món)</td>
-                  <td>Giá(VND)</td>
-                  <td>Tổng tiền(VND)</td>
+                  <td>Đơn giá(VND)</td>
+                  <td>Tổng(VND)</td>
                 </tr>
                 </thead>
                 <tbody id="#">
@@ -102,6 +102,10 @@
                   <td style="text-align: center">{{list.price | currency:'VND':'' }}đ</td>
                   <td style="text-align: center">{{list.payment | currency:'VND':'' }}đ</td>
                   <input type="hidden" value="{{list.id}}" id="idTable">
+                </tr>
+                <tr>
+                  <td colspan="4" style="text-align: end">Tổng tiền : </td>
+                  <td style="text-align: center">{{totalNeedPayment | currency: 'VND' : ''}}đ</td>
                 </tr>
                 </tbody>
               </table>
@@ -136,8 +140,8 @@
   <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body">
-          Tổng tiền cần thanh toán: {{(totalNeedPayment | currency: 'VND' : '') }}đ
+        <div class="modal-body" >
+          Tổng tiền cần thanh toán: <span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}đ</span>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn button-bg" data-bs-dismiss="modal">Đóng</button>

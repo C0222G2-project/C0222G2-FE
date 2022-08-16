@@ -3,6 +3,7 @@ import {PaymentOrderService} from "../service/payment-order-service";
 import {CoffeeTable} from "../model/CoffeeTable";
 import {Payment} from "../model/Payment";
 import {ToastrService} from "ngx-toastr";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-order-management',
@@ -18,10 +19,14 @@ export class ListOrderManagementComponent implements OnInit {
   totalNeedPayment: number = 0;
   idTable: number;
   codeTable: any;
-  disableButtonGetBill: boolean = true;
+  size: number;
 
-  constructor(private paymentOrderService: PaymentOrderService, private toast: ToastrService) {
+  constructor(private paymentOrderService: PaymentOrderService,
+              private toast: ToastrService,
+              private title: Title) {
+    this.title.setTitle("Thanh Toán");
   }
+
 
   ngOnInit(): void {
     this.getAllPage(this.numberPage);
@@ -39,11 +44,13 @@ export class ListOrderManagementComponent implements OnInit {
       // @ts-ignore
       this.countTotalPage = new Array(data.totalPages);
       // @ts-ignore
-      this.numberPage = data.number
+      this.numberPage = data.number;
+      // @ts-ignore
+      this.size = data.size;
+
     }, error => {
     }, () => {
       console.log(this.coffeeTableList)
-
     })
   }
 
@@ -72,12 +79,23 @@ export class ListOrderManagementComponent implements OnInit {
   getListById(id: number) {
     this.paymentOrderService.getListTableById(id).subscribe(d => {
       this.listOrderInTable = d;
+
       this.codeTable = d[0].code;
-      console.log(d)
     }, error => {
     }, () => {
       this.idTable = id;
-      this.totalNeedPayment = 0;
+      this.displayTotal();
+
+    })
+  }
+
+  private displayTotal() {
+    this.paymentOrderService.payment(this.idTable).subscribe(p => {
+      this.totalNeedPayment = p.total;
+    }, error => {
+    }, () => {
+      //@ts-ignore
+      this.ngOnInit();
     })
   }
 
@@ -88,13 +106,11 @@ export class ListOrderManagementComponent implements OnInit {
     } else {
       this.paymentOrderService.payment(this.idTable).subscribe(p => {
         this.totalNeedPayment = p.total;
-        console.log(this.totalNeedPayment);
       }, error => {
       }, () => {
         //@ts-ignore
         $('#modalPayment').modal('show');
         this.ngOnInit();
-
       })
     }
   }
@@ -119,6 +135,7 @@ export class ListOrderManagementComponent implements OnInit {
       this.getListById(this.idTable);
       this.idTable = null;
       this.ngOnInit()
+      this.toast.success("Thành công!!", "Thanh toán")
     });
   }
 

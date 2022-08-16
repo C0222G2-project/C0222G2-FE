@@ -81,8 +81,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   getAllDish(id:number, page){
     this.dishId = id;
     this.orderService.redirect(id, page).subscribe(dishes => {
-       this.dishes = dishes.content;
-       this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+       // @ts-ignore
+      this.dishes = dishes.content;
+       // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
     });
   }
 
