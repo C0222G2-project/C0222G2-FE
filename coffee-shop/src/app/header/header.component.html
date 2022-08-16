@@ -37,10 +37,20 @@
               ĐĂNG NHẬP<mat-icon style=" font-size: 150%">account_circle</mat-icon>
             </button>
           </li>
-          <li class="nav-item" style="" *ngIf="token !== ''">
-            <button class="btn btn-light nav-link d-flex align-items-center" style="height: 100%;border: solid 1px; border-radius: 10px" (click)="onLogout()">
-              ĐĂNG XUẤT<mat-icon style=" font-size: 150%">account_circle</mat-icon>
-            </button>
+<!--          <li class="nav-item" style="" *ngIf="token !== ''">-->
+<!--            <button class="btn btn-light nav-link d-flex align-items-center" style="height: 100%;border: solid 1px; border-radius: 10px" (click)="onLogout()">-->
+<!--              ĐĂNG XUẤT<mat-icon style=" font-size: 150%">account_circle</mat-icon>-->
+<!--            </button>-->
+<!--          </li>-->
+
+          <li class="nav-item dropdown" *ngIf="token !== ''">
+              <button class="btn btn-light nav-link d-flex align-items-center nav-link dropdown-toggle" id="navbarDropdown" role="button" style="height: 100%;border: solid 1px; border-radius: 10px">
+                {{username}}<mat-icon style=" font-size: 150%">account_circle</mat-icon>
+              </button>
+            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end" style="background-color: #f8f9fa; right: 0 !important;">
+              <li><div class="dropdown-item" style="font-size: 100%; color: #707071">Chi tiết tài khoản</div></li>
+              <li><div class="dropdown-item" style="font-size: 100%; color: #707071" (click)="onLogout()">Đăng xuất</div></li>
+            </ul>
           </li>
         </ul>
       </div>
