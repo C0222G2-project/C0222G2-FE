@@ -12,9 +12,9 @@ import {ToastrService} from "ngx-toastr";
 export class ListEmployeeComponent implements OnInit {
   employeeList: IEmployeeDto[] = [];
   employee: IEmployeeDto = {};
-  searchName: string='';
-  searchPhone: string='';
-  searchAccount: string='';
+  searchName: string = '';
+  searchPhone: string = '';
+  searchAccount: string = '';
   pageCurrent: number = 0;
   totalPages: number;
   arrayPage: number[];
@@ -23,6 +23,9 @@ export class ListEmployeeComponent implements OnInit {
   totalElement: number;
   checkSort: boolean = false;
   formSearch: FormGroup;
+  checkSpecialCharacterName: boolean = false;
+  checkSpecialCharacterAccount: boolean = false;
+  checkSpecialCharacterPhone: boolean = false;
 
   constructor(private employeeService: EmployeeService, private toast: ToastrService) {
   }
@@ -34,7 +37,7 @@ export class ListEmployeeComponent implements OnInit {
    */
 
   ngOnInit(): void {
-    this.getAllSearch(0, '', '', '','');
+    this.getAllSearch(0, '', '', '', '');
     this.searchEmployeeForm();
   }
 
@@ -48,8 +51,8 @@ export class ListEmployeeComponent implements OnInit {
    * @param searchAccount
    * @param sort
    */
-  getAllSearch(pageCurrent: number, searchName: string, searchPhone: string, searchAccount: string,sort: string) {
-    this.employeeService.getAllEmployee(pageCurrent, searchName, searchPhone, searchAccount,sort).subscribe(data => {
+  getAllSearch(pageCurrent: number, searchName: string, searchPhone: string, searchAccount: string, sort: string) {
+    this.employeeService.getAllEmployee(pageCurrent, searchName, searchPhone, searchAccount, sort).subscribe(data => {
       if (data != null) {
         // @ts-ignore
         this.employeeList = data.content;
@@ -90,23 +93,45 @@ export class ListEmployeeComponent implements OnInit {
   searchEmployeeFormByProperty() {
     if (this.formSearch.value.nameForm == null) {
       this.searchName = '';
+      this.checkSpecialCharacterName = false;
     } else {
-      this.searchName = this.formSearch.value.nameForm;
+      if (this.formSearch.value.nameForm.search("[#+&%]")>=0){
+        this.checkSpecialCharacterName = true;
+        this.searchName = this.formSearch.value.nameForm;
+      }else {
+        this.checkSpecialCharacterName = false;
+        this.searchName = this.formSearch.value.nameForm;
+      }
     }
     if (this.formSearch.value.phoneForm == null) {
       this.searchPhone = '';
+      this.checkSpecialCharacterPhone = false;
     } else {
-      this.searchPhone = this.formSearch.value.phoneForm;
+      if (this.formSearch.value.phoneForm.search("[#%&+]")>=0){
+        this.checkSpecialCharacterPhone = true;
+        this.searchPhone = this.formSearch.value.phoneForm;
+      }else {
+        this.checkSpecialCharacterPhone = false;
+        this.searchPhone = this.formSearch.value.phoneForm;
+      }
     }
     if (this.formSearch.value.accountForm == null) {
       this.searchAccount = '';
+      this.checkSpecialCharacterAccount = false;
     } else {
-      this.searchAccount = this.formSearch.value.accountForm;
+      if (this.formSearch.value.accountForm.search("[#%+&]")>= 0){
+        this.checkSpecialCharacterAccount = true;
+        this.searchAccount = this.formSearch.value.accountForm;
+      }else {
+        this.checkSpecialCharacterAccount = false;
+        this.searchAccount = this.formSearch.value.accountForm;
+      }
+
     }
-    if (!this.checkSort){
-      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount,'');
-    }else {
-      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount,this.sort);
+    if (!this.checkSort) {
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, '');
+    } else {
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
     }
 
   }
@@ -130,25 +155,25 @@ export class ListEmployeeComponent implements OnInit {
   deleteEmployee(id: number) {
     this.employeeService.deleteEmployee(id).subscribe(d => {
       // @ts-ignore
-      this.toast.success('Delete success.', 'Delete employee', 300);
-      if(this.checkSort){
-        if(this.totalElement-1 == this.size*(this.totalPages-1)){
-          this.getAllSearch(this.pageCurrent-1,this.searchName,this.searchPhone,this.searchAccount,this.sort);
-        }else {
-          this.getAllSearch(this.pageCurrent,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      this.toast.success('Xóa thành công!!!', 'Xóa Nhân Viên', 300);
+      if (this.checkSort) {
+        if (this.totalElement - 1 == this.size * (this.totalPages - 1)) {
+          this.getAllSearch(this.pageCurrent - 1, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+        } else {
+          this.getAllSearch(this.pageCurrent, this.searchName, this.searchPhone, this.searchAccount, this.sort);
         }
-      }else {
-        if(this.totalElement-1 == this.size*(this.totalPages-1)){
-          this.getAllSearch(this.pageCurrent-1,this.searchName,this.searchPhone,this.searchAccount,'');
-        }else {
-          this.getAllSearch(this.pageCurrent,this.searchName,this.searchPhone,this.searchAccount,'');
+      } else {
+        if (this.totalElement - 1 == this.size * (this.totalPages - 1)) {
+          this.getAllSearch(this.pageCurrent - 1, this.searchName, this.searchPhone, this.searchAccount, '');
+        } else {
+          this.getAllSearch(this.pageCurrent, this.searchName, this.searchPhone, this.searchAccount, '');
         }
       }
 
     }, error => {
-      if (error.status == 404) {
+      if (error.status == 404 || error.status == 204) {
         // @ts-ignore
-        this.toast.error('Delete failure.', 'Delete employee', 300);
+        this.toast.error('Xóa thất bại!!!', 'Xóa Nhân Viên', 300);
       }
     })
   }
@@ -161,12 +186,12 @@ export class ListEmployeeComponent implements OnInit {
 
   goPrevious() {
     let numberPage: number = this.pageCurrent;
-    if (numberPage > 0 ) {
+    if (numberPage > 0) {
       numberPage--;
-      if (!this.checkSort){
-        this.getAllSearch(numberPage,this.searchName,this.searchPhone,this.searchAccount,'');
-      }else {
-        this.getAllSearch(numberPage,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      if (!this.checkSort) {
+        this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, '');
+      } else {
+        this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, this.sort);
       }
     }
   }
@@ -180,10 +205,10 @@ export class ListEmployeeComponent implements OnInit {
     let numberPage: number = this.pageCurrent;
     if (numberPage < this.totalPages - 1) {
       numberPage++;
-      if (!this.checkSort){
-        this.getAllSearch(numberPage,this.searchName,this.searchPhone,this.searchAccount,'');
-      }else {
-        this.getAllSearch(numberPage,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      if (!this.checkSort) {
+        this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, '');
+      } else {
+        this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, this.sort);
       }
     }
   }
@@ -196,10 +221,10 @@ export class ListEmployeeComponent implements OnInit {
    * @param i
    */
   goItem(i: number) {
-    if (this.checkSort){
-      this.getAllSearch(i,this.searchName,this.searchPhone,this.searchAccount,this.sort);
-    }else {
-      this.getAllSearch(i,this.searchName,this.searchPhone,this.searchAccount,'');
+    if (this.checkSort) {
+      this.getAllSearch(i, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    } else {
+      this.getAllSearch(i, this.searchName, this.searchPhone, this.searchAccount, '');
     }
 
   }
@@ -210,18 +235,31 @@ export class ListEmployeeComponent implements OnInit {
    * Method use sort by name
    */
   sortByName() {
-      this.checkSort= true;
+    this.checkSort = !this.checkSort;
+    if (this.checkSort) {
       this.sort = 'name';
-      this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    } else {
+      this.sort = '';
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    }
+
   }
+
   /**
    * Create by TuyenTN
    * Date: 13/8/2022
    * Method use sort by account
    */
   sortByAccount() {
-    this.checkSort= true;
-    this.sort = 'appUser';
-    this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+    this.checkSort = !this.checkSort;
+    if (this.checkSort) {
+      this.sort = 'appUser';
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    } else {
+      this.sort = '';
+      this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    }
   }
+  
 }

@@ -4,10 +4,10 @@
       <h2>Danh sách nhân viên</h2>
     </div>
     <div class="row pb-3 ">
-      <div class="col-2">
+      <div class="col-lg-2 mb-2">
         <button class="btn btn-outline-light background-btn-add"><i class="fa-solid fa-plus-minus"></i></button>
       </div>
-      <div class="col-10 d-flex justify-content-end">
+      <div class="col-lg-10 d-flex justify-content-end">
         <form class="d-flex justify-content-end" [formGroup]="formSearch" (ngSubmit)="searchEmployeeFormByProperty()">
           <div class="col-sm-3 pe-2">
             <input class=" form-control" placeholder="Tìm theo tài khoản" type="text" formControlName="accountForm"
@@ -44,32 +44,33 @@
             <th scope="col">Số điện thoại</th>
             <th scope="col">Vị trí</th>
             <th scope="col">Lương</th>
-            <th colspan="2" style="text-align: center">Hoạt động</th>
+            <th scope="col">Hoạt đông</th>
+<!--            <th colspan="2" style="text-align: center">Hoạt động</th>-->
           </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="!checkSpecialCharacterName && !checkSpecialCharacterPhone && !checkSpecialCharacterAccount">
           <tr *ngFor="let item of employeeList; index as i">
             <td class="row-bold" style="padding-left: 15px">{{1 + i + pageCurrent * size}}</td>
             <td>{{item.appUser}}</td>
-            <td><a class="name-employee" [routerLink]="['/employee/detail',item.id]">{{item.name}}</a></td>
+            <td style="width: 250px"><a class="name-employee"
+                                        [routerLink]="['/employee/detail',item.id]">{{item.name}}</a></td>
             <td>{{item.phoneNumber}}</td>
             <td>{{item.position}}</td>
-            <td>{{item.salary | currency: 'VND':'' }} VNĐ</td>
+            <td>{{(item.salary | currency:'VND':'')}} VNĐ</td>
 
-            <td style="text-align: center">
-              <a class="btn btn-sm btn-outline-warning" [routerLink]="['/employee/edit',item.id]"><i
+            <td>
+              <a class="btn btn-sm btn-outline-warning me-3" [routerLink]="['/employee/edit',item.id]"><i
                 class="fa-solid fa-pen-to-square"></i>
               </a>
-            </td>
-            <td style="text-align: center">
-              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+              <a class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
                       data-bs-target="#exampleModalDelete1" (click)="modalDelete(item)"><i
-                class="fa-solid fa-trash"></i></button>
+                class="fa-solid fa-trash"></i></a>
             </td>
           </tr>
           </tbody>
           <div class="d-flex justify-content-center">
-            <p *ngIf="employeeList.length==0" style="font-weight: 600;text-align: center">Không có dữ liệu</p>
+            <p *ngIf="employeeList.length==0 || checkSpecialCharacterName || checkSpecialCharacterPhone ||checkSpecialCharacterAccount"
+               style="font-weight: 600;text-align: center">Không có dữ liệu</p>
           </div>
         </table>
         <div class="modal fade" id="exampleModalDelete1" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -88,30 +89,31 @@
                       <thead>
                       <tr>
                         <th>Tên</th>
-                        <th>Số điện thoại</th>
+                        <th>Tên tài khoản</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <td>{{employee.name}}</td>
-                        <td>{{employee.phoneNumber}}</td>
+                        <td>{{employee.appUser}}</td>
                       </tr>
 
                       </tbody>
                     </table>
                   </div>
+
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
                 <button type="button" class="btn btn-outline-danger" (click)="deleteEmployee(employee.id)"
-                        data-bs-dismiss="modal">Yes
+                        data-bs-dismiss="modal">Xác nhận
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <div class="py-3" *ngIf="employeeList.length>0">
+        <div class="py-3" *ngIf="employeeList.length>0 && !checkSpecialCharacterName && !checkSpecialCharacterPhone && !checkSpecialCharacterAccount">
           <nav aria-label="Page navigation example d-flex flex-row-reverse">
             <ul class="pagination justify-content-end">
               <div *ngIf="pageCurrent == 0">
@@ -127,7 +129,7 @@
               <div *ngFor="let count of arrayPage; index as i">
                 <div *ngIf="i == pageCurrent">
                   <li class="page-item active">
-                    <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                    <button class="page-link active1" (click)="goItem(i)">{{i + 1}}</button>
                   </li>
                 </div>
                 <div *ngIf="i != pageCurrent">

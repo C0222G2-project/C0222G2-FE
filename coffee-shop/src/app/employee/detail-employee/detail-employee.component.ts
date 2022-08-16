@@ -28,7 +28,6 @@ export class DetailEmployeeComponent implements OnInit {
               if (error.status == 404) {
                 this.toast.error('Không tìm thấy nhân viên này','Thất bại!!!');
                 this.router.navigateByUrl('employee');
-
               }
             },
             ()=>{})

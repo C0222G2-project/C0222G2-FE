@@ -26,6 +26,7 @@ table {
   width: 100%;
   margin: 0 auto;
   position: relative;
+
 }
 
 .background-btn-add {
@@ -77,4 +78,13 @@ table th a{
 }
 table th a:hover{
   color: white;
+}
+.sortName{
+  width: 250px !important;
+}
+.active1 {
+  background-color: #4c4234 !important;
+  color: white !important;
+  display: block;
+  border: 1px solid white;
 }
