@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IEmployeeDto} from "../model/employee/i-employee-dto";
 import {Employee} from "../model/employee/employee";
+import {CookieService} from "../../login/service/cookie.service";
 
 
 @Injectable({
@@ -13,7 +14,8 @@ export class EmployeeService {
 
   private URL_EMPLOYEE = "http://localhost:8080/rest";
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private cookieService: CookieService) {
   }
 
   /**
@@ -38,9 +40,10 @@ export class EmployeeService {
    * @param sortName
    */
   getAllEmployee(page: number, searchName: string, searchPhone: string, searchAccount: string, sortName: string): Observable<IEmployeeDto[]> {
+    const header = 'Bearer ' + this.cookieService.getCookie('jwToken');
     return this.httpClient.get<IEmployeeDto[]>
     (this.URL_EMPLOYEE + '/employee/page?page=' + page + '&searchName=' + searchName + '&searchPhone=' +
-      searchPhone + '&searchAccount=' + searchAccount + '&sort=' + sortName);
+      searchPhone + '&searchAccount=' + searchAccount + '&sort=' + sortName, {headers: new HttpHeaders({'authorization': header})}).pipe();
   }
 
   /**
