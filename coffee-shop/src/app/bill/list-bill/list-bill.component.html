@@ -14,20 +14,20 @@
             </div>
           </div>
         </div>
-          <div class="row mt-5">
-            <form class="d-flex" [formGroup]="searchForm" *ngIf="searchForm" (ngSubmit)="getFormSearch()">
-                <label class="text-white mt-1 me-2">Số Hóa Đơn:</label>
-                <input class="form-control me-2 search-1" type="text" name="searchCode"
-                       formControlName="searchCode"
-                       placeholder="Search số hóa đơn" >
-              <label class="text-white mt-1 me-2" style="margin-left: 5px">Ngày Tạo:</label>
-                <input class="form-control me-2 search-1" type="date" name="searchDate"
-                       formControlName="searchDate"
-                       placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
-                <button class="btn button-1 me-2" type="submit" name="name" style="color: white; margin-left: 10px">Tìm kiếm
-                </button>
-            </form>
-          </div>
+        <div class="row mt-5">
+          <form class="d-flex" [formGroup]="searchForm" *ngIf="searchForm" (ngSubmit)="getFormSearch()">
+            <label class="text-white mt-1 me-2">Số Hóa Đơn:</label>
+            <input class="form-control me-2 search-1" type="text" name="searchCode"
+                   formControlName="searchCode"
+                   placeholder="Search số hóa đơn" >
+            <label class="text-white mt-1 me-2" style="margin-left: 5px">Ngày Tạo:</label>
+            <input class="form-control me-2 search-1" type="date" name="searchDate"
+                   formControlName="searchDate"
+                   placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
+            <button class="btn button-1 me-2" type="submit" name="name" style="color: white; margin-left: 10px">Tìm kiếm
+            </button>
+          </form>
+        </div>
       </div>
     </header>
     <div class="table_wrapper mt-3">
@@ -50,7 +50,7 @@
           <td class="td-bill">{{bill.creationDate|date: 'dd-MM-yyyy'}}</td>
           <td class="td-bill">{{bill.employeeName}}</td>
           <td class="td-bill">{{bill.coffeeTableCode}}</td>
-          <td class="td-bill" style="text-align: right">{{bill.dishPrice| currency: 'VND': ''}}đ</td>
+          <td class="td-bill" style="text-align: right">{{bill.dishPrice| currency: "VND": ''}}đ</td>
           <td class="td-bill">
             <a href="#"
                class="a-bill" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
@@ -152,12 +152,12 @@
         <ul class="pagination float-end">
           <div *ngIf="number == 0">
             <li class="page-item disabled">
-              <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+              <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>
             </li>
           </div>
           <div *ngIf="number != 0">
             <li class="page-item">
-              <button class="page-link " (click)="goPrevious()">Trước</button>
+              <button class="page-link text-black" (click)="goPrevious()">Trước</button>
             </li>
           </div>
           <div *ngFor="let count of countTotalPages; index as i">
@@ -168,18 +168,18 @@
             </div>
             <div *ngIf="i != number">
               <li class="page-item">
-                <button class="page-link " (click)="goItem(i)">{{i + 1}}</button>
+                <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>
               </li>
             </div>
           </div>
           <div *ngIf="number == totalPages - 1">
             <li class="page-item disabled">
-              <button class="page-link " (click)="goNext()" hidden>Sau</button>
+              <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>
             </li>
           </div>
           <div *ngIf="number != totalPages - 1">
             <li class="page-item">
-              <button class="page-link " (click)="goNext()">Sau</button>
+              <button class="page-link text-black" (click)="goNext()">Sau</button>
             </li>
           </div>
         </ul>

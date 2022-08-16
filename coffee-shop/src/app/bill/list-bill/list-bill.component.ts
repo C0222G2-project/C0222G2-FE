@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Bill} from "../model/bill";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {BillService} from "../service/bill.service";
 import {ToastrService} from "ngx-toastr";
 import html2canvas from 'html2canvas';
@@ -13,7 +13,6 @@ import {jsPDF} from 'jspdf';
   styleUrls: ['./list-bill.component.css']
 })
 export class ListBillComponent implements OnInit {
-
   bills: Bill[] = [];
   searchForm: FormGroup;
   p: number = 0;
@@ -22,9 +21,15 @@ export class ListBillComponent implements OnInit {
   countTotalPages: number[];
   code: string;
   creationDate: string;
+  billDate: Bill = {};
+  billFormReactive: FormGroup;
 
   constructor(private billService: BillService,
               private toastrService: ToastrService) {
+
+    this.billFormReactive = new FormGroup({
+      creationDate: new FormControl()
+    })
   }
 
   ngOnInit(): void {
@@ -35,6 +40,16 @@ export class ListBillComponent implements OnInit {
 
     });
   }
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: Get bill list, with pagination,search by bill number and creation date
+   *
+   * @param page
+   * @param searchCode
+   * @param searchDate
+   */
 
   getAllBill(page: number, searchCode: string, searchDate: string) {
     this.billService.getAllBill(page, searchCode, searchDate).subscribe((data: Bill[]) => {
@@ -56,6 +71,13 @@ export class ListBillComponent implements OnInit {
       }
     });
   }
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: Get bill list, with pagination,search by bill number and creation date
+   *
+   */
 
   getFormSearch() {
     if (this.searchForm.value.searchCode ===''){
