@@ -19,11 +19,15 @@
           </div>
           <div class="text-danger"
                *ngIf="loginForm.controls.username.hasError('required') && loginForm.controls.username.touched">Vui lòng
-            nhập tên tài khoản
+            nhập tên tài khoản.
           </div>
           <div class="text-danger"
                *ngIf="loginForm.controls.username.hasError('maxlength') && loginForm.controls.username.touched">Tên tài
-            khoản tối đa 50 ký tự
+            khoản tối đa 50 ký tự.
+          </div>
+          <div class="text-danger"
+               *ngIf="loginForm.controls.username.hasError('pattern') && loginForm.controls.username.touched">Tên tài
+            khoản phải dài 4 - 50 ký tự bắt đầu bằng chữ cái và không được chứa ký tự đặc biệt.
           </div>
           <div class="form-floating my-3 w-50 text-center m-auto">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
@@ -32,11 +36,11 @@
           </div>
           <div class="text-danger"
                *ngIf="loginForm.controls.password.hasError('required') && loginForm.controls.password.touched">Vui lòng
-            nhập mật khẩu
+            nhập mật khẩu.
           </div>
           <div class="text-danger" *ngIf="loginForm.controls.password.hasError('pattern')
           && loginForm.controls.password.touched">Mật khẩu phải có ít nhất 8 ký tự bao gồm 1 chữ cái 1 số và 1 ký tự đặc
-            biệt
+            biệt.
           </div>
 
           <div class="checkbox my-3">
@@ -79,17 +83,17 @@
                     </div>
                     <div class="text-danger"
                          *ngIf="forgotForm.controls.username.hasError('required') && forgotForm.controls.username.touched">
-                      Tên tài khoản không được để trống
+                      Tên tài khoản không được để trống.
                     </div>
                     <div class="text-danger"
-                         *ngIf="forgotForm.controls.username.hasError('maxlength') && forgotForm.controls.username.touched">
-                      Tên tài khoản tối đa 50 ký tự
+                         *ngIf="forgotForm.controls.username.hasError('pattern') && forgotForm.controls.username.touched">
+                      Tên tài khoản phải dài 4 - 50 ký tự bắt đầu bằng chữ cái và không được chứa ký tự đặc biệt.
                     </div>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-yellow">Gửi</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeForgot()">Đóng
                   </button>
                 </div>
               </form>
