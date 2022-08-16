@@ -108,8 +108,8 @@ export class ListBillComponent implements OnInit {
     });
   }
 
-  // showDowloaadPDF() {
-  //   this.toastrService.success("Xuất Thành Công!", );
-  // }
+  showDowloaadPDF() {
+    this.toastrService.success("Xuất Thành Công!",);
 
+  }
 }
