@@ -34,9 +34,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   presentPage = 1;
   date: Date;
 
-  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, private notificationService: NotificationService, 
+  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, private notificationService: NotificationService,
     private toastr: ToastrService
-    ) { 
+    ) {
       // this.notificationService.requestPermission();
       this.date = new Date();
   }
@@ -119,10 +119,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    */
   addIntoMenuOrder(quantity, tableCode){
     const order = {
-       quantity: quantity, 
-       dish: this.dish, 
-       bill: 1, 
-       employee: 1, 
+       quantity: quantity,
+       dish: this.dish,
+       bill: 1,
+       employee: 1,
        coffeeTable: {
           id: '1',
           code: tableCode,
@@ -236,7 +236,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
 
   goNext() {
     let numberPage: number = this.presentPage;
-    
+
     if (numberPage < this.totalPages.length) {
       numberPage++;
       this.getAllDish(this.dishId, numberPage);

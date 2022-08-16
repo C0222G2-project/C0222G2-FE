@@ -40,12 +40,12 @@
 }
 .button-bg{
   background-color: #6c5c48;
-  color: #ffffff;
-  border-color: white;
+  color: #2f1c1c;
+  border-color: #ffffff;
   font-family: 'Montserrat', sans-serif;
 }
 .button-bg:hover {
   background-color: #c78c46;
-  color: #ffffff;
+  color: #261616;
   font-family: 'Montserrat', sans-serif;
 }
