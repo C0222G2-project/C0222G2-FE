@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {IEmployeeDto} from "../../model/employee/i-employee-dto";
-import {Employee} from "../../model/employee/employee";
+import {IEmployeeDto} from "../model/employee/i-employee-dto";
+import {Employee} from "../model/employee/employee";
 
 
 @Injectable({
@@ -111,5 +111,4 @@ export class EmployeeService {
   getAllUser() {
     return this.httpClient.get(this.URL_EMPLOYEE + '/user');
   }
-
 }

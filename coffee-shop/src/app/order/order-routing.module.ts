@@ -21,6 +21,11 @@ const routes: Routes = [
     path: 'order/list',
     component: ListOrderManagementComponent,
     canActivate: [UserGuard]
+  },
+  {
+    path: 'order/screen/:id',
+    component: ScreenOrderComponent,
+    canActivate: [UserGuard]
   }
 ];
 
