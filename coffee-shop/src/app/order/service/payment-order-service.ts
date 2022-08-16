@@ -12,6 +12,7 @@ export class PaymentOrderService {
   private URL_GET_COFFEE_TABLE_PAGE = "http://localhost:8080/api/payment/page";
   private URL_GET_LIST_BY_ID = "http://localhost:8080/api/payment/list";
   private URL_PAYMENT = "http://localhost:8080/api/payment/total";
+  private URL_CREATE_BILL = "http://localhost:8080/api/payment/in-bill";
   constructor(private httpClient: HttpClient) {
   }
 
@@ -25,5 +26,9 @@ export class PaymentOrderService {
 
   payment(id: number): Observable<Payment>{
     return this.httpClient.get<Payment>(this.URL_PAYMENT + '/' + id);
+  }
+
+  createBill(idTable: number): Observable<any> {
+    return this.httpClient.get(this.URL_CREATE_BILL + '?idTable=' + idTable);
   }
 }
