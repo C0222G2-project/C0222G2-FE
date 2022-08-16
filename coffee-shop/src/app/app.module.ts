@@ -38,17 +38,10 @@ import {environment} from "../environments/environment";
         timeOut: 2000,
         closeButton: true,
         progressBar: true,
-        positionClass: 'toast-top-right',
+        positionClass: 'toast-top-left',
         preventDuplicates: true,
       }
     ),
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      closeButton: true,
-      progressBar: true,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-    }),
     EmployeeModule,
     DishModule,
     DishTypeModule,

@@ -3,6 +3,7 @@ import {Feedback} from "../model/feedback";
 import {FeedbackService} from "../service/feedback.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-list-feedback',

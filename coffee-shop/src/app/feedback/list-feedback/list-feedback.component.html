@@ -2,20 +2,21 @@
   <div class="container">
     <h1 class="title">Quản lý phản hồi</h1>
     <div class="row">
-      <div class="col-sm-12 col-md-5 col-lg-5" style="padding-top: 24px">
-        <a class="btn" style="background-color: #744e3a; color: white" (click)="getSort()"> Xắp sếp đánh giá</a>
+      <div class="col-sm-12 col-md-5 col-lg-5">
       </div>
       <div class="col-sm-12 col-md-7 col-lg-7">
-        <label style="color: white">Ngày tạo phản hồi</label>
-        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() " *ngIf="searchForm">
+        <label style="color: white">Ngày bắt đầu</label>
+        <label style="color: white; margin-left: 110px">Ngày kết thúc</label>
+        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() "
+              *ngIf="searchForm">
           <input class="form-control me-2 buttons1" type="date" name="search" formControlName="searchStartDate"
                  aria-label="Search">
           <input class="form-control me-2 buttons2" type="date" name="search" formControlName="searchEndDate"
                  aria-label="Search">
           <input class="form-control me-2 buttons3" type="search" name="search" formControlName="searchName"
                  aria-label="Search" placeholder="Tìm người tạo">
-          <button class="btn" style="background-color: #744e3a; color: white" type="submit"
-                  name="name">Tìm
+          <button class="btn" style="background-color: #744e3a; color: white; white-space: nowrap" type="submit"
+                  name="name">Tìm kiếm
           </button>
         </form>
       </div>
@@ -24,126 +25,83 @@
       <table class="table table-hover  table-sm">
         <thead>
         <tr style="height: 50px">
-          <th>STT</th>
-          <th>Ngày phản hồi</th>
-          <th>Người tạo</th>
-          <th>Đánh giá</th>
-          <th>Email</th>
-          <th class="text-center">Phản hồi</th>
-          <th class="text-center">Chi tiết</th>
+          <th style="width: 50px">STT</th>
+          <th style="width: 140px">Ngày phản hồi</th>
+          <th style="width: 100px">Người tạo</th>
+          <th style="width: 100px; padding: 3px">Đánh giá
+            <a style="color: white; height: 30px; padding: 0" class="btn btn-link" (click)="getSort()"><mat-icon>swap_vert</mat-icon></a>
+          </th>
+          <th style="width: 150px">Email</th>
+          <th class="text-center" style="width: 150px">Phản hồi</th>
+          <th class="text-center" style="width: 100px">Chi tiết</th>
         </tr>
         </thead>
         <tbody>
         <tr class="container-fluid" *ngFor="let f of listFeedback; index as i">
-          <td style="padding-left: 15px; padding-top: 10px">{{(i + 1) + size * number}}</td>
-          <td>{{f.feedbackDate |date:'dd-MM-yyyy'}}</td>
-          <td>{{f.creator}}</td>
-          <td>
+          <td style=" padding-left: 15px; padding-top: 15px ;width: 50px">{{(i + 1) + size * number}}</td>
+          <td style=" padding-top: 15px;width: 140px">{{f.feedbackDate |date:'dd-MM-yyyy'}}</td>
+          <td style=" padding-top: 15px;width: 100px">{{f.creator}}</td>
+          <td style=" padding-top: 15px;width: 100px">
             <span *ngFor="let item of [].constructor(f.rating)" class="material-icons" style="color: orange">star</span>
           </td>
-          <td>{{f.email}}</td>
-          <td style="width: 150px"><p class="hide_content">{{f.content}}</p>
+          <td style=" padding-top: 15px;width: 150px">{{f.email}}</td>
+          <td style=" padding-top: 15px;width: 150px" ><p class="hide_content">{{f.content}}</p>
           </td>
-          <td class="mid">
-            <a class="button-detail" data-bs-toggle="offcanvas" data-bs-target="#demo" (click)="showDetail(f.id)">
+          <td class="mid" style=" padding-top: 15px;width: 100px">
+            <a class="btn btn-link button-detail" data-bs-toggle="offcanvas" style="height: 35px" data-bs-target="#demo" (click)="showDetail(f.id)">
               <mat-icon class="bi">remove_red_eye</mat-icon>
             </a>
           </td>
         </tr>
+        <p *ngIf="listFeedback.length == 0" style="margin-left: 500px; margin-top:10px">Không có dữ liệu</p>
         </tbody>
-        <p *ngIf="listFeedback.length == 0" style="border-top: none; text-align: center">Không có đữ liệu</p>
       </table>
-<<<<<<< HEAD
     </div>
 
     <!--      Phần trang-->
     <nav aria-label="Page navigation  example" [hidden]=" listFeedback.length == 0 ">
-      <ul class="pagination justify-content-end" >
-        <div *ngIf="number == 0">
+      <ul class="pagination justify-content-end"  >
+        <div *ngIf="number == 0" >
           <li class="page-item disabled">
-            <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+            <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>
           </li>
         </div>
         <div *ngIf="number != 0">
           <li class="page-item">
-            <button class="page-link" (click)="goPrevious()">Trước</button>
+            <button class="page-link text-black" (click)="goPrevious()">Trước</button>
           </li>
         </div>
         <div *ngFor="let count of countTotalPages; index as i">
           <div *ngIf="i == number">
             <li class="page-item active">
-              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+              <button class="btn number-goItem " (click)="goItem(i)">{{i + 1}}</button>
             </li>
           </div>
           <div *ngIf="i != number">
             <li class="page-item">
-              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+              <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>
             </li>
           </div>
         </div>
         <div *ngIf="number == totalPages - 1">
           <li class="page-item disabled">
-            <button class="page-link" (click)="goNext()" hidden>Sau</button>
+            <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>
           </li>
         </div>
         <div *ngIf="number != totalPages - 1">
           <li class="page-item">
-            <button class="page-link" (click)="goNext()">Sau</button>
+            <button class="page-link text-black" (click)="goNext()">Sau</button>
           </li>
         </div>
       </ul>
     </nav>
     <!--end-->
-=======
-
-      <!--      Phần trang-->
-      <div class="container-fluid mt-3" [hidden]=" listFeedback.length == 0 ">
-        <ul class="pagination float-end">
-          <div *ngIf="number == 0">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
-            </li>
-          </div>
-          <div *ngIf="number != 0">
-            <li class="page-item">
-              <button class="page-link" (click)="goPrevious()">Trước</button>
-            </li>
-          </div>
-          <div *ngFor="let count of countTotalPages; index as i">
-            <div *ngIf="i == number">
-              <li class="page-item active">
-                <button class="page-link" (click)="goItem(i)" >{{i + 1}}</button>
-              </li>
-            </div>
-            <div *ngIf="i != number">
-              <li class="page-item">
-                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
-              </li>
-            </div>
-          </div>
-          <div *ngIf="number == totalPages - 1">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goNext()" hidden>Sau</button>
-            </li>
-          </div>
-          <div *ngIf="number != totalPages - 1">
-            <li class="page-item">
-              <button class="page-link" (click)="goNext()">Sau</button>
-            </li>
-          </div>
-        </ul>
-      </div>
-      <!--end-->
-    </div>
->>>>>>> a72649eb806442c6930e6103d9bd0df64e10d6e2
   </div>
 
   <!--  màn hình chi tiết-->
   <div class="offcanvas offcanvas-end" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
+    <div class="offcanvas-header row text-center">
+      <h1 class="offcanvas-title">Phản hồi chi tiết</h1></div>
     <div class="offcanvas-body">
       <div>
         <div class="card">
@@ -151,14 +109,14 @@
             src="{{image}}"
             class="card-img-top" alt="Phản hồi này không có ảnh">
           <div class="card-body">
-            <label>Mã phản hồi : </label><span>{{code}}</span> <br>
+            <label>Mã phản hồi: </label><span> {{code}}</span> <br>
             <label>Đánh giá : </label>
             <span *ngFor="let item of [].constructor(rating)" class="material-icons" style="color: orange">star</span>
             <br>
-            <label>Ngày phản hồi : </label><span>{{feedbackDate}}</span> <br>
-            <label>Người tạo : </label> <span>{{creator}}</span> <br>
-            <label>Email :</label> <span>{{email}}</span> <br>
-            <label>Phản hồi :</label> <span>{{content}}</span>
+            <label>Ngày phản hồi : </label><span> {{feedbackDate |date:'dd-MM-yyyy'}}</span> <br>
+            <label>Người tạo : </label> <span> {{creator}}</span> <br>
+            <label>Email :</label> <span> {{email}}</span> <br>
+            <label>Phản hồi :</label> <span> {{content}}</span>
           </div>
         </div>
       </div>
@@ -168,8 +126,7 @@
     </div>
   </div>
   <!--  end-->
+</div>
+
 <div style="background-color: beige; height: 2px">
 </div>
-<button class="btn btn-danger"
-        routerLink="/createFeedback">Gửi phản hồi
-</button>
