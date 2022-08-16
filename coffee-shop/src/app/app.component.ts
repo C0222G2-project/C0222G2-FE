@@ -9,6 +9,11 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'coffee-shop';
 
+  constructor() {
+
+  }
+
+
   onActivate(event) {
     window.scroll({
       top: 0,
