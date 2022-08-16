@@ -29,7 +29,6 @@ export class HomeLoginComponent implements OnInit {
               private forgotService: ForgotService,
               private commonService: CommonService) {
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
-      console.log(message)
       this.messageReceived = message;
     });
   }
@@ -47,15 +46,15 @@ export class HomeLoginComponent implements OnInit {
 
   createLoginForm(username: string, password: string) {
     this.loginForm = new FormGroup({
-      username: new FormControl(username, [Validators.required, Validators.maxLength(50)]),
+      username: new FormControl(username, [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')]),
       password: new FormControl(password, [Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$')]),
-      rememberMe: new FormControl()
+      stayLogged: new FormControl()
     })
   }
 
   createForgotForm() {
     this.forgotForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.maxLength(50)])
+      username: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')])
     })
   }
 
@@ -63,9 +62,8 @@ export class HomeLoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
-      if (this.loginForm.value.rememberMe) {
-        this.cookieService.setCookie("usernameRemember", username, 100);
-        this.cookieService.setCookie("passwordRemember", password, 100);
+      if (this.loginForm.value.stayLogged) {
+        this.cookieService.setCookie('stayLogged', 'true', 1000);
       }
       this.loginService.onLogin(username, password).subscribe(value => {
         this.authService.isLogin(value);
@@ -82,10 +80,14 @@ export class HomeLoginComponent implements OnInit {
             break;
         }
       }, () => {
-        this.router.navigateByUrl('/home').then(() => {
-          this.toastrService.success("Đăng nhập thành công!")
-          this.sendMessage();
-        });
+        setTimeout(()=> {
+          this.router.navigateByUrl('/home').then(() => {
+            this.toastrService.success("Đăng nhập thành công!")
+            this.sendMessage();
+          });
+        }, 1000)
+        this.router.navigateByUrl("/loading").then(() => {
+        })
       });
     } else {
       this.toastrService.error("Thông tin bạn nhập không chính xác!");
@@ -123,5 +125,9 @@ export class HomeLoginComponent implements OnInit {
   sendMessage(): void {
     // send message to subscribers via observable subject
     this.commonService.sendUpdate('Đăng Nhập thành công!');
+  }
+
+  closeForgot() {
+    this.forgotForm.reset();
   }
 }

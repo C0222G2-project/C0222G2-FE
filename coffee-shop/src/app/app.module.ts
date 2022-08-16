@@ -37,7 +37,7 @@ import {environment} from '../environments/environment';
         closeButton: true,
         progressBar: true,
         positionClass: 'toast-top-left',
-        preventDuplicates: true
+        preventDuplicates: true,
       }
     ),
     EmployeeModule,
