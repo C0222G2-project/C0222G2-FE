@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Feedback} from "../model/feedback";
 import {FeedbackService} from "../service/feedback.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list-feedback',

@@ -7,7 +7,8 @@
       </div>
       <div class="col-sm-12 col-md-7 col-lg-7">
         <label style="color: white">Ngày tạo phản hồi</label>
-        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() " *ngIf="searchForm">
+        <form class="d-flex" style="text-align: right" [formGroup]="searchForm" (ngSubmit)="getSearch() "
+              *ngIf="searchForm">
           <input class="form-control me-2 buttons1" type="date" name="search" formControlName="searchStartDate"
                  aria-label="Search">
           <input class="form-control me-2 buttons2" type="date" name="search" formControlName="searchEndDate"
@@ -22,7 +23,7 @@
     </div>
 
     <div class="table-wrapper mt-3" style="padding-bottom: 10px">
-      <table class="table table-hover table-sm" >
+      <table class="table table-hover  table-sm">
         <thead>
         <tr style="height: 50px">
           <th>STT</th>
@@ -54,82 +55,82 @@
         </tbody>
         <p *ngIf="listFeedback.length == 0" style="border-top: none; text-align: center">Không có đữ liệu</p>
       </table>
-
-      <!--      Phần trang-->
-      <div class="container-fluid mt-3" [hidden]=" listFeedback.length == 0 ">
-        <ul class="pagination float-end">
-          <div *ngIf="number == 0">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
-            </li>
-          </div>
-          <div *ngIf="number != 0">
-            <li class="page-item">
-              <button class="page-link" (click)="goPrevious()">Trước</button>
-            </li>
-          </div>
-          <div *ngFor="let count of countTotalPages; index as i">
-            <div *ngIf="i == number">
-              <li class="page-item active">
-                <button class="page-link" (click)="goItem(i)" >{{i + 1}}</button>
-              </li>
-            </div>
-            <div *ngIf="i != number">
-              <li class="page-item">
-                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
-              </li>
-            </div>
-          </div>
-          <div *ngIf="number == totalPages - 1">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goNext()" hidden>Sau</button>
-            </li>
-          </div>
-          <div *ngIf="number != totalPages - 1">
-            <li class="page-item">
-              <button class="page-link" (click)="goNext()">Sau</button>
-            </li>
-          </div>
-        </ul>
-      </div>
-      <!--end-->
     </div>
-  </div>
 
-  <!--  màn hình chi tiết-->
-  <div class="offcanvas offcanvas-end" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-      <div>
-        <div class="card">
-          <img
-            src="{{image}}"
-            class="card-img-top" alt="Phản hồi này không có ảnh">
-          <div class="card-body">
-            <label>Mã phản hồi : </label><span>{{code}}</span> <br>
-            <label>Đánh giá : </label>
-            <span *ngFor="let item of [].constructor(rating)" class="material-icons" style="color: orange">star</span>
-            <br>
-            <label>Ngày phản hồi : </label><span>{{feedbackDate}}</span> <br>
-            <label>Người tạo : </label> <span>{{creator}}</span> <br>
-            <label>Email :</label> <span>{{email}}</span> <br>
-            <label>Phản hồi :</label> <span>{{content}}</span>
+    <!--      Phần trang-->
+    <nav aria-label="Page navigation  example" [hidden]=" listFeedback.length == 0 ">
+      <ul class="pagination justify-content-end">
+        <div *ngIf="number == 0">
+          <li class="page-item disabled">
+            <button class="page-link" (click)="goPrevious()" hidden>Trước</button>
+          </li>
+        </div>
+        <div *ngIf="number != 0">
+          <li class="page-item">
+            <button class="page-link" (click)="goPrevious()">Trước</button>
+          </li>
+        </div>
+        <div *ngFor="let count of countTotalPages; index as i">
+          <div *ngIf="i == number">
+            <li class="page-item active">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
+          </div>
+          <div *ngIf="i != number">
+            <li class="page-item">
+              <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+            </li>
           </div>
         </div>
+        <div *ngIf="number == totalPages - 1">
+          <li class="page-item disabled">
+            <button class="page-link" (click)="goNext()" hidden>Sau</button>
+          </li>
+        </div>
+        <div *ngIf="number != totalPages - 1">
+          <li class="page-item">
+            <button class="page-link" (click)="goNext()">Sau</button>
+          </li>
+        </div>
+      </ul>
+    </nav>
+    <!--end-->
+
+    <!--  màn hình chi tiết-->
+    <div class="offcanvas offcanvas-end" id="demo">
+      <div class="offcanvas-header">
+        <h1 class="offcanvas-title">Phản hồi chi tiết</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
       </div>
-      <div class="button_close">
-        <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+      <div class="offcanvas-body">
+        <div>
+          <div class="card">
+            <img
+              src="{{image}}"
+              class="card-img-top" alt="Phản hồi này không có ảnh">
+            <div class="card-body">
+              <label>Mã phản hồi : </label><span>{{code}}</span> <br>
+              <label>Đánh giá : </label>
+              <span *ngFor="let item of [].constructor(rating)" class="material-icons" style="color: orange">star</span>
+              <br>
+              <label>Ngày phản hồi : </label><span>{{feedbackDate}}</span> <br>
+              <label>Người tạo : </label> <span>{{creator}}</span> <br>
+              <label>Email :</label> <span>{{email}}</span> <br>
+              <label>Phản hồi :</label> <span>{{content}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="button_close">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="offcanvas">Đóng</button>
+        </div>
       </div>
     </div>
-  </div>
-  <!--  end-->
-</div>
+    <!--  end-->
 
-<div style="background-color: beige; height: 2px">
+    <div style="background-color: beige; height: 2px"></div>
+
+    <button class="btn btn-danger"
+            routerLink="/createFeedback">Gửi phản hồi
+    </button>
+  </div>
 </div>
-<button class="btn btn-danger"
-        style="margin-top: 200px"
-        routerLink="/createFeedback">Gửi phản hồi</button>

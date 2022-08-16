@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {EmployeeService} from "../service/employee.service";
-import {IEmployeeDto} from "../../model/employee/i-employee-dto";
+import {IEmployeeDto} from "../model/employee/i-employee-dto";
 
 @Component({
   selector: 'app-detail-employee',

@@ -70,7 +70,7 @@ export class EditEmployeeComponent implements OnInit {
       appUser: new FormControl(this.employee.appUser,[Validators.required]),
       name: new FormControl(this.employee.name, [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-Z][^A-Z0-9\\s]+)(\\s[A-Z][^A-Z0-9\\s]+)*$")],),
       image: new FormControl(this.employee.image, [Validators.required,Validators.maxLength(255)]),
-      birthday: new FormControl(this.employee.birthday,[this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
+      birthday: new FormControl(this.employee.birthday,[this.checkInputBirthday,this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
       gender: new FormControl(this.employee.gender),
       phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
       address: new FormControl(this.employee.address, [Validators.required,Validators.minLength(6),Validators.maxLength(255),]),
@@ -103,7 +103,6 @@ export class EditEmployeeComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
-
             this.employeeService.updateEmployee(employee).subscribe((data) => {
                 this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
@@ -184,7 +183,14 @@ export class EditEmployeeComponent implements OnInit {
     }
     return null;
   }
-
+  checkInputBirthday(birthday: AbstractControl) {
+    const value = birthday.value
+    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+    if(value >= curDate) {
+      return {'checkDate': true}
+    }
+    return null;
+  }
   checkAge16(birthday: AbstractControl) {
     const value = parseInt(birthday.value.substr(0,4));
     const curYear=new Date().getFullYear()

@@ -58,6 +58,7 @@
               <div *ngIf="!birthday.valid && (birthday.dirty || birthday.touched)">
                 <div class="text-danger" [hidden]="!birthday.errors.patter">Vui lòng nhập theo định dạng yyyy/MM/dd.</div>
                 <div class="text-danger" [hidden]="!birthday.errors.age16">Vui lòng nhập tuổi lớn hơn 16.</div>
+                <div class="text-danger" [hidden]="!birthday.errors.checkDate">Vui lòng ngày nhỏ hơn ngày hiện tại.</div>
               </div>
             </div>
 
