@@ -10,15 +10,25 @@ import {Bill} from "../model/bill";
 
 export class BillService {
   private URL_BILL = 'http://localhost:8080/rest/bill';
-  private URL_DISH = 'http://localhost:3000/dish';
-  private URL_EMPLOYEE = 'http://localhost:3000/employee';
-  private URL_COFFEE_TABLE = 'http://localhost:3000/coffeeTable';
+  bill: Bill
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllBill(searchCode: string, searchDate: string, page: number): Observable<Bill[]> {
-    return this.httpClient.get<Bill[]>(this.URL_BILL + "?page=" + page + "&searchParamCode=" + searchCode + "&searchParamDate=" + searchDate);
+  getAllBill(page: number, searchCode, searchDate) {
+    let searchBillCode;
+    let searchBillDate
+    if (searchCode == null){
+      searchBillCode = '';
+    }else {
+      searchBillCode = searchCode;
+    }
+    if (searchDate == null){
+      searchBillDate = '';
+    }else {
+      searchBillDate = searchDate
+    }
+    return this.httpClient.get<Bill[]>(this.URL_BILL + "?page=" + page + "&searchParamCode=" + searchBillCode + "&searchParamDate=" + searchBillDate);
   }
 
   findById(id: number): Observable<Bill> {
