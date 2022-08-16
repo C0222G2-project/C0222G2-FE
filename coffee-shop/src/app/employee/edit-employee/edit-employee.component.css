@@ -1,5 +1,5 @@
 .management {
-  padding: 50px;
+  padding: 50px 5px 50px 50px;
 }
 
 .complain {
@@ -10,16 +10,55 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/luanbackground.jpg);
   position: relative;
   padding: 150px;
+
 }
 .s{
   background-color: white;
 }
-label {
-  color: black;
+.image-css {
+  width: 260px;
+  height: 250px;
+  border-radius: 200px;
 }
-
-@media only screen and (max-width: 1000px) {
-  .form {
+@media only screen and (max-width: 1100px) {
+  .image-edit {
     display: none;
   }
 }
+.image-edit {
+  padding-left: 57px;
+}
+
+.sliceCss {
+  padding: 10px 0px 0px 9px;
+  height: 530px;
+  border-radius: 70px;
+}
+.title-image {
+  padding-bottom: 65px;
+}
+h4 {
+  padding-left: 8px;
+}
+.block-2 {
+  padding-top: 14px;
+}
+label {
+  color: black;
+}
+.title-input {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+@media only screen and (max-width: 1400px) {
+  .block-1 {
+    display: block;
+    width: 100%;
+  }
+
+  .block-2{
+    display: none;
+  }
+}
+

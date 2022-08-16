@@ -108,4 +108,7 @@ export class EmployeeService {
     return this.httpClient.get(this.URL_EMPLOYEE + '/user');
   }
 
+  findByUserName(value: any) {
+    return this.httpClient.get(this.URL_EMPLOYEE + '/findUserName/' + value);
+  }
 }
