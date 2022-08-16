@@ -4,6 +4,7 @@ import {DishWithAmountOrder} from './model/DishWithAmountOrder';
 import {DishWithTimeCreate} from './model/DishWithTimeCreate';
 import {ToastrService} from 'ngx-toastr';
 import {CookieService} from '../login/service/cookie.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home-page',
@@ -19,7 +20,9 @@ export class HomePageComponent implements OnInit {
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private title : Title) {
+    this.title.setTitle("Trang Chủ");
   }
 
   ngOnInit(): void {

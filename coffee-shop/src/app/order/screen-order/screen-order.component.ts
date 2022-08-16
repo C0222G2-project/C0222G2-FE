@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnChanges, OnInit, QueryList, SimpleChange, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnChanges, OnInit, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Dish } from '../model/dish';
 import { DishType } from '../model/dish-type';
+import { Order } from '../model/order';
 import { NotificationService } from '../service/notification.service';
 import { OrderService } from '../service/order.service';
 
@@ -16,6 +17,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
+  order: Order;
+  dishId: number;
   formCheckBox: FormGroup;
   hideMenu:boolean = false;
   checkButton:boolean = true;
@@ -27,14 +30,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   checkOrderMenu = [];
   checkBox: boolean = false;
   selectCheckBox: any;
-  totalPages: number[];
+  totalPages;
   presentPage = 1;
-  hasNext: false;
-  hasPrevious: false;
   date: Date;
 
-  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService,
-    private db: AngularFireDatabaseModule, private notificationService: NotificationService,
+  constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, private notificationService: NotificationService,
+    private toastr: ToastrService
     ) {
       // this.notificationService.requestPermission();
       this.date = new Date();
@@ -47,7 +48,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getAllDish(0);
+    this.getAllDish(1, this.presentPage);
     this.getAllDishType();
     this.formCheckBox = new FormGroup({
       selectCheckBox: new FormArray([])
@@ -76,11 +77,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  Date: 11/08/2022
    *  This function to get all dish have when api return
    */
-  getAllDish(page){
-    this.orderService.getAllDish(page).subscribe(dishes => {
+
+  getAllDish(id:number, page){
+    this.dishId = id;
+    this.orderService.redirect(id, page).subscribe(dishes => {
        // @ts-ignore
       this.dishes = dishes.content;
-      //  this.totalPages = Array.from({length: dishes}, (v,k)=> k+1);
+       // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
     });
   }
 
@@ -115,12 +119,26 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  Date: 11/08/2022
    *  This function do insert dish into menu order
    */
-  addIntoMenuOrder(param1, param2){
+  addIntoMenuOrder(quantity, tableCode){
     const order = {
-        id: '', quantity: param1, dish: this.dish, bill: '', employee: '', coffeeTable: param2, status: false, counterTimer: ''
+       quantity: quantity,
+       dish: this.dish,
+       bill: 1,
+       employee: 1,
+       coffeeTable: {
+          id: '1',
+          code: tableCode,
+          status: true
+       }
     };
-    this.orderMenu.push(order);
-    this.inputQuantity.nativeElement.value = '';
+    if(quantity == '' || quantity == null){
+      this.toastr.error('Bạn chưa nhập số lượng mời chọn lại','Có lỗi từ khách hàng',{timeOut: 2000, progressBar: true});
+      this.inputQuantity.nativeElement.value = '';
+    }
+    else{
+      this.orderMenu.push(order);
+      this.inputQuantity.nativeElement.value = '';
+    }
   }
 
 
@@ -156,18 +174,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
       let removeIndex = this.selectCheckBox.value.indexOf(this.selectCheckBox.value[i]);
       index = this.selectCheckBox.value[i];
       this.orderMenu.splice(index, 1);
-      // console.log(index);
-      // console.log(this.selectCheckBox.value[i]);
-      console.log(this.selectCheckBox.value[i]);
-      console.log(removeIndex);
       containerRemoveIndex.push(removeIndex);
-      console.log(containerRemoveIndex);
       // this.selectCheckBox.removeAt(removeIndex);
     }
     for(let i of containerRemoveIndex){
       this.selectCheckBox.removeAt(i);
     }
     this.uncheckAll();
+    this.toastr.error('Bạn đã xóa order','Thành công',{timeOut: 2000, progressBar: false});
   }
 
   uncheckAll() {
@@ -183,7 +197,28 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  This function use to send messager
    */
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
+    this.toastr.success('Bạn đã gữi yêu cầu thành công','Thành công',{timeOut: 2000, progressBar: false})
     this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
+  }
+
+
+  /**
+   *  Author: BinhPx
+   *  Date: 14/08/2022
+   *  This function create order have param is table code, employee code, bill code, dish code
+   */
+  createOrder(){
+    this.orderMenu.forEach(items => {
+      this.order = {
+        quantity: items.quantity,
+        dish: this.dish,
+        bill: {},
+        employee: {},
+        coffeeTable: items.coffeeTable,
+      }
+      this.orderService.createOrder(this.order).subscribe();
+    });
+    this.orderMenu = [];
   }
 
 
@@ -192,53 +227,51 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  Date: 13/08/2022
    *  Function navigate to another page menu dish
    */
-   goPrevious() {
+  goPrevious() {
     let numberPage: number = this.presentPage;
     if (numberPage > 0) {
       numberPage--;
-      this.getAllDish(numberPage);
+      this.getAllDish(this.dishId, numberPage);
+      this.presentPage = numberPage;
     }
   }
 
   goNext() {
     let numberPage: number = this.presentPage;
-    if (numberPage < this.totalPages.length - 1) {
+
+    if (numberPage < this.totalPages.length) {
       numberPage++;
-      this.getAllDish(numberPage);
+      this.getAllDish(this.dishId, numberPage);
+      this.presentPage = numberPage;
     }
   }
 
   goItem(page: number) {
-    this.getAllDish(page);
+    this.presentPage = page;
+    this.getAllDish(this.dishId, page);
   }
 
 
 
 
-  // displayTimer(timer): any{
-  //     let timerString = '';
-  //     let timerCountdown = timer;
-  //     let minutes, seconds;
-  //     let setTimer = setInterval(()=>{
-  //           minutes = Math.floor(timerCountdown/60);
-  //           seconds = Math.floor(timerCountdown%60);
-  //           minutes = minutes < 10 ? '0' + minutes : minutes;
-  //           seconds = seconds < 10 ? '0' + seconds : seconds;
-  //           if(++timerCountdown>(60*5)){
-  //             alert("Time's up");
-  //             clearInterval(setTimer);
-  //           }
-  //       }, 1000);
-  //   }
-
-  // countTimer(): any{
-  //   let timer = 1;
-  //   let timerString;
-  //   console.log(timerString +=this.displayTimer(timer));
-
-  //   return timerString += this.displayTimer(timer);
-  // }
-
+  name = "Angular" + VERSION.major;
+  displayTimer(timer){
+      let timerString: HTMLElement = document.getElementById('timerCountdown') as HTMLElement;
+      let timerCountdown = timer;
+      let minutes, seconds;
+      let setTimer = setInterval(()=>{
+            minutes = Math.floor(timerCountdown/60);
+            seconds = Math.floor(timerCountdown%60);
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            if(++timerCountdown>(60*1)){
+              this.toastr.error('Hãy order món ','Khuyến khích',{timeOut: 2000, progressBar: true});
+              this.orderMenu = [];
+              clearInterval(setTimer);
+            }
+            timerString.innerHTML = minutes + ':' + seconds;
+        }, 1000);
+  }
 
 }
 

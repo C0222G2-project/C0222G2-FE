@@ -10,15 +10,19 @@ import { Order } from '../model/order';
   providedIn: 'root'
 })
 export class OrderService {
-  private urlGetDishes = 'http://localhost:8080/dish/getDishPage';
+  private urlGetDishes = 'http://localhost:8080/dish/getDishFindIdDishType';
   private urlGetDish = 'http://localhost:8080/dish/findById';
   private urlGetDishType = 'http://localhost:8080/dishType/getDishTypePage';
   private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
 
   constructor(private http: HttpClient) { }
 
-  getAllDish(pageNumber): Observable<Dish[]>{
-    return this.http.get<Dish[]>(this.urlGetDishes+`?page=${pageNumber}`);
+  getAllDish(id:number): Observable<Dish[]>{
+    return this.http.get<Dish[]>(this.urlGetDishes+`/${id}`);
+  }
+
+  redirect(id:number, page): Observable<Dish[]>{
+    return this.http.get<Dish[]>(this.urlGetDishes+`/${id}`+`?page=${page-1}`);
   }
 
   getAllDishType(): Observable<DishType[]>{
