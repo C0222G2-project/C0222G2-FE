@@ -12,7 +12,7 @@
 
             <div class="col-md-6 title-image">
               <label class="form-label title-input">Ảnh nhân viên<span class="complain">(*)</span><span> :</span> </label>
-              <input id="image" type="file" class="form-control" #fileUploader (change)="showPreview($event)" accept="image/*">
+              <input id="image" type="file" class="form-control " #fileUploader (change)="showPreview($event)" accept="image/*" formGroupName="image">
               <div *ngIf="!image.valid && (image.dirty || image.touched)">
                 <div class="text-danger" [hidden]="!image.errors.required">Vui lòng nhập thông tin hình ảnh.</div>
                 <div class="text-danger" [hidden]="!image.errors.maxlength">Ảnh không vượt quá 255 kí tự.</div>

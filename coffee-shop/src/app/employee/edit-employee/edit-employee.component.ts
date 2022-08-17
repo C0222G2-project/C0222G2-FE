@@ -89,9 +89,10 @@ export class EditEmployeeComponent implements OnInit {
 
   updateEmployee() {
     this.toggleLoading();
+    let employee: Employee = this.employeeFormEdit.value;
+    employee.address = employee.address.trim();
     if (this.selectedImage == null) {
-      let employee: Employee = this.employeeFormEdit.value;
-      // @ts-ignore
+
       if(this.employeeFormEdit.valid){
       this.employeeService.updateEmployee(employee).subscribe((data) => {
           this.toast.success('Cập nhật thành công', 'Thông báo!!!')
@@ -106,7 +107,6 @@ export class EditEmployeeComponent implements OnInit {
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
             if(this.employeeFormEdit.valid){
               this.employeeService.updateEmployee(employee).subscribe((data) => {
