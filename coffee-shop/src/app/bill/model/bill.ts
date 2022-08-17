@@ -8,4 +8,5 @@ export interface Bill {
   dishName?: string;
   dishPrice?: number;
   dishOrderQuantity?: number;
+  totalBill: number;
 }

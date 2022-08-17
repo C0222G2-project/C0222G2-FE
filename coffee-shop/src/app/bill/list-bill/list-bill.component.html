@@ -19,11 +19,14 @@
             <label class="text-white mt-1 me-2">Số Hóa Đơn:</label>
             <input class="form-control me-2 search-1" type="text" name="searchCode"
                    formControlName="searchCode"
-                   placeholder="Search số hóa đơn" >
+                   placeholder="số hóa đơn" >
             <label class="text-white mt-1 me-2" style="margin-left: 5px">Ngày Tạo:</label>
             <input class="form-control me-2 search-1" type="date" name="searchDate"
                    formControlName="searchDate"
                    placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
+            <div *ngIf="!searchDate.valid && (searchDate.dirty || searchDate.touched)">
+              <div class="text-white" [hidden]="!searchDate.errors.checkDate"> Vui Lòng Nhập Nhỏ Hơn Ngày Hiện Tại</div>
+            </div>
             <button class="btn button-1 me-2" type="submit" name="name" style="color: white; margin-left: 10px">Tìm kiếm
             </button>
           </form>
@@ -39,26 +42,26 @@
           <th class="th-bill">Ngày Tạo</th>
           <th class="th-bill">Người Tạo</th>
           <th class="th-bill">Số Bàn</th>
-          <th class="vnd th-bill">Tổng Tiền(VND)</th>
+          <th class="vnd th-bill">Tổng Tiền</th>
           <th class="th-bill">Chi Tiết</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!billCode">
         <tr *ngFor="let bill of bills index as i">
-          <td class="td-bill">{{i + 1}}</td>
+          <td class="td-bill">{{(i+1) + size * number}}</td>
           <td class="td-bill">{{bill.billCode}}</td>
           <td class="td-bill">{{bill.creationDate|date: 'dd-MM-yyyy'}}</td>
           <td class="td-bill">{{bill.employeeName}}</td>
           <td class="td-bill">{{bill.coffeeTableCode}}</td>
-          <td class="td-bill" style="text-align: right">{{bill.dishPrice| currency: "VND": ''}}đ</td>
+          <td class="td-bill">{{bill.totalBill| currency: "VND": ''}}đ</td>
           <td class="td-bill">
-            <a href="#"
+            <a href="#" (click)="getBillId(bill.id)"
                class="a-bill" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
               <mat-icon class="bi">remove_red_eye</mat-icon>
             </a>
 
-            <div class="container offcanvas offcanvas-end detail aut" id="offcanvas{{bill.id}}" style="overflow: auto">
-              <div id="contentToConvert" >
+            <div class="container offcanvas offcanvas-end detail aut " id="offcanvas{{bill.id}}" style="overflow: auto">
+              <div id="contentToConvert{{bill.id}}" >
                 <div class="row text-center">
                   <h1>C0222G2-COFFEE</h1>
                 </div>
@@ -91,31 +94,36 @@
                 <table class="table">
                   <thead>
                   <tr>
+                    <th class="th-stt"><b>STT</b></th>
                     <th><b>Tên Món</b></th>
                     <th><b>Số Lượng</b></th>
-                    <th><b>Giá(VND)</b></th>
+                    <th><b>Giá</b></th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>{{bill.dishName}}</td>
-                    <td>{{bill.dishOrderQuantity}}</td>
-                    <td class="tien">{{bill.dishPrice| currency: 'VND': ''}}</td>
+                  <tr *ngFor="let dish of dishs index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{dish.dishName}}</td>
+                    <td>{{dish.dishOrderQuantity}}</td>
+                    <td class="tien">{{dish.dishPrice| currency: "VND": ''}}đ</td>
                   </tr>
                   </tbody>
                 </table>
-                <div class="row" style="text-align: left">
-                  <div class="col-4"><b>Tổng Cộng:</b></div>
-                  <div class="col-8" style="text-align: right"><p>{{bill.dishPrice| currency: 'VND': ''}}</p></div>
-                </div>
-                <div class="row" style="text-align: left">
-                  <div class="col-4"><b>Tiền Khách Trả:</b></div>
-                  <div class="col-8" style="text-align: right"><p>{{bill.dishPrice| currency: 'VND': ''}}</p></div>
-                </div>
-                <div class="row" style="text-align: left">
-                  <div class="col-4"><b>Tiền Thừa:</b></div>
-                  <div class="col-8" style="text-align: right"><p>0</p></div>
-                </div>
+
+                <table class="table">
+                  <tr>
+                    <td style="text-align: left"><b>Tổng Cộng:</b></td>
+                    <td style="text-align: right">{{bill.totalBill| currency: "VND": ''}}đ</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left"><b>Tiền Khách Trả:</b></td>
+                    <td style="text-align: right">{{bill.totalBill| currency: "VND": ''}}đ</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left"><b>Tiền Thừa:</b></td>
+                    <td style="text-align: right">0đ</td>
+                  </tr>
+                </table>
                 <div class="row d-flex justify-content-center">
                   ----------------------------------------------
                 </div>
@@ -130,7 +138,8 @@
               <div class="row mt-3" style="margin-bottom: 10px">
                 <div class="col-2"></div>
                 <div class="col-5" style="text-align: right">
-                  <button class="btn button-page" (click)="generatePDF()">Xuất Hóa Đơn</button>
+                  <button class="btn button-page" [disabled]="isLoading"  (click)="generatePDF(bill.id, bill.billCode)">
+                    <img *ngIf="isLoading" width="30px" src="../../../assets/img/dieptt-loading-symbol.gif">Xuất Hóa Đơn</button>
                 </div>
                 <div class="col-3">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">
@@ -139,16 +148,14 @@
                 </div>
                 <div class="col-2"></div>
               </div>
-
             </div>
-
           </td>
         </tr>
         </tbody>
-        <p *ngIf="bills.length == 0" style="border-top: none; text-align: center">Không Có Dữ Liệu</p>
       </table>
+      <h1 *ngIf="bills.length == 0 || billCode"  style="border-top: none; text-align: center; color: white">Không Có Dữ Liệu</h1>
 
-      <div class="container-fluid mt-3" [hidden]=" bills.length == 0 ">
+      <div class="container-fluid mt-3" *ngIf="!billCode" [hidden]=" bills.length == 0 ">
         <ul class="pagination float-end">
           <div *ngIf="number == 0">
             <li class="page-item disabled">
