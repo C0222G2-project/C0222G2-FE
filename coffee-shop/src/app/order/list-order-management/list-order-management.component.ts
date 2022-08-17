@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {PaymentOrderService} from "../service/payment-order-service";
 import {CoffeeTable} from "../model/CoffeeTable";
 import {Payment} from "../model/Payment";
+import {ToastrService} from "ngx-toastr";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-order-management',
@@ -14,14 +16,22 @@ export class ListOrderManagementComponent implements OnInit {
   totalPage: number;
   countTotalPage: number[];
   listOrderInTable: CoffeeTable[];
-  totalNeedPayment: number;
+  totalNeedPayment: number = 0;
   idTable: number;
+  codeTable: any;
+  size: number;
 
-  constructor(private paymentOrderService: PaymentOrderService) {
+  constructor(private paymentOrderService: PaymentOrderService,
+              private toast: ToastrService,
+              private title: Title) {
+    this.title.setTitle("Thanh Toán");
   }
+
 
   ngOnInit(): void {
     this.getAllPage(this.numberPage);
+    this.reset();
+
   }
 
   // lấy list bàn và phân trang bàn
@@ -34,8 +44,12 @@ export class ListOrderManagementComponent implements OnInit {
       // @ts-ignore
       this.countTotalPage = new Array(data.totalPages);
       // @ts-ignore
-      this.numberPage = data.number
-    },error => {}, () => {
+      this.numberPage = data.number;
+      // @ts-ignore
+      this.size = data.size;
+
+    }, error => {
+    }, () => {
       console.log(this.coffeeTableList)
     })
   }
@@ -65,21 +79,40 @@ export class ListOrderManagementComponent implements OnInit {
   getListById(id: number) {
     this.paymentOrderService.getListTableById(id).subscribe(d => {
       this.listOrderInTable = d;
+
+      this.codeTable = d[0].code;
     }, error => {
     }, () => {
       this.idTable = id;
+      this.displayTotal();
+
     })
   }
-  // thanh toán dựa vào id bàn
-  payment() {
+
+  private displayTotal() {
     this.paymentOrderService.payment(this.idTable).subscribe(p => {
       this.totalNeedPayment = p.total;
-      console.log(this.totalNeedPayment);
     }, error => {
     }, () => {
       //@ts-ignore
-      $('#modalPayment').modal('show');
+      this.ngOnInit();
     })
+  }
+
+  // thanh toán dựa vào id bàn
+  payment() {
+    if (this.idTable == null) {
+      this.toast.warning("Vui lòng chọn món để được tính tiền!!")
+    } else {
+      this.paymentOrderService.payment(this.idTable).subscribe(p => {
+        this.totalNeedPayment = p.total;
+      }, error => {
+      }, () => {
+        //@ts-ignore
+        $('#modalPayment').modal('show');
+        this.ngOnInit();
+      })
+    }
   }
 
 
@@ -90,4 +123,21 @@ export class ListOrderManagementComponent implements OnInit {
     }, () => {
     })
   }
+
+  addBill(idTable: number) {
+    console.log(this.totalNeedPayment);
+    this.paymentOrderService.createBill(idTable).subscribe(value => {
+    }, error => {
+    }, () => {
+      //@ts-ignore
+      $('#modalPayment').modal('hide');
+      this.totalNeedPayment = 0;
+      this.getListById(this.idTable);
+      this.idTable = null;
+      this.ngOnInit()
+      this.toast.success("Thành công!!", "Thanh toán")
+    });
+  }
+
+
 }

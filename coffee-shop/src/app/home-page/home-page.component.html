@@ -16,9 +16,13 @@
         <img src="assets/img/bao2.jpg" class="d-block w-100" style="width:100%">
         <div class="carousel-caption d-none d-md-block">
           COFFEE FACTORY
+          <br>
+          <div style="font-size: 30%; padding: 100px; font-family: 'Poppins', sans-serif;">
+            Hạnh phúc là một sự lựa chọn. Đau khổ cũng là một sự lựa chọn. Hãy lựa chọn khôn ngoan.
+          </div>
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''" routerLink="/order/screen">
           ĐẶT MÓN
         </button>
       </div>
@@ -26,9 +30,13 @@
         <img src="assets/img/bao3.jpg" class="d-block w-100" style="width:100%">
         <div class="carousel-caption d-none d-md-block">
           COFFEE FACTORY
+          <br>
+          <div style="font-size: 30%; padding: 100px; font-family: 'Poppins', sans-serif;">
+            Đối xử với bản thân tốt một chút vì cuộc đời này không dài đâu. Đối xử với người bên cạnh tốt một chút vì kiếp sau chắc gì đã gặp lại.
+          </div>
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''" routerLink="/order/screen">
           ĐẶT MÓN
         </button>
       </div>
@@ -36,9 +44,13 @@
         <img src="assets/img/bao4.jpg" class="d-block w-100" style="width:100%">
         <div class="carousel-caption d-none d-md-block">
           COFFEE FACTORY
+          <br>
+          <div style="font-size: 30%; padding: 100px; font-family: 'Poppins', sans-serif;">
+            Biết chấp nhận thực tế cũng là một loại năng lực. Biết hài lòng với những thứ mình có cũng là một loại hạnh phúc.
+          </div>
         </div>
         <button class="btn btn-light carousel-caption buttonOrder d-flex align-items-center justify-content-center"
-                style="font-size: 20px; align-content: center">
+                style="font-size: 20px; align-content: center" *ngIf="token !== ''" routerLink="/order/screen">
           ĐẶT MÓN
         </button>
       </div>
@@ -75,7 +87,7 @@
             <div class="text-in-box">
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
-              <button class="btn btn-light">Đặt món</button>
+              <button class="btn btn-light" *ngIf="token !== ''" [routerLink]="['/order/screen', dish.dishId]">Đặt món</button>
             </div>
           </div>
         </div>
@@ -96,6 +108,8 @@
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
               <button class="btn btn-light"
               [routerLink]="['/order/screen', dish.id]">Đặt món</button>
+              <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number }} VNĐ</h2>
+              <button class="btn btn-light" *ngIf="token !== ''" [routerLink]="['/order/screen', dish.id]">Đặt món</button>
             </div>
           </div>
         </div>

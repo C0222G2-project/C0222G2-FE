@@ -3,6 +3,8 @@ import {GetDishList} from './service/getDishList';
 import {DishWithAmountOrder} from './model/DishWithAmountOrder';
 import {DishWithTimeCreate} from './model/DishWithTimeCreate';
 import {ToastrService} from 'ngx-toastr';
+import {CookieService} from '../login/service/cookie.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home-page',
@@ -13,14 +15,25 @@ export class HomePageComponent implements OnInit {
   dishMostOrderList: DishWithAmountOrder[];
   distNewestList: DishWithTimeCreate[];
   checkData: boolean = true;
+  role: string = '';
+  token: string = '';
 
   constructor(private getDishList: GetDishList,
-              private mess: ToastrService) {
+              private mess: ToastrService,
+              private cookieService: CookieService,
+              private title : Title) {
+    this.title.setTitle("Trang Chủ");
   }
 
   ngOnInit(): void {
+    this.role = this.readCookieService('role');
+    this.token = this.readCookieService('jwToken');
     this.get5DishMostOrder();
     this.get5DishNewest();
+  }
+
+  readCookieService(key: string): string {
+    return this.cookieService.getCookie(key);
   }
 
   /**

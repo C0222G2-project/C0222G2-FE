@@ -42,6 +42,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   presentPage = 1;
   date: Date;
 
+
   constructor(private activatedRoute: ActivatedRoute, private orderService: OrderService, private notificationService: NotificationService, 
     private toastr: ToastrService, private title : Title
     ) {
@@ -50,23 +51,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       });
       this.title.setTitle("Gọi món");
       this.messageUnread = this.notificationService.keyArray;
+      // this.notificationService.requestPermission();
       this.date = new Date();
       this.notificationBox();
-      // this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      //   this.getDish(parseInt(paramMap.get('id')));
-      //   const order = {
-      //     quantity: 1,
-      //     dish: this.dish,
-      //     bill: 1,
-      //     employee: 1,
-      //     coffeeTable: {
-      //       id: '1',
-      //       code: 1,
-      //       status: true
-      //     }
-      //   }
-      //   this.orderMenu.push(order);
-      // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -114,6 +101,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
        this.dishes = dishes.content;
        // @ts-ignore
        this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+       // @ts-ignore
+      this.dishes = dishes.content;
+       // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
     });
   }
 
@@ -306,7 +297,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
 
   goNext() {
     let numberPage: number = this.presentPage;
-    
+
     if (numberPage < this.totalPages.length) {
       numberPage++;
       this.getAllDish(this.dishId, numberPage);
