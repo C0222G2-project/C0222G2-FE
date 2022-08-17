@@ -60,7 +60,6 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   createEmployee() {
-
     this.toggleLoading();
     const employee: Employee = this.employeeFormCreate.value;
     employee.address = employee.address.trim();

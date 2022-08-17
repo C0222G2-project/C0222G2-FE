@@ -54,7 +54,7 @@
 
             <div class="col-md-6">
               <label for="address" class="form-label title-input">Địa chỉ<span style="color: red"> (*)</span><span> :</span></label>
-              <input type="text" class="form-control" id="address" formControlName="address">
+              <input type="text" class="form-control" id="address" formControlName="address" placeholder="">
               <div *ngIf="!address.valid && (address.dirty || address.touched)">
                 <div class="text-danger" [hidden]="!address.errors.required">Vui lòng nhập thông tin địa chỉ.</div>
                 <div class="text-danger" [hidden]="!address.errors.minlength">Vui lòng nhập thông tin địa chỉ lớn hơn 6 kí tự.</div>
@@ -113,14 +113,14 @@
             <div class="row col-md-12">
 
               <div class="col-md-6 text-center">
-                <button class="w-75 btn btn-primary btn-search" [disabled]="isLoading">
+                <button class="w-75 btn btn-success btn-search" [disabled]="isLoading">
                   <img *ngIf="isLoading" width="26px" src="../../../assets/img/dieptt-loading-symbol.gif">
                   Lưu
                 </button>
               </div>
 
               <div class="col-md-6 text-center">
-                <a [routerLink]="['/employee']" type="button" class=" w-75 btn btn-secondary">Quay lại</a>
+                <a [routerLink]="['/employee']" type="button" class=" w-75 btn btn-danger">Quay lại</a>
               </div>
             </div>
           </div>
