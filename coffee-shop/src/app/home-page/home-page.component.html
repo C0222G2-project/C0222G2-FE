@@ -94,7 +94,8 @@
             <div class="text-in-box">
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
-              <button class="btn btn-light">Đặt món</button>
+              <button class="btn btn-light"
+              [routerLink]="['/order/screen', dish.id]">Đặt món</button>
             </div>
           </div>
         </div>
