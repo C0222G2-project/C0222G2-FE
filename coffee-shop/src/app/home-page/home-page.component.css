@@ -10,18 +10,44 @@
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  z-index: 999;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.notification-container{
+  width: 450px;
+  position: absolute;
+  top: 100%;
+  left: -200%;
+  display: none;
+}
+
+.notification-list{
+  list-style: none;
+  display: block;
+}
+
+.notification-title{
+  font-size: 18px;
+}
+
+.notification-body{
+  font-size: 20px;
 }
 
 .number-notification{
+  z-index: 999;
   position: relative;
   top: 0;
   left: 0;
+  font-size: 20px;
   background-color: red;
   color: white;
+  font-weight: 700;
   border-radius: 50%;
-  width: 10px;
-  height: 10px;
+  width: 40px;
+  height: 40px;
+  font-family: 'Bungee', cursive;
 }
 
 #demo img{

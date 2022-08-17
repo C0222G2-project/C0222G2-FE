@@ -7,6 +7,7 @@ import {DishType} from '../model/dish-type';
 import {Dish} from '../model/dish';
 
 
+
 @Component({
   selector: 'app-list-dish',
   templateUrl: './list-dish.component.html',

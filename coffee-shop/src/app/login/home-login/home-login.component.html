@@ -16,20 +16,23 @@
             <div class="form-floating mb-3 w-50 text-center m-auto">
               <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
                      formControlName="username">
-              <label for="floatingInput">Tên tài khoản <span class="text-danger">(*)</span> : </label>
+              <label for="floatingInput">Tài khoản <span class="text-danger">(*)</span> :
+                <span class="text-danger fs-10"
+                     *ngIf="loginForm.controls.username.hasError('required') && loginForm.controls.username.touched">Vui lòng
+                  nhập tên tài khoản.
+                </span>
+              </label>
             </div>
-            <div class="text-danger"
-                 *ngIf="loginForm.controls.username.hasError('required') && loginForm.controls.username.touched">Vui lòng
-              nhập tên tài khoản.
-            </div>
+
             <div class="form-floating my-3 w-50 text-center m-auto">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
                      formControlName="password">
-              <label for="floatingPassword">Mật khẩu <span class="text-danger">(*)</span> : </label>
-            </div>
-            <div class="text-danger"
-                 *ngIf="loginForm.controls.password.hasError('required') && loginForm.controls.password.touched">Vui lòng
-              nhập mật khẩu.
+              <label for="floatingPassword">Mật khẩu <span class="text-danger">(*)</span> :
+                <span class="text-danger fs-10"
+                     *ngIf="loginForm.controls.password.hasError('required') && loginForm.controls.password.touched">Vui lòng
+                  nhập mật khẩu.
+                </span>
+              </label>
             </div>
 
             <div class="checkbox my-3">
@@ -68,12 +71,14 @@
                       <div class="form-floating mb-3">
                         <input type="email" class="form-control" id="username"
                                placeholder="name@example.com" formControlName="username">
-                        <label for="username">Nhập tài khoản cần khôi phục <span class="text-danger">(*)</span> : </label>
+                        <label for="username">Nhập tài khoản cần khôi phục <span class="text-danger">(*)</span> :
+                          <span class="text-danger fs-10"
+                               *ngIf="forgotForm.controls.username.hasError('required') && forgotForm.controls.username.touched">
+                            Vui lòng nhập tên tài khoản
+                          </span>
+                        </label>
                       </div>
-                      <div class="text-danger"
-                           *ngIf="forgotForm.controls.username.hasError('required') && forgotForm.controls.username.touched">
-                        Tên tài khoản không được để trống.
-                      </div>
+
                     </div>
                   </div>
                   <div class="modal-footer">

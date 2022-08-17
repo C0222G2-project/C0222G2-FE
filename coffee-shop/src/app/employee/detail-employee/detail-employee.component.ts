@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {EmployeeService} from "../service/employee.service";
 import {IEmployeeDto} from "../model/employee/i-employee-dto";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-detail-employee',
@@ -12,7 +13,9 @@ import {IEmployeeDto} from "../model/employee/i-employee-dto";
 export class DetailEmployeeComponent implements OnInit {
   employeeDetailDTO: IEmployeeDto ={};
   constructor(private employeeService:EmployeeService, private activatedRoute:ActivatedRoute,private toast: ToastrService,
-              private router:Router) { }
+              private router:Router,private title:Title) {
+    this.title.setTitle("Chi tiết nhân viên");
+  }
 
   /**
    * Create by TuyenTN
@@ -33,6 +36,20 @@ export class DetailEmployeeComponent implements OnInit {
             },
             ()=>{})
       });
+  }
+
+  deleteEmployee(id: number) {
+    this.employeeService.deleteEmployee(id).subscribe(d => {
+      // @ts-ignore
+      this.toast.success('Xóa thành công!!!', 'Xóa Nhân Viên', 600);
+      this.router.navigateByUrl("employee");
+    }, error => {
+      if (error.status == 404) {
+        // @ts-ignore
+        this.toast.error('Xóa thất bại!!!', 'Xóa Nhân Viên', 600);
+        this.router.navigateByUrl("employee");
+      }
+    })
   }
 
 }

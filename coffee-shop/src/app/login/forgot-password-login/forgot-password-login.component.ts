@@ -3,66 +3,84 @@ import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/form
 import {ActivatedRoute, Router} from "@angular/router";
 import {ForgotService} from "../service/forgot.service";
 import {ToastrService} from "ngx-toastr";
+import {LogoutService} from "../service/logout.service";
+import {CookieService} from "../service/cookie.service";
+import {CommonService} from "../service/common.service";
 
 @Component({
-  selector: 'app-forgot-password-login',
-  templateUrl: './forgot-password-login.component.html',
-  styleUrls: ['./forgot-password-login.component.css']
+    selector: 'app-forgot-password-login',
+    templateUrl: './forgot-password-login.component.html',
+    styleUrls: ['./forgot-password-login.component.css']
 })
 export class ForgotPasswordLoginComponent implements OnInit {
-  changePasswordForm: FormGroup;
-  token: string;
+    changePasswordForm: FormGroup;
+    private token;
+    private tokenLogout = this.cookieService.getCookie('jwToken');
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private forgotService: ForgotService,
-              private toastrService: ToastrService,
-              private router: Router) {
-    this.activatedRoute.paramMap.subscribe(value => {
-      this.token = value.get("token");
-    }, error => {
-    }, () => {
-      console.log(this.token)
-    })
-  }
-
-  ngOnInit(): void {
-    this.createChangePasswordForm(this.token);
-  }
-
-  createChangePasswordForm(token: string) {
-    this.changePasswordForm = new FormGroup({
-      token: new FormControl(token),
-      pass: new FormGroup({
-        password: new FormControl('', [Validators.required]),
-        confirmPassword: new FormControl('', [Validators.required])
-      }, this.checkConfirmPassword)
-    })
-  }
-
-  checkConfirmPassword(pass: AbstractControl) {
-    let value = pass.value;
-    if (value.password != value.confirmPassword) {
-      return {'confirm': true};
-    }
-    return null;
-  }
-
-  onChangePassword() {
-    this.forgotService.onFindPassword(this.changePasswordForm.value).subscribe(value => {
-      setTimeout(() => {
-        this.router.navigateByUrl("/login").then(() => {
-          this.toastrService.success("Đổi mật khẩu thành công!");
+    constructor(private activatedRoute: ActivatedRoute,
+                private forgotService: ForgotService,
+                private toastrService: ToastrService,
+                private router: Router,
+                private logoutService: LogoutService,
+                private cookieService: CookieService,
+                private commonService: CommonService) {
+        this.activatedRoute.paramMap.subscribe(value => {
+            this.token = value.get("token");
+        }, error => {
+        }, () => {
         })
-      }, 1000)
-      this.router.navigateByUrl("/loading").then(()=> {
-      })
-    }, error => {
-      console.log(error)
-      this.router.navigateByUrl("/login").then(value => {
-        this.toastrService.warning("Có vẻ như liên kết của bạn đã hết hạn hãy thử lại sau ít phút!")
-      })
-    }, () => {
+        this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(value => {
+            this.cookieService.deleteAllCookies();
+            this.cookieService.removeAllCookies();
+            this.sendMessage();
+        })
+        this.createChangePasswordForm(this.token);
+    }
 
-    });
-  }
+    ngOnInit(): void {
+    }
+
+    createChangePasswordForm(token: string) {
+        this.changePasswordForm = new FormGroup({
+            token: new FormControl(token),
+            pass: new FormGroup({
+                password: new FormControl('', [Validators.required]),
+                confirmPassword: new FormControl('', [Validators.required])
+            }, this.checkConfirmPassword)
+        })
+    }
+
+    checkConfirmPassword(pass: AbstractControl) {
+        let value = pass.value;
+        if (value.password != value.confirmPassword) {
+            return {'confirm': true};
+        }
+        return null;
+    }
+
+    onChangePassword() {
+        if (this.changePasswordForm.valid) {
+            this.forgotService.onFindPassword(this.changePasswordForm.value).subscribe(value => {
+                setTimeout(() => {
+                    this.router.navigateByUrl("/login").then(() => {
+                        this.toastrService.success("Đổi mật khẩu thành công!");
+                    })
+                }, 1000)
+                this.router.navigateByUrl("/loading").then(() => {
+                })
+            }, error => {
+                this.router.navigateByUrl("/login").then(value => {
+                    this.toastrService.warning("Có vẻ như liên kết của bạn đã hết hạn hãy thử lại sau ít phút!")
+                })
+            }, () => {
+            });
+        } else {
+            this.toastrService.error('Vui lòng nhập đúng dữ liệu!');
+        }
+    }
+
+    sendMessage(): void {
+        // send message to subscribers via observable subject
+        this.commonService.sendUpdate('Đăng Nhập thành công!');
+    }
 }

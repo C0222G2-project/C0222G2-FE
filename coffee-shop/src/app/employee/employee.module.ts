@@ -9,6 +9,7 @@ import {EmployeeRoutingModule} from './employee-routing.module';
 import {ShareModule} from '../share/share.module';
 import {ToastrModule} from "ngx-toastr";
 import {ReactiveFormsModule} from "@angular/forms";
+import { PhoneFormatPipe } from './phone-format.pipe';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     DetailEmployeeComponent,
     EditEmployeeComponent,
     ListEmployeeComponent,
-    AddEmployeeComponent],
+    AddEmployeeComponent,
+    PhoneFormatPipe],
   exports: [
     EditEmployeeComponent,
     AddEmployeeComponent,
