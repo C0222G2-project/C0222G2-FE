@@ -5,6 +5,7 @@ import {DishWithTimeCreate} from './model/DishWithTimeCreate';
 import {ToastrService} from 'ngx-toastr';
 import {CookieService} from '../login/service/cookie.service';
 import {Title} from "@angular/platform-browser";
+import { NotificationService } from '../order/service/notification.service';
 
 @Component({
   selector: 'app-home-page',
@@ -17,12 +18,16 @@ export class HomePageComponent implements OnInit {
   checkData: boolean = true;
   role: string = '';
   token: string = '';
+  messagedUnread = [];
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
               private cookieService: CookieService,
-              private title : Title) {
+              private title : Title,
+              private notification: NotificationService,
+              private toastr: ToastrService) {
     this.title.setTitle("Trang Chủ");
+    this.messagedUnread = this.notification.keyArray;
   }
 
   ngOnInit(): void {
@@ -66,6 +71,17 @@ export class HomePageComponent implements OnInit {
       this.checkData = false;
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖi');
     });
+  }
+
+  /**
+   *  Author: BinhPX
+   *  Date: 17/08/2022
+   */
+  notificationBox(){
+    this.messagedUnread.forEach(items => {
+      this.toastr.warning(items.body, items.title, {timeOut: 2000, progressBar: true});
+    });
+    // console.log(this.messageUnread);
   }
 
 }

@@ -51,42 +51,7 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="col-8 btn-container service-container d-flex flex-row-reverse">-->
-<!--                <div class="row show-service-on-desktop flex-row-reverse">-->
-<!--                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"-->
-<!--                        style="font-size: 20px; align-content: center" (click)="sendNotification('Gọi phục vụ', 'T-001', 'yêu cầu phục vụ')">-->
-<!--                        Gọi phục vụ-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"-->
-<!--                        style="font-size: 20px; align-content: center">-->
-<!--                        Phản hồi-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"-->
-<!--                        style="font-size: 20px; align-content: center">-->
-<!--                        Game-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <div class="show-service-on-mobile">-->
-<!--                    < mat-icon-button class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3"-->
-<!--                    style="font-size: 20px; align-content: center"-->
-<!--                    aria-label="Example icon-buttson with menu icon" (click)="openMenuService()">-->
-<!--                    <button mat-menu-item class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3"-->
-<!--                    style="font-size: 20px; align-content: center" (click)="openMenuService()">-->
-<!--                        Menu-->
-<!--                    </button>-->
-<!--                    <ul class="list-group menu-onMobile" *ngIf="hideMenu">-->
-<!--                        <li class="list-group-item p-3" (click)="sendNotification('Gọi phục vụ', 'T-001', 'yêu cầu phục vụ')"><p class="text-dark m-0">Gọi phục vụ</p></li>-->
-<!--                        <li class="list-group-item p-3"><p class="text-dark m-0">Phản hồi</p></li>-->
-<!--                        <li class="list-group-item p-3"><p class="text-dark m-0">Game</p></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
-        <!-- <div class="row d-flex justify-content-center" >
-            <div class="notification" *ngIf="messageUnread.length != 0">
-                <p>{{messageUnread.length}}</p>
-            </div>
-        </div> -->
         <div class="row mt-3">
             <div class="col-md-12 col-xl-12">
                 <div class="container">
@@ -183,7 +148,7 @@
                 <h2 class="text-center mt-5 mb-5 order-header text-dark">Menu gọi món</h2>
                 <ul class="row menu-order-list mt-5">
                     <li *ngFor="let disheType of dishTypes" class="menu-order-list-item col-3 text-center">
-                        <h5 class="m-0 menu-order-list-content text-dark" (click)="getAllDish(disheType.id, presentPage)">{{disheType.name}}</h5>
+                        <h5 class="m-3 menu-order-list-content text-dark" (click)="getAllDish(disheType.id, presentPage)">{{disheType.name}}</h5>
                     </li>
                 </ul>
                 <div class="col-md-12 col-xl-12 py-2">

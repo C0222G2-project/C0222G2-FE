@@ -41,7 +41,7 @@ export class NotificationService {
       body: tableCoffe + " yêu cầu " + requestConent,
       role: this.role,
       date: this.date.toJSON(),
-      status: 'true'
+      status: 'false'
     }
     this.db.list("/notification").push(this.notification);
     this.sendNotificationToFirebase();
@@ -73,9 +73,10 @@ export class NotificationService {
 
   requestPermission() {
     this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        let user = this.cookieService.getCookie('username')
-        this.sendTokenToFcm(user, token);
+      (token) => { 
+        let user = this.cookieService.getCookie('username');
+        let role = this.cookieService.getCookie('role');
+        this.sendTokenToFcm(user, token, role);
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
@@ -106,17 +107,19 @@ export class NotificationService {
     });
   }
 
-  sendTokenToFcm(user: string, token: string){
+  sendTokenToFcm(user: string, token: string, userrole: string){
     this.registerToken = token;
     const content = {
       user: user,
       token: token,
-      status: "new"
+      userrole: userrole,
+      status: "false"
     }
     this.db.list("/token").push(content);
   }
 
   getTokenFromFcm(){
+    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('userrole').equalTo('ROLE_STAFF')).snapshotChanges();
     this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('user').equalTo('manager')).snapshotChanges();
     this.tokenFCM.subscribe(
       actions => {
@@ -129,13 +132,12 @@ export class NotificationService {
       }
     );
     this.registerTokenArray.forEach(items => {
-      this.registerToken = items.replace('""', '');
+      this.registerToken = items;
     });
-    console.log(this.registerToken);
   }
 
   removeToken(){
-    this.db.list('/token', ref => ref.orderByChild('status').equalTo('new')).update('status', {text: 'old'});
+    
   }
 }
 
