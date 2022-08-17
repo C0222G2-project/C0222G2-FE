@@ -8,6 +8,7 @@ import {AuthService} from "../service/auth.service";
 import {ForgotService} from "../service/forgot.service";
 import {CommonService} from "../service/common.service";
 import {Subscription} from "rxjs";
+import { NotificationService } from 'src/app/order/service/notification.service';
 
 @Component({
   selector: 'app-home-login',
@@ -27,7 +28,8 @@ export class HomeLoginComponent implements OnInit {
               private loginService: LoginService,
               private authService: AuthService,
               private forgotService: ForgotService,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private notificationService: NotificationService) {
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
       this.messageReceived = message;
     });
@@ -46,15 +48,15 @@ export class HomeLoginComponent implements OnInit {
 
   createLoginForm(username: string, password: string) {
     this.loginForm = new FormGroup({
-      username: new FormControl(username, [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')]),
-      password: new FormControl(password, [Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$')]),
+      username: new FormControl(username, [Validators.required]),
+      password: new FormControl(password, [Validators.required]),
       stayLogged: new FormControl()
     })
   }
 
   createForgotForm() {
     this.forgotForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')])
+      username: new FormControl('', [Validators.required])
     })
   }
 
@@ -80,6 +82,10 @@ export class HomeLoginComponent implements OnInit {
             break;
         }
       }, () => {
+        this.router.navigateByUrl('/home').then(() => {
+          this.notificationService.requestPermission();
+          this.toastrService.success("Đăng nhập thành công!")
+        });
         setTimeout(()=> {
           this.router.navigateByUrl('/home').then(() => {
             this.toastrService.success("Đăng nhập thành công!")

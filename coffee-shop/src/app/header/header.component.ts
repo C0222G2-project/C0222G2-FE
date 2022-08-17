@@ -48,14 +48,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    console.log("b")
     setTimeout(()=> {
       if (this.cookieService.getCookie('jwToken') != null) {
         this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
           this.cookieService.deleteAllCookies();
-          console.log("a")
         }, error => {
-          console.log(error)
           switch (error.error) {
             case 'isLogout':
               this.toastrService.warning('Bạn chưa đăng nhập!');
@@ -64,6 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               this.cookieService.deleteAllCookies();
               this.router.navigateByUrl('/login').then(() => {
                 this.toastrService.warning('Hết phiên đăng nhập vui lòng đăng nhập lại!');
+                this.sendMessage();
               });
               break;
           }
@@ -90,3 +88,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.commonService.sendUpdate('Đăng Xuất thành công!');
   }
 }
+
+
+
+
+
+
+
