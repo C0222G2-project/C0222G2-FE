@@ -10,7 +10,7 @@ import {CookieService} from "../../login/service/cookie.service";
 })
 
 export class PaymentOrderService {
-  
+
   private header = "Bearer " + this.cookieService.getCookie('jwToken');
   private URL_GET_COFFEE_TABLE_PAGE = "http://localhost:8080/api/payment/page";
   private URL_GET_LIST_BY_ID = "http://localhost:8080/api/payment/list";
