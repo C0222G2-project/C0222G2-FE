@@ -2,12 +2,15 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ListFeedbackComponent} from './list-feedback/list-feedback.component';
 import {CreateFeedbackComponent} from "./create-feedback/create-feedback.component";
+import {ListBillComponent} from "../bill/list-bill/list-bill.component";
+import {AdminGuard} from "../login/authguard/admin.guard";
 
 
 const routes: Routes = [
   {
     path: 'feedback',
-    component: ListFeedbackComponent
+    component: ListFeedbackComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'createFeedback',

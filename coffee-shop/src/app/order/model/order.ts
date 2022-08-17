@@ -1,13 +1,12 @@
-import { Bill } from "./bill";
-import { CoffeTable } from "./coffe-table";
-import { Dish } from "./dish";
-import { Employee } from "./employee";
+
+import { Bill } from "src/app/bill/model/bill";
+import { Dish } from "src/app/dish/model/dish";
+import { Employee } from "src/app/employee/model/employee/employee";
+import { CoffeeTable } from "./CoffeeTable";
 
 export interface Order {
-    id: number;
-    code: string;
     quantity: number;
-    coffeeTable: CoffeTable;
+    coffeeTable: CoffeeTable;
     bill: Bill;
     employee: Employee;
     dish: Dish;

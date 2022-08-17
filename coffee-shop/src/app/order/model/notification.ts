@@ -1,5 +1,7 @@
 export interface NotificationOfCoffeStore {
     title: string;
     body: string;
-    status: boolean;
+    status: string;
+    role: string;
+    date: string;
 }

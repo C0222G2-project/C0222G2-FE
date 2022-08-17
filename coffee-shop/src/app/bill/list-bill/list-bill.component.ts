@@ -5,6 +5,7 @@ import {BillService} from "../service/bill.service";
 import {ToastrService} from "ngx-toastr";
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
