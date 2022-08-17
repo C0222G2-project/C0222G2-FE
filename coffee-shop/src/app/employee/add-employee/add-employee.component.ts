@@ -58,6 +58,9 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   createEmployee() {
+    this.employeeFormCreate.value.username.trim();
+    this.employeeFormCreate.value.address.trim();
+    this.employeeFormCreate.value.salary.trim();
     this.toggleLoading();
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRel = this.storage.ref(nameImg);
@@ -68,9 +71,6 @@ export class AddEmployeeComponent implements OnInit {
           const appUser: AppUser = {
             userName: this.employeeFormCreate.value.username
           }
-          this.employeeFormCreate.value.username.trim();
-          this.employeeFormCreate.value.address.trim();
-          this.employeeFormCreate.value.salary.trim();
           const employee: Employee = this.employeeFormCreate.value;
           employee.appUser = appUser;
           if (this.employeeFormCreate.valid) {
