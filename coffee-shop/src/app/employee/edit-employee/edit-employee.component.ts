@@ -42,6 +42,7 @@ export class EditEmployeeComponent implements OnInit {
         this.employee = data;
         if(data == null){
           this.toast.warning("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+          this.router.navigateByUrl('/employee').then();
         }
         this.getAllUser();
         this.getAllPosition();
@@ -110,7 +111,6 @@ export class EditEmployeeComponent implements OnInit {
               error => {
                 console.log(error);
               });
-
           });
         })
       ).subscribe();
