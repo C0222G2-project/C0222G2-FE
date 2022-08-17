@@ -35,4 +35,18 @@ export class DetailEmployeeComponent implements OnInit {
       });
   }
 
+  deleteEmployee(id: number) {
+    this.employeeService.deleteEmployee(id).subscribe(d => {
+      // @ts-ignore
+      this.toast.success('Xóa thành công!!!', 'Xóa Nhân Viên', 600);
+      this.router.navigateByUrl("employee");
+    }, error => {
+      if (error.status == 404) {
+        // @ts-ignore
+        this.toast.error('Xóa thất bại!!!', 'Xóa Nhân Viên', 600);
+        this.router.navigateByUrl("employee");
+      }
+    })
+  }
+
 }
