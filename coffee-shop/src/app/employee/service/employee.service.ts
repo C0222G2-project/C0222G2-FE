@@ -11,9 +11,9 @@ import {CookieService} from "../../login/service/cookie.service";
   providedIn: 'root'
 })
 export class EmployeeService {
-  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
-  private URL_EMPLOYEE = "http://localhost:8080/rest";
   // private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
+  private URL_EMPLOYEE = "http://localhost:8080/rest";
+  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {
   }

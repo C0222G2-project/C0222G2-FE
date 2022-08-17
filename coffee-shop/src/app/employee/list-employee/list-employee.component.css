@@ -89,24 +89,27 @@ table th a:hover{
   border: 1px solid white;
 }
 
-/*.hide_content {*/
-/*  text-overflow: ellipsis;*/
-/*  overflow: hidden;*/
-/*  white-space: nowrap;*/
-/*  width: 16%;*/
-/*}*/
-
 div p{
   color: white;
   font-weight: 600;
   text-align: center;
 }
 
-.tooltipHieu {
+.hide-width-row {
   position: relative;
   display: inline-block;
   text-overflow: ellipsis;
   width: 200px;
   overflow: hidden;
   white-space: nowrap;
+}
+.number-pages{
+  padding-left: 10px;
+  background: white;
+  color: blue;
+  width: 50px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border-radius: 45%;
 }
