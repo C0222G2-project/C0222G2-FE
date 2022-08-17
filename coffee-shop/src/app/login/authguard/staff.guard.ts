@@ -15,7 +15,7 @@ export class StaffGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.cookieService.getCookie("role") != "ROLE_ADMIN" || this.cookieService.getCookie("role") != "ROLE_STAFF") {
+    if (this.cookieService.getCookie("role") == "ROLE_ADMIN" || this.cookieService.getCookie("role") != "ROLE_STAFF") {
       this.router.navigateByUrl("/error403").then(() => {
         this.toastrService.error("Bạn không có quyền truy cập!")
       })

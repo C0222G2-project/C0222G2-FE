@@ -1,7 +1,8 @@
-import { Bill } from "./bill";
+
+import { Bill } from "src/app/bill/model/bill";
+import { Dish } from "src/app/dish/model/dish";
+import { Employee } from "src/app/employee/model/employee/employee";
 import { CoffeeTable } from "./CoffeeTable";
-import { Dish } from "./dish";
-import { Employee } from "./employee";
 
 export interface Order {
     quantity: number;

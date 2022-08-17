@@ -6,7 +6,7 @@ import {ChangePasswordLoginComponent} from './change-password-login/change-passw
 import {Error403PageComponent} from "./error403-page/error403-page.component";
 import {LoadingComponent} from "./loading/loading.component";
 import {LoginGuard} from "./authguard/login.guard";
-
+import {Error404PageComponent} from "./error404-page/error404-page.component";
 
 const routes: Routes = [
   {

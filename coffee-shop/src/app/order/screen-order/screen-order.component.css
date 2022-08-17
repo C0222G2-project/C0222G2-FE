@@ -24,6 +24,7 @@ iframe {
 
 .main {
 }
+
 .btn-close{
     width: 35px !important;
     height: 35px !important;
@@ -44,6 +45,7 @@ iframe {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 
 .modal-header{
     padding: 20px !important;
@@ -245,6 +247,10 @@ iframe {
         display: block;
         position: relative;
     }
+    .menu-onMobile{
+        position: absolute;
+        top: 40px;
+    }
 
     .show-service-on-desktop{
         display: none;
@@ -256,6 +262,7 @@ iframe {
         display: flex;
     }
 }
+
 
 /**
  * Creator: DiepTT
@@ -333,3 +340,4 @@ iframe {
 .modal-footer{
   padding-right: 0px;
 }
+

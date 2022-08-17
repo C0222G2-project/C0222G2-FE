@@ -33,7 +33,6 @@ export class ListFeedbackComponent implements OnInit {
   checkSortOrNot: boolean = false;
   checkSort: boolean = false;
   checkNameCreator: boolean = false;
-  checkToast: boolean = false;
 
 
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
@@ -70,8 +69,6 @@ export class ListFeedbackComponent implements OnInit {
   checkInputBirthday(startDate: AbstractControl) {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if (value >= curDate) {
-    }
     if (value >= curDate) {
       return {'checkDate': true}
     }
@@ -135,6 +132,7 @@ export class ListFeedbackComponent implements OnInit {
    * Function : search
    */
   getSearch() {
+    this.checkSort = false;
     this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
     if (this.searchForm.value.searchName == null) {
       this.name = '';
