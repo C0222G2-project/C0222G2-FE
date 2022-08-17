@@ -35,9 +35,9 @@ import {environment} from '../environments/environment';
       {
         timeOut: 2000,
         closeButton: true,
-        progressBar: true,
+        // progressBar: true,
         positionClass: 'toast-top-left',
-        preventDuplicates: true,
+        // preventDuplicates: true,
       }
     ),
     EmployeeModule,
