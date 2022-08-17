@@ -44,7 +44,7 @@ export class EditEmployeeComponent implements OnInit {
         // @ts-ignore
         this.employee = data;
         if(data == null){
-          this.toast.warning("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+          this.toast.error("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
           this.router.navigateByUrl('/employee').then();
         }
         this.getAllUser();
@@ -99,9 +99,6 @@ export class EditEmployeeComponent implements OnInit {
       this.employeeService.updateEmployee(employee).subscribe((data) => {
           this.toast.success('Cập nhật thành công', 'Thông báo!!!')
           this.router.navigateByUrl('/employee').then();
-        },
-        error => {
-          console.log(error);
         });
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
@@ -114,9 +111,6 @@ export class EditEmployeeComponent implements OnInit {
             this.employeeService.updateEmployee(employee).subscribe((data) => {
                 this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
-              },
-              error => {
-                console.log(error);
               });
           });
         })
