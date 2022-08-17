@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Dish} from "../../model/dish";
 import {DishService} from "../../service/dish.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {DishType} from "../model/dish-type";
+import {Dish} from "../model/dish";
 
 @Component({
   selector: 'app-list-dish',

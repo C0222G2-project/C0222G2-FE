@@ -1,38 +1,55 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireDatabase} from '@angular/fire/database';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject} from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { CookieService } from 'src/app/login/service/cookie.service';
 import { NotificationOfCoffeStore } from '../model/notification';
-
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  registerToken = 'e4rMzxG6l7bdjopV4_PRrx:APA91bEcTFteJTi99y1o10llxxogKj5QwR9mK-vJq1cblmbLxJfVCGSQa3T3s4JVnp-cvcuX1rRdXh_xMPtezQJucjybrxs2ORsnqblNgg3b96KY304QKHoMkJW8EFt-hKBpB6Gt-JLu';
+
+  keyArray = [];
+  containerMessengeUnread = [];
+  registerTokenArray = [];
+  registerToken= '';
+  role: string = '';
+  username: string ='';
+  messagedUnread: Observable<any[]>;
+  tokenFCM: Observable<any[]>;
   notification: NotificationOfCoffeStore;
   currentMessage= new BehaviorSubject(null);
-  constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging) { 
+  date = new Date();
+  temp;
+
+  constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging,
+    private cookieService: CookieService) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
         _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     )
+    this.writeMessage();
+    this.getTokenFromFcm();
   }
 
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notification = {
       title: titleContent,
       body: tableCoffe + " yêu cầu " + requestConent,
-      status: false
+      role: this.role,
+      date: this.date.toJSON(),
+      status: 'false'
     }
-    this.db.list("/notification/user").push(this.notification);
+    this.db.list("/notification").push(this.notification);
     this.sendNotificationToFirebase();
   }
 
   sendNotificationToFirebase(){
     const content = {
-                  to: "foflfvQOl85oJDgx6Bbe61:APA91bHmaKr_6g0BWYDXD9IOzKStJDJtQNDSxcjoe0xNzO52VeFv6RpeSKasvrYR6_ZeyLAQ9JNe0cZiShy4IdhNbawqQOmyrpHUjLRmhnjdlRiOGOsMcNTQSotBqJYFPSsWE-cjxPo4",
+                  to: this.registerToken,
                   notification: {
                       title: this.notification.title,
                       body: this.notification.body,
@@ -56,8 +73,10 @@ export class NotificationService {
 
   requestPermission() {
     this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        console.log(token);
+      (token) => { 
+        let user = this.cookieService.getCookie('username');
+        let role = this.cookieService.getCookie('role');
+        this.sendTokenToFcm(user, token, role);
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
@@ -65,12 +84,60 @@ export class NotificationService {
     );
   }
 
-  receiveMessage() {
-    this.angularFireMessaging.messages.subscribe(
-    (payload) => {
-      console.log("new message received. ", payload);
-      this.currentMessage.next(payload);
-    })
+  setPermitGetNotification(){
+    if(this.cookieService.getCookie('role') == 'ROLE_ADMIN'){
+      this.role = this.cookieService.getCookie('role');
+      this.username = this.cookieService.getCookie('username');
+    }
+  }
+
+  writeMessage(){
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('true')).snapshotChanges();
+    this.messagedUnread.subscribe((actions) => {
+        actions.forEach(action => {
+          this.notification = {
+            title: action.payload.val().title,
+            body: action.payload.val().body,
+            role: action.payload.val().role,
+            date: action.payload.val().date,
+            status: action.payload.val().status
+          }
+          this.keyArray.push(this.notification);
+        });
+    });
+  }
+
+  sendTokenToFcm(user: string, token: string, userrole: string){
+    this.registerToken = token;
+    const content = {
+      user: user,
+      token: token,
+      userrole: userrole,
+      status: "false"
+    }
+    this.db.list("/token").push(content);
+  }
+
+  getTokenFromFcm(){
+    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('userrole').equalTo('ROLE_STAFF')).snapshotChanges();
+    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('user').equalTo('manager')).snapshotChanges();
+    this.tokenFCM.subscribe(
+      actions => {
+        actions.forEach(
+          action => {
+            this.temp = action.payload.val().token;
+            this.registerTokenArray.push(this.temp);
+          }
+        );
+      }
+    );
+    this.registerTokenArray.forEach(items => {
+      this.registerToken = items;
+    });
+  }
+
+  removeToken(){
+    
   }
 }
 
