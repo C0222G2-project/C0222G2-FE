@@ -8,6 +8,7 @@ import {AuthService} from "../service/auth.service";
 import {ForgotService} from "../service/forgot.service";
 import {CommonService} from "../service/common.service";
 import {Subscription} from "rxjs";
+import { NotificationService } from 'src/app/order/service/notification.service';
 
 @Component({
   selector: 'app-home-login',
@@ -27,7 +28,8 @@ export class HomeLoginComponent implements OnInit {
               private loginService: LoginService,
               private authService: AuthService,
               private forgotService: ForgotService,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private notificationService: NotificationService) {
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
       this.messageReceived = message;
     });
@@ -80,6 +82,10 @@ export class HomeLoginComponent implements OnInit {
             break;
         }
       }, () => {
+        this.router.navigateByUrl('/home').then(() => {
+          this.notificationService.requestPermission();
+          this.toastrService.success("Đăng nhập thành công!")
+        });
         setTimeout(()=> {
           this.router.navigateByUrl('/home').then(() => {
             this.toastrService.success("Đăng nhập thành công!")
