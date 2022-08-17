@@ -52,6 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (this.cookieService.getCookie('jwToken') != null) {
         this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
           this.cookieService.deleteAllCookies();
+          this.cookieService.removeAllCookies();
         }, error => {
           switch (error.error) {
             case 'isLogout':

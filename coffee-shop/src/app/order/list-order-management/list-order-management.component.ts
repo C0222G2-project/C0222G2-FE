@@ -20,7 +20,8 @@ export class ListOrderManagementComponent implements OnInit {
   idTable: number;
   codeTable: any;
   size: number;
-
+  tableOn: boolean = false;
+  tableOff: boolean = true;
   constructor(private paymentOrderService: PaymentOrderService,
               private toast: ToastrService,
               private title: Title) {
@@ -79,7 +80,6 @@ export class ListOrderManagementComponent implements OnInit {
   getListById(id: number) {
     this.paymentOrderService.getListTableById(id).subscribe(d => {
       this.listOrderInTable = d;
-
       this.codeTable = d[0].code;
     }, error => {
     }, () => {

@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'bill/detail',
     component: DetailBillComponent,
     canActivate: [AdminGuard]
-  },
+  }
 ];
 
 @NgModule({
