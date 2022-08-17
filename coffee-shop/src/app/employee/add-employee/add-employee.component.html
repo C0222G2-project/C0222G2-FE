@@ -27,7 +27,7 @@
                 <div class="text-danger" [hidden]="!username.errors.minlength">Vui lòng nhập trên 6 kí tự.</div>
                 <div class="text-danger" [hidden]="!username.errors.maxlength">Vui lòng nhập ít hơn 30 kí tự.</div>
                 <div class="text-danger" [hidden]="!username.errors.required">Vui lòng nhập tên tài khoản.</div>
-                <div class="text-danger" [hidden]="!username.errors.userNameExists">tài khoản tồn tại.</div>
+                <div class="text-danger" [hidden]="!username.errors.userNameExists">Tài khoản bạn nhập đã tồn tại.</div>
               </div>
             </div>
 
@@ -114,7 +114,7 @@
 
               <div class="col-md-6 text-center">
                 <button class="w-75 btn btn-primary btn-search" [disabled]="isLoading">
-                  <img *ngIf="isLoading" width="25px" src="../../../assets/img/dieptt-loading-symbol.gif">
+                  <img *ngIf="isLoading" width="26px" src="../../../assets/img/dieptt-loading-symbol.gif">
                   Lưu
                 </button>
               </div>

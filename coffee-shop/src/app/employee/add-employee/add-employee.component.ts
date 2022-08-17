@@ -65,6 +65,9 @@ export class AddEmployeeComponent implements OnInit {
     space.salary.trim();
     space.address.trim();
     this.toggleLoading();
+    if(this.selectedImage == null) {
+      return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
+    }
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRel = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
@@ -95,9 +98,8 @@ export class AddEmployeeComponent implements OnInit {
               }
             })
           }else {
-            this.toast.warning(' Dữ liệu bạn nhập đang bị lỗi hoặc bạn chưa nhập đủ dữ liệu!', 'Thông báo!!!');
+            return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
           }
-
         })
       })
     ).subscribe();

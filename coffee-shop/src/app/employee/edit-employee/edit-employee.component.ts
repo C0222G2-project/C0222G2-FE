@@ -88,18 +88,18 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   updateEmployee() {
-    const space = this.employeeFormEdit.value;
-    space.username.trim();
-    space.salary.trim();
-    space.address.trim();
     this.toggleLoading();
     if (this.selectedImage == null) {
       let employee: Employee = this.employeeFormEdit.value;
       // @ts-ignore
+      if(this.employeeFormEdit.valid){
       this.employeeService.updateEmployee(employee).subscribe((data) => {
           this.toast.success('Cập nhật thành công', 'Thông báo!!!')
           this.router.navigateByUrl('/employee').then();
         });
+      }else {
+        return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+      }
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
@@ -108,10 +108,14 @@ export class EditEmployeeComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
-            this.employeeService.updateEmployee(employee).subscribe((data) => {
+            if(this.employeeFormEdit.valid){
+              this.employeeService.updateEmployee(employee).subscribe((data) => {
                 this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
               });
+            }else {
+              return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+            }
           });
         })
       ).subscribe();
