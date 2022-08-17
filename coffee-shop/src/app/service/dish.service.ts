@@ -11,13 +11,11 @@ export class DishService {
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   private URL_DISH = "http://localhost:8080/dish"
   private URL_DISH_TYPE = "http://localhost:8080/dishType"
-  constructor(private httpClient: HttpClient,
-              private cookieService: CookieService) {
-  }
 
-  // getDishPage(page: number): Observable<Dish[]> {
-  //   return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page);
-  // }
+  constructor(private httpClient: HttpClient,
+              private cookieService: CookieService) {}
+
+
   getDishPage(page: number,dishName:string,dishCode:String,dishPrice:string,dishTypeId:string): Observable<Dish[]> {
 
     return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page+"&dishName="+dishName+"&dishCode="+dishCode+"&dishPrice="+dishPrice+"&dishTypeId="+dishTypeId, {headers: new HttpHeaders({'authorization': this.header})});
@@ -26,19 +24,11 @@ export class DishService {
 
   deleteDishById(id: number): Observable<Dish> {
     // @ts-ignore
-    return this.httpClient.patch<Dish>(this.URL_DISH + "/delete/" + id)
-  }
-
-  getDishPageSearch(searchObj: any): Observable<Dish[]> {
-    let dishName = searchObj.dishName;
-    let dishCode = searchObj.dishCode;
-    let dishPrice = searchObj.dishPrice;
-    let dishTypeId = searchObj.dishTypeId;
-    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish"+"?dishName="+dishName+"&dishCode="+dishCode+"&dishPrice="+dishPrice+"&dishTypeId="+dishTypeId);
+    return this.httpClient.patch<Dish>(this.URL_DISH + "/delete/" + id,{headers: new HttpHeaders({'authorization': this.header})})
   }
 
   getAllDishType(): Observable<Dish[]>{
-    return this.httpClient.get<Dish[]>(this.URL_DISH_TYPE+"/dish_list");
+    return this.httpClient.get<Dish[]>(this.URL_DISH_TYPE+"/getDishTypeList",{headers: new HttpHeaders({'authorization': this.header})});
   }
 
 }

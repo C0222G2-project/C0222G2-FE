@@ -20,21 +20,12 @@
               </div>
               <br>
               <div class="d-flex">
-                <label for="service_type">_Loại món: </label>
+                <label for="service_type">Loại món: </label>
                 <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel="" class="form-control">
                   <option value="">Chọn loại món</option>-->
-                  <option *ngFor="let element of dishTypeArray" value="{{element.code}}">{{element.name}}</option>
+                  <option *ngFor="let element of dishTypeArray"
+                          value="{{element.id}}">{{element.name}}</option>
                 </select>
-<!--                <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel=""-->
-<!--                        class="form-control">-->
-<!--                  <option value="">Chọn loại món</option>-->
-<!--                  <option value="1">Coffee</option>-->
-<!--                  <option value="2">Bánh</option>-->
-<!--                  <option value="3">Nước tăng lực</option>-->
-<!--                  <option value="4">Nước trái cây</option>-->
-<!--                  <option value="5">Trà sữa</option>-->
-<!--                </select>-->
-
                 <label for="price">Giá :</label>
                 <input id="price" type="number" class="form-control" name="dishPrice" formControlName="dishPrice"
                        placeholder="Nhập giá món">
@@ -78,7 +69,7 @@
               <td>
                 <a href="" [routerLink]="['/dish/edit', element.id]" class="btn btn-outline-warning">
                   <i class="fa-solid fa-pen-to-square"></i>
-               </a>
+                </a>
               </td>
               <td>
                 <!-- Button trigger modal -->
@@ -112,7 +103,7 @@
           </table>
           <h3 *ngIf="dishArray.length==0" style="color: white; text-align: center">Không có dữ liệu</h3>
           <br>
-          <nav aria-label="Page navigation example" [hidden]="dishArray.length ==0">
+          <nav aria-label="Page navigation example" [hidden]="dishArray.length==0">
             <ul class="pagination justify-content-end">
               <div *ngIf="number == 0">
                 <li class="page-item disabled">
