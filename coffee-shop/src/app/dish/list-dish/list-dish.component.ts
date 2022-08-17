@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DishService} from "../../service/dish.service";
-import {FormControl, FormGroup} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import {DishType} from "../model/dish-type";
-import {Dish} from "../model/dish";
+import {DishService} from '../../service/dish.service';
+import {FormControl, FormGroup} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
+import {DishType} from '../model/dish-type';
+import {Dish} from '../model/dish';
 
 
 @Component({
@@ -35,7 +35,7 @@ export class ListDishComponent implements OnInit {
   getAllDishType() {
     this.dishService.getAllDishType().subscribe(data => {
       this.dishTypeArray = data;
-      console.log(data)
+      console.log(data);
     });
   }
 
@@ -121,5 +121,16 @@ export class ListDishComponent implements OnInit {
     });
   }
 
-
+  goStart() {
+    this.getDishPage(0, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
+  goEnd(){
+    this.getDishPage(this.totalPages-1, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
 }
