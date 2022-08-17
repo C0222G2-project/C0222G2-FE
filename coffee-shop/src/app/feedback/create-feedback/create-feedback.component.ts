@@ -72,7 +72,7 @@ export class CreateFeedbackComponent implements OnInit {
       content: new FormControl("", [Validators.required, Validators.minLength(2)]),
       rating: new FormControl( this.value),
       image: new FormControl("",
-        [Validators.pattern("^.+((.jpg)|(.png)|(.gif)|(.jpeg)|(.psd)|(.bmp)|(.heic))$")])
+        [Validators.pattern("^.+((.jpg)|(.png)|(.gif)|(.jpeg)|(.psd)|(.bmp)|(.heic)|(webp))$")])
     })
   }
 

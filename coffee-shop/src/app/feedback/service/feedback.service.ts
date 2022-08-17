@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Feedback} from "../model/feedback";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {CookieService} from "../../login/service/cookie.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
-
+  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   private URL_FEEDBACK = "http://localhost:8080/feedback";
   feedback: Feedback;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
 
 
@@ -46,7 +47,7 @@ export class FeedbackService {
       endDate = searchEndDate;
     }
     return this.httpClient.get<Feedback[]>(this.URL_FEEDBACK + '/page?page=' + page + '&searchCreator=' + creator +
-      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating);
+      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
 

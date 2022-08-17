@@ -10,6 +10,8 @@ import { ScreenOrderComponent } from './screen-order/screen-order.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
     exports: [
@@ -26,7 +28,8 @@ import { environment } from 'src/environments/environment';
       OrderRoutingModule,
       ShareModule,
       AngularFireModule.initializeApp(environment.firebase),
-      AngularFireDatabaseModule
+      AngularFireDatabaseModule,
+      MatIconModule
     ],
   providers: [{
     provide: DEFAULT_CURRENCY_CODE,
