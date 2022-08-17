@@ -21,7 +21,7 @@ export class HomePageComponent implements OnInit {
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
               private cookieService: CookieService,
-              private title : Title) {
+              private title: Title) {
     this.title.setTitle("Trang Chủ");
   }
 

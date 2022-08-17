@@ -28,7 +28,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     EmployeeRoutingModule,
     ShareModule,
     ToastrModule.forRoot({
-      timeOut: 1000,
+      timeOut: 1500,
       closeButton: true,
       progressBar: true,
       positionClass: 'toast-top-right',
