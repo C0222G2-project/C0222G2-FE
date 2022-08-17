@@ -53,7 +53,7 @@ export class ForgotPasswordLoginComponent implements OnInit {
         this.router.navigateByUrl("/login").then(() => {
           this.toastrService.success("Đổi mật khẩu thành công!");
         })
-      }, 2000)
+      }, 1000)
       this.router.navigateByUrl("/loading").then(()=> {
       })
     }, error => {

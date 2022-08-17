@@ -29,7 +29,11 @@
     background-color: #6c5c48;
     border-radius: 20px;
     transition: 0.5s;
+  }
 
+  #dropdown-menu div:hover {
+    background-color: #afafaf;
+    border-radius: 20px;
   }
 
   li {
