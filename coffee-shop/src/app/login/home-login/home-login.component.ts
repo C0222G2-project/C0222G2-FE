@@ -36,20 +36,14 @@ export class HomeLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const username = this.cookieService.getCookie("usernameRemember");
-    const password = this.cookieService.getCookie("passwordRemember");
-    if (username != '' && password != '') {
-      this.createLoginForm(username, password);
-    } else {
-      this.createLoginForm("", "");
-    }
+      this.createLoginForm();
     this.createForgotForm();
   }
 
-  createLoginForm(username: string, password: string) {
+  createLoginForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl(username, [Validators.required]),
-      password: new FormControl(password, [Validators.required]),
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
       stayLogged: new FormControl()
     })
   }
@@ -64,8 +58,9 @@ export class HomeLoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
+      const stayLogged = this.loginForm.value.stayLogged;
       if (this.loginForm.value.stayLogged) {
-        this.cookieService.setCookie('stayLogged', 'true', 1000);
+        this.cookieService.setCookie('stayLogged', 'true', 1);
       }
       this.loginService.onLogin(username, password).subscribe(value => {
         this.authService.isLogin(value);

@@ -57,7 +57,6 @@ export class HomePageComponent implements OnInit, OnChanges {
   get5DishMostOrder() {
     this.getDishList.get5DishMostOrder().subscribe(data => {
       this.dishMostOrderList = data;
-      console.log(data);
     }, error => {
       this.checkData = false;
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖI');
