@@ -24,7 +24,7 @@ export class NotificationService {
   temp;
 
   constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging,
-    private cookieService: CookieService) { 
+    private cookieService: CookieService) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
         _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
@@ -120,6 +120,7 @@ export class NotificationService {
 
   getTokenFromFcm(){
     this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('userrole').equalTo('ROLE_STAFF')).snapshotChanges();
+    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('user').equalTo('manager')).snapshotChanges();
     this.tokenFCM.subscribe(
       actions => {
         actions.forEach(

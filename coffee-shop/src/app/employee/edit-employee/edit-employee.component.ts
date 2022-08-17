@@ -42,6 +42,7 @@ export class EditEmployeeComponent implements OnInit {
         this.employee = data;
         if(data == null){
           this.toast.warning("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+          this.router.navigateByUrl('/employee').then();
         }
         this.getAllUser();
         this.getAllPosition();
@@ -84,6 +85,9 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   updateEmployee() {
+    this.employeeFormEdit.value.username.trim();
+    this.employeeFormEdit.value.address.trim();
+    this.employeeFormEdit.value.salary.trim();
     this.toggleLoading();
     if (this.selectedImage == null) {
       let employee: Employee = this.employeeFormEdit.value;
