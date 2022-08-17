@@ -1,4 +1,28 @@
+.main{
+  position: relative;
+}
 
+.notification{
+  position: absolute;
+  right: 0;
+  top: 200px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  z-index: 999;
+}
+
+.number-notification{
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
 
 #demo img{
   filter: brightness(50%);

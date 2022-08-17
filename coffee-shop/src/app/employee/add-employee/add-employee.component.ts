@@ -64,6 +64,7 @@ export class AddEmployeeComponent implements OnInit {
     space.username.trim();
     space.salary.trim();
     space.address.trim();
+
     this.toggleLoading();
     if(this.selectedImage == null) {
       return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
