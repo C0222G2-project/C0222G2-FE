@@ -1,12 +1,13 @@
 <div id="main">
   <div class="container-fluid" style="position: relative">
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 1000px;">
-        <div class="container col-lg-12 col-md-6 col-sm-6" style="padding-right: 0; ; margin-top: 100px">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 800px; margin-top: 150px">
+        <div class="container col-lg-12 col-md-6 col-sm-6" style="padding-right: 0; ">
           <div class="row" style="margin-left: 50px">
 
-            <div class="card col-lg-3 col-md-3 col-sm-6 card-table"
+            <div class="card col-lg-3 col-md-12 col-sm-12 card-table"
                  *ngFor="let coffeePage of coffeeTableList; index as i">
+
               <div [ngSwitch]="coffeePage.status">
                 <div *ngSwitchCase="true">
                   <div (click)="getListById(coffeePage.id)">
@@ -14,7 +15,7 @@
                          class="card-img-top img-table" alt="...">
                   </div>
                   <div class="card-body">
-                    <p>Bàn {{coffeePage.code}}</p>
+                    <p>Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
                 <div *ngSwitchCase="false">
@@ -23,7 +24,7 @@
                          class="card-img-top" alt="...">
                   </div>
                   <div class="card-body bg-secondary">
-                    <p class="">Bàn {{coffeePage.code}}</p>
+                    <p class="">Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
               </div>
@@ -31,39 +32,40 @@
             </div>
 
             <!--phân trang-->
-            <div style="padding-right: 17%">
+            <div style="padding-right: 16.8%">
               <nav aria-label="Page navigation example"
                    style=" margin-top: 2rem;">
                 <ul class="pagination justify-content-end">
                   <div *ngIf="numberPage == 0 ">
                     <li class="page-item disabled">
-                      <a class="page-link" (click)="previousPage()" hidden
+                      <a class="page-link button-bg" (click)="previousPage()" hidden
                          aria-disabled="true">Trước</a>
+
                     </li>
                   </div>
                   <div *ngIf="numberPage != 0 ">
                     <li class="page-item ">
-                      <a class="page-link" (click)="previousPage()"
+                      <a class="page-link button-bg" (click)="previousPage()"
                          aria-disabled="true">Trước</a>
                     </li>
                   </div>
                   <div *ngFor="let count of countTotalPage, index as i">
                     <div *ngIf="i == numberPage">
-                      <li class="page-item disabled"><a class="page-link" (click)="item(i)">{{i + 1}}</a></li>
+                      <li class="page-item "><a class="page-link button-bg paging-css" (click)="item(i)">{{i + 1}}</a></li>
                     </div>
                     <div *ngIf="i != numberPage">
-                      <li class="page-item"><a class="page-link" (click)="item(i)">{{i + 1}}</a></li>
+                      <li class="page-item "><a class="page-link button-bg" (click)="item(i)">{{i + 1}}</a></li>
                     </div>
                   </div>
 
                   <div *ngIf="numberPage == totalPage">
                     <li class="page-item">
-                      <button class="page-link" (click)="nextPage()" hidden>Sau</button>
+                      <button class="page-link button-bg" (click)="nextPage()" hidden>Sau</button>
                     </li>
                   </div>
                   <div *ngIf="numberPage != totalPage - 1">
                     <li class="page-item">
-                      <button class="page-link" (click)="nextPage()">Sau</button>
+                      <button class="page-link button-bg" (click)="nextPage()">Sau</button>
                     </li>
                   </div>
                 </ul>
@@ -74,22 +76,22 @@
         </div>
       </div>
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 1000px; margin-top: 100px">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 800px; margin-top: 150px">
         <div class="container col-lg-12 col-md-12">
           <div style="overflow-x:auto ; margin-top: 2rem; background-color: beige;
                             border-radius: 30px; box-shadow:5px 5px 5px 5px #cdaa83">
-            <div class="text-center text-black " style=" padding-top: 5px"><h4>THÔNG TIN BÀN</h4></div>
+            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable != null">THÔNG TIN BÀN {{this.codeTable}} </h4></div>
+            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable == null">VUI LÒNG CHỌN BÀN</h4></div>
             <div style="padding: 0 10px 0 10px">
               <table class="table table-bordered table-sm table-striped table-hover"
-                     style="; padding-top: 2px ; border-color: #CEE5D0">
+                     style="; padding-top: 2px ; border-color: #eeeeee">
                 <thead>
-                <tr class="table-secondary" style="background: #A3DA8D; color: #041C32; ">
+                <tr class="table-secondary text-center" style="background: #f1f1f1; color: #041c32; ">
                   <td>STT</td>
                   <td>Tên món</td>
                   <td>Số lượng(Ly/Món)</td>
-                  <td>Giá(VND)</td>
-                  <td>Số bàn</td>
-                  <td>Tổng tiền(VND)</td>
+                  <td>Đơn giá(VND)</td>
+                  <td>Tổng(VND)</td>
                 </tr>
                 </thead>
                 <tbody id="#">
@@ -98,9 +100,12 @@
                   <td>{{list.name}}</td>
                   <td style="text-align: center">{{list.quantity}}</td>
                   <td style="text-align: center">{{list.price | currency:'VND':'' }}đ</td>
-                  <td>{{list.code}}</td>
-                  <td style="text-align: center">{{list.payment | currency: 'VND' : ''}}đ</td>
+                  <td style="text-align: center">{{list.payment | currency:'VND':'' }}đ</td>
                   <input type="hidden" value="{{list.id}}" id="idTable">
+                </tr>
+                <tr>
+                  <td colspan="4" style="text-align: end">Tổng tiền : </td>
+                  <td style="text-align: center">{{totalNeedPayment | currency: 'VND' : ''}}đ</td>
                 </tr>
                 </tbody>
               </table>
@@ -108,13 +113,20 @@
           </div>
           <div style="margin-top: 1rem">
             <ul class="pagination justify-content-center">
-              <li class="page-item">
+
+              <li class="page-item" *ngIf="idTable == null  && totalNeedPayment == 0 ">
+                <!-- Button trigger modal -->
+                <a type="button"
+                   class="btn button-bg disabled"  style="margin-right: 3rem; border-color: white">Tính tiền</a>
+              </li>
+
+              <li class="page-item" *ngIf="idTable != null ">
                 <!-- Button trigger modal -->
                 <a type="button" (click)="payment()"
-                   class="btn btn-primary text-body" style="margin-right: 3rem">Tính tiền</a>
+                   class="btn button-bg" style="margin-right: 3rem; border-color: white">Tính tiền</a>
               </li>
               <li class="page-item">
-                <a class="btn btn-primary text-body" (click)="reset()">Làm mới bảng</a>
+                <a class="btn button-bg " style="; border-color: white" (click)="reset()">Làm mới bảng</a>
               </li>
             </ul>
           </div>
@@ -128,12 +140,12 @@
   <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body">
-          Tổng tiền cần thanh toán: {{totalNeedPayment | currency: 'VND' : ''}}đ
+        <div class="modal-body" >
+          Tổng tiền cần thanh toán: <span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}đ</span>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-          <button type="button" class="btn btn-primary">Xác nhận</button>
+          <button type="button" class="btn button-bg" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn button-bg" (click)="addBill(idTable)">Xác nhận</button>
         </div>
       </div>
     </div>
