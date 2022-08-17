@@ -125,4 +125,14 @@ select:not([multiple]) {
   visibility: visible;
   opacity: 1;
 }
+.number-pages{
+  padding-left: 10px;
+  background: white;
+  color: blue;
+  width: 50px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border-radius: 45%;
+}
 

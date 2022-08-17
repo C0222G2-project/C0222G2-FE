@@ -278,4 +278,28 @@ export class ListFeedbackComponent implements OnInit {
   goItemWithoutSort(i: number) {
     this.getAllFeedback(i, this.name, this.startDate, this.endDate, 'ASC');
   }
+
+  goStart() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+  goEnd() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+  previousWithoutSort() {
+    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+  nextWithoutSort() {
+    this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'ASC');
+  }
 }
