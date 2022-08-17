@@ -48,35 +48,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    if (this.cookieService.getCookie('jwToken') != null) {
-      this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
-        this.cookieService.deleteCookie('role');
-        this.cookieService.deleteCookie('jwToken');
-        this.cookieService.deleteCookie('username');
-      }, error => {
-        switch (error.error) {
-          case 'isLogout':
-            this.toastrService.warning('Bạn chưa đăng nhập!');
-            break;
-          case 'LoginExpired':
-            this.cookieService.deleteCookie('role');
-            this.cookieService.deleteCookie('jwToken');
-            this.cookieService.deleteCookie('username');
-            this.router.navigateByUrl('/login').then(() => {
-              this.toastrService.warning('Hết phiên đăng nhập vui lòng đăng nhập lại!');
-              this.sendMessage();
-            });
-            break;
-        }
-      }, () => {
-        this.router.navigateByUrl('/login').then(() => {
-          this.toastrService.success('Đăng xuất thành công!');
-          this.sendMessage();
+    setTimeout(()=> {
+      if (this.cookieService.getCookie('jwToken') != null) {
+        this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
+          this.cookieService.deleteAllCookies();
+        }, error => {
+          switch (error.error) {
+            case 'isLogout':
+              this.toastrService.warning('Bạn chưa đăng nhập!');
+              break;
+            case 'LoginExpired':
+              this.cookieService.deleteAllCookies();
+              this.router.navigateByUrl('/login').then(() => {
+                this.toastrService.warning('Hết phiên đăng nhập vui lòng đăng nhập lại!');
+                this.sendMessage();
+              });
+              break;
+          }
+        }, () => {
+          this.router.navigateByUrl('/login').then(() => {
+            this.toastrService.success('Đăng xuất thành công!');
+            this.sendMessage();
+          });
         });
-      });
-    } else {
-      this.toastrService.warning('Bạn chưa đăng nhập!');
-    }
+      } else {
+        this.toastrService.warning('Bạn chưa đăng nhập!');
+      }
+    }, 1000)
+    this.router.navigateByUrl("/loading").then(() => {
+    })
   }
 
   ngOnDestroy(): void {
@@ -88,3 +88,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.commonService.sendUpdate('Đăng Xuất thành công!');
   }
 }
+
+
+
+
+
+
+

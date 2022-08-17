@@ -111,13 +111,14 @@ export class ListBillComponent implements OnInit {
    *
    */
 
+
   getFormSearch() {
     this.searchForm.value.searchCode = this.searchForm.value.searchCode.trim();
-
+    console.log(this.searchForm.value)
     if (this.searchForm.value.searchCode === '') {
       this.code = '';
     } else {
-      if(this.searchForm.value.searchCode.search("[#%^+]")>=0){
+      if (this.searchForm.value.searchCode.search("[#%^+]") >= 0) {
         this.billCode = true;
         this.code = this.searchForm.value.searchCode;
       }
@@ -202,7 +203,7 @@ export class ListBillComponent implements OnInit {
       let doc = new jsPDF('p', 'pt', 'a5');
       let position = 0;
       // @ts-ignore
-      doc.addImage(contentDataURL, 35 ,0);
+      doc.addImage(contentDataURL, 35, 0);
       doc.save('Bill-' + code + '.pdf');
       this.toastrService.success("Xuất Hóa Đơn Thành Công!", "Thông Báo");
     });
@@ -233,5 +234,13 @@ export class ListBillComponent implements OnInit {
    */
   getBillId(id: number) {
     this.getAllDish(id);
+  }
+
+  goStart() {
+    this.getAllBill(0, "", "");
+  }
+
+  goEnd() {
+    this.getAllBill(this.totalPages - 1, "", "");
   }
 }

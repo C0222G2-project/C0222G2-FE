@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Employee} from "../../model/employee/employee";
-import {AppUser} from "../../model/account/app-user";
 import {EmployeeService} from "../service/employee.service";
 import {Router, ActivatedRoute, ParamMap} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {Position} from "../../model/employee/position";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {formatDate} from "@angular/common";
 import {finalize} from "rxjs/operators";
+import {Employee} from "../model/employee/employee";
+import {AppUser} from "../model/account/app-user";
+import {Position} from "../model/employee/position";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-employee',
@@ -22,11 +23,13 @@ export class EditEmployeeComponent implements OnInit {
   position: Position[] = [];
   selectedImage: any = null;
   imgSrc: any;
+  isLoading: Boolean = false;
 
-
-  constructor(private employeeService: EmployeeService, private router: Router,private storage: AngularFireStorage,
+  constructor(private employeeService: EmployeeService, private router: Router,
+              private storage: AngularFireStorage,
               private activate: ActivatedRoute,
-              private toast: ToastrService) {
+              private toast: ToastrService, private title: Title) {
+    this.title.setTitle("Sửa thông tin nhân viên")
   }
 
   ngOnInit(): void {
@@ -40,6 +43,10 @@ export class EditEmployeeComponent implements OnInit {
       this.employeeService.findByIdEdit(parseInt(id)).subscribe(data => {
         // @ts-ignore
         this.employee = data;
+        if(data == null){
+          this.toast.error("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+          this.router.navigateByUrl('/employee').then();
+        }
         this.getAllUser();
         this.getAllPosition();
         this.getEmployeeFormUpdate();
@@ -48,7 +55,6 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getAllPosition() {
-    // @ts-ignore
     this.employeeService.getAllPosition().subscribe(data => {
       // @ts-ignore
       this.position = data;
@@ -56,7 +62,6 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getAllUser() {
-    // @ts-ignore
     this.employeeService.getAllUser().subscribe(data => {
       // @ts-ignore
       this.appUser = data;
@@ -67,14 +72,14 @@ export class EditEmployeeComponent implements OnInit {
     this.employeeFormEdit = new FormGroup({
       id: new FormControl(this.employee.id),
       appUser: new FormControl(this.employee.appUser,[Validators.required]),
-      name: new FormControl(this.employee.name, [Validators.required,Validators.pattern("^([A-Z][^A-Z0-9\\s]+)(\\s[A-Z][^A-Z0-9\\s]+)*$")],),
-      image: new FormControl(this.employee.image,[Validators.required]),
-      birthday: new FormControl(this.employee.birthday,[Validators.pattern("^(?:(?:31(/|-|.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(/|-|.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(/|-|.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(/|-|.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")]),
+      name: new FormControl(this.employee.name, [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-ZĐ][^A-Z0-9\\s]+)(\\s[A-ZĐ][^A-Z0-9\\s]+)*$")],),
+      image: new FormControl(this.employee.image, [Validators.required,Validators.maxLength(255)]),
+      birthday: new FormControl(this.employee.birthday,[this.checkInputBirthday,this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
       gender: new FormControl(this.employee.gender),
       phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
-      address: new FormControl(this.employee.address, [Validators.required]),
-      email: new FormControl(this.employee.email,[Validators.required,Validators.email]),
-      salary: new FormControl(this.employee.salary, [Validators.required, this.validateCustomSalary]),
+      address: new FormControl(this.employee.address, [Validators.required,Validators.minLength(6),Validators.maxLength(255),]),
+      email: new FormControl(this.employee.email, [Validators.required, Validators.email,Validators.minLength(6),,Validators.maxLength(50),]),
+      salary: new FormControl(this.employee.salary, [Validators.required, this.validateCustomSalary,Validators.max(100000000)]),
       position: new FormControl(this.employee.position)
     });
   }
@@ -83,16 +88,18 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   updateEmployee() {
+    this.toggleLoading();
     if (this.selectedImage == null) {
       let employee: Employee = this.employeeFormEdit.value;
       // @ts-ignore
+      if(this.employeeFormEdit.valid){
       this.employeeService.updateEmployee(employee).subscribe((data) => {
-          this.toast.success('cập nhật thành công')
+          this.toast.success('Cập nhật thành công', 'Thông báo!!!')
           this.router.navigateByUrl('/employee').then();
-        },
-        error => {
-          console.log(error);
         });
+      }else {
+        return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+      }
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
@@ -101,19 +108,25 @@ export class EditEmployeeComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
-
-            this.employeeService.updateEmployee(employee).subscribe((data) => {
-                this.toast.success('cập nhật thành công')
+            if(this.employeeFormEdit.valid){
+              this.employeeService.updateEmployee(employee).subscribe((data) => {
+                this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
-              },
-              error => {
-                console.log(error);
               });
-
+            }else {
+              return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+            }
           });
         })
       ).subscribe();
     }
+  }
+
+  toggleLoading() {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000)
   }
 
   showPreview(event: any) {
@@ -124,8 +137,6 @@ export class EditEmployeeComponent implements OnInit {
       this.selectedImage = event.target.files[0];
       document.getElementById("image").style.display= "none"
       document.getElementById("img").style.display = "block"
-
-
     } else {
       this.imgSrc = "";
       this.selectedImage = null;
@@ -177,7 +188,27 @@ export class EditEmployeeComponent implements OnInit {
     }
     return null;
   }
+  checkInputBirthday(birthday: AbstractControl) {
+    const value = birthday.value
+    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+    if(value >= curDate) {
+      return {'checkDate': true}
+    }
+    return null;
+  }
 
-
+  private checkAge16(age16: AbstractControl): any {
+    if (age16.value === '') {
+      return null;
+    }
+    const today = new Date();
+    const birthDate = new Date(age16.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return (age >= 16) ? null : {age16: true};
+  }
 
 }

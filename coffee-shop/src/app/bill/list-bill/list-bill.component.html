@@ -155,41 +155,90 @@
       </table>
       <h1 *ngIf="bills.length == 0 || billCode"  style="border-top: none; text-align: center; color: white">Không Có Dữ Liệu</h1>
 
-      <div class="container-fluid mt-3" *ngIf="!billCode" [hidden]=" bills.length == 0 ">
-        <ul class="pagination float-end">
-          <div *ngIf="number == 0">
-            <li class="page-item disabled">
-              <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>
-            </li>
-          </div>
-          <div *ngIf="number != 0">
-            <li class="page-item">
-              <button class="page-link text-black" (click)="goPrevious()">Trước</button>
-            </li>
-          </div>
-          <div *ngFor="let count of countTotalPages; index as i">
-            <div *ngIf="i == number">
-              <li class="page-item active">
-                <button class="btn button-page" (click)="goItem(i)">{{i + 1}}</button>
+<!--      <div class="container-fluid mt-3" *ngIf="!billCode" [hidden]=" bills.length == 0 ">-->
+<!--        <ul class="pagination float-end">-->
+<!--          <div *ngIf="number == 0">-->
+<!--            <li class="page-item disabled">-->
+<!--              <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>-->
+<!--            </li>-->
+<!--          </div>-->
+<!--          <div *ngIf="number != 0">-->
+<!--            <li class="page-item">-->
+<!--              <button class="page-link text-black" (click)="goPrevious()">Trước</button>-->
+<!--            </li>-->
+<!--          </div>-->
+<!--          <div *ngFor="let count of countTotalPages; index as i">-->
+<!--            <div *ngIf="i == number">-->
+<!--              <li class="page-item active">-->
+<!--                <button class="btn button-page" (click)="goItem(i)">{{i + 1}}</button>-->
+<!--              </li>-->
+<!--            </div>-->
+<!--            <div *ngIf="i != number">-->
+<!--              <li class="page-item">-->
+<!--                <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>-->
+<!--              </li>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div *ngIf="number == totalPages - 1">-->
+<!--            <li class="page-item disabled">-->
+<!--              <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>-->
+<!--            </li>-->
+<!--          </div>-->
+<!--          <div *ngIf="number != totalPages - 1">-->
+<!--            <li class="page-item">-->
+<!--              <button class="page-link text-black" (click)="goNext()">Sau</button>-->
+<!--            </li>-->
+<!--          </div>-->
+<!--        </ul>-->
+<!--      </div>-->
+      <div class="container-fluid py-3"
+           *ngIf="bills.length>0 && !billCode">
+        <nav aria-label="Page navigation example d-flex flex-row-reverse">
+          <ul class="pagination justify-content-end">
+            <div *ngIf="number == 0">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goStart()" hidden><<</button>
               </li>
             </div>
-            <div *ngIf="i != number">
+            <div *ngIf="number != 0">
               <li class="page-item">
-                <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>
+                <button class="page-link" (click)="goStart()"><<</button>
               </li>
             </div>
-          </div>
-          <div *ngIf="number == totalPages - 1">
-            <li class="page-item disabled">
-              <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>
-            </li>
-          </div>
-          <div *ngIf="number != totalPages - 1">
-            <li class="page-item">
-              <button class="page-link text-black" (click)="goNext()">Sau</button>
-            </li>
-          </div>
-        </ul>
+            <div *ngIf="number == 0">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goPrevious()" hidden><</button>
+              </li>
+            </div>
+            <div *ngIf="number != 0">
+              <li class="page-item">
+                <button class="page-link" (click)="goPrevious()"><</button>
+              </li>
+            </div>
+
+            <div class="number-pages">{{number +1}} | {{totalPages}}</div>
+            <div *ngIf="number == totalPages - 1">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goNext()" hidden>></button>
+              </li>
+            </div>
+            <div *ngIf="number != totalPages - 1">
+              <li class="page-item">
+                <button class="page-link" (click)="goNext()">></button>
+              </li>
+            </div>
+            <div *ngIf="number == totalPages - 1">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goEnd()" hidden>>></button>
+              </li>
+            </div>
+            <div *ngIf="number != totalPages - 1">
+              <li class="page-item">
+                <button class="page-link" (click)="goEnd()">>></button>
+              </li>
+            </div>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

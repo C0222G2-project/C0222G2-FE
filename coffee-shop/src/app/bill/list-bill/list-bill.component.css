@@ -21,8 +21,8 @@
 
 #fate{
   position: relative;
-  height: 1000px;
-  padding: 70px;
+  /*height: 1000px;*/
+  padding: 150px;
   background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/backgroundlist.jpg);
 }
 
@@ -83,6 +83,15 @@
   width: 100%;
 }
 
-
+.number-pages{
+  padding-left: 10px;
+  background: white;
+  color: blue;
+  width: 50px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border-radius: 45%;
+}
 
 

@@ -12,7 +12,7 @@ import {CookieService} from "../../login/service/cookie.service";
 export class BillService {
   private URL_BILL = 'http://localhost:8080/rest/bill';
   private URL_DISH = 'http://localhost:8080/rest/bill/dish';
-  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
+  private header = ' Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {
@@ -46,6 +46,7 @@ export class BillService {
       "&searchParamDate=" + searchBillDate, {headers: new HttpHeaders({'authorization': this.header})});
   }
 
+
   /**
    *  Created by: HauLT
    *  Date created: 17/08/2022
@@ -55,8 +56,8 @@ export class BillService {
    */
 
   getAllDish(id: number): Observable<Bill[]> {
-    return this.httpClient.get<Bill[]>(this.URL_DISH + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
-  }
+      return this.httpClient.get<Bill[]>(this.URL_DISH + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
+    };
 
   /**
    * Created by: HauLT
@@ -68,7 +69,7 @@ export class BillService {
 
   findById(id: number): Observable<Bill> {
     return this.httpClient.get<Bill>(this.URL_BILL + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
-  }
+  };
 
 
 }
