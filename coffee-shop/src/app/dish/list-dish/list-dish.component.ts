@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {DishType} from "../model/dish-type";
 import {Dish} from "../model/dish";
 
+
 @Component({
   selector: 'app-list-dish',
   templateUrl: './list-dish.component.html',
@@ -28,7 +29,7 @@ export class ListDishComponent implements OnInit {
   ngOnInit(): void {
     this.getDishPage(0, '', '', '', '');
     this.createSearchForm();
-    this.getAllDishType()
+    this.getAllDishType();
   }
 
   getAllDishType() {
