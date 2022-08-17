@@ -1,19 +1,26 @@
-import {formatDate, NumberFormatStyle} from '@angular/common';
-import { Component, ElementRef, OnChanges, OnInit, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import {formatDate} from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  OnChanges,
+  OnInit,
+  QueryList,
+  SimpleChanges,
+  VERSION,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { Dish } from 'src/app/dish/model/dish';
-import { Employee } from 'src/app/employee/model/employee/employee';
-import { CookieService } from 'src/app/login/service/cookie.service';
-import { CoffeeTable } from '../model/CoffeeTable';
-import { NotificationOfCoffeStore } from '../model/notification';
-import { Order } from '../model/order';
-import { NotificationService } from '../service/notification.service';
-import { OrderService } from '../service/order.service';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {Dish} from 'src/app/dish/model/dish';
+import {Employee} from 'src/app/employee/model/employee/employee';
+import {CoffeeTable} from '../model/CoffeeTable';
+import {NotificationOfCoffeStore} from '../model/notification';
+import {Order} from '../model/order';
+import {NotificationService} from '../service/notification.service';
+import {OrderService} from '../service/order.service';
 import {FeedbackService} from "../../feedback/service/feedback.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
@@ -61,10 +68,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   isLoading: Boolean = false;
 
 
-  constructor(private activatedRoute: ActivatedRoute, 
-              private orderService: OrderService, 
+  constructor(private activatedRoute: ActivatedRoute,
+              private orderService: OrderService,
               private notificationService: NotificationService,
-              private toastr: ToastrService, 
+              private toastr: ToastrService,
               private title : Title,
               private feedbackService: FeedbackService,
               private angularFireStorage: AngularFireStorage,){
