@@ -19,9 +19,9 @@
             <input class="form-control" type="search" name="search" formControlName="searchName"
                    aria-label="Search" placeholder="Tìm người tạo">
           </div>
-          <div class="col-sm-2 d-flex align-items-end" style="width: 10%; margin-top: 5px">
+          <div class="col-sm-2 d-flex align-items-end" style="width: 10%; margin-top: 5px" >
             <button class="btn" style="background-color: #744e3a; color: white; height: 70%; width: 99%;" type="submit"
-                    name="name" (click)="showToast()">Tìm
+                    name="name" (click)="showToast()" >Tìm
             </button>
           </div>
         </form>
@@ -129,7 +129,7 @@
           <img src="{{image}}" class="card-img-top" alt="">
           <div class="card-body">
             <label>Mã phản hồi: </label><span> {{code}}</span> <br>
-            <label style="float: left">Đánh giá : </label>
+            <label style="float: left; padding-top: 1px">Đánh giá : </label>
             <span *ngFor="let item of [].constructor(rating)" class="material-icons" style="color: orange; position: relative; padding-top: 1px; float: left">star</span>
             <br>
             <div style="margin-top: 3px">
