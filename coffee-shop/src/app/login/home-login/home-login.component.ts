@@ -46,15 +46,15 @@ export class HomeLoginComponent implements OnInit {
 
   createLoginForm(username: string, password: string) {
     this.loginForm = new FormGroup({
-      username: new FormControl(username, [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')]),
-      password: new FormControl(password, [Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$')]),
+      username: new FormControl(username, [Validators.required]),
+      password: new FormControl(password, [Validators.required]),
       stayLogged: new FormControl()
     })
   }
 
   createForgotForm() {
     this.forgotForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{3,50}$')])
+      username: new FormControl('', [Validators.required])
     })
   }
 
