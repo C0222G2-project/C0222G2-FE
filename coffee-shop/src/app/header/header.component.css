@@ -31,7 +31,7 @@
     transition: 0.5s;
   }
 
-  #dropdown-menu div:hover {
+  #dropdown-menu button:hover {
     background-color: #afafaf;
     border-radius: 20px;
   }
