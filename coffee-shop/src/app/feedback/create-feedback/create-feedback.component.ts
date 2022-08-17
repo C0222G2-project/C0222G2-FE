@@ -95,7 +95,7 @@ export class CreateFeedbackComponent implements OnInit {
   }
 
   toggleLoading() {
-    this.isLoading = true;
+    this.isLoading = true;~
     setTimeout(() => {
       this.isLoading = false;
     }, 3000)

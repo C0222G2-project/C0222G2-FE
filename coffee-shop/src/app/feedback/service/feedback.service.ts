@@ -8,8 +8,8 @@ import {CookieService} from "../../login/service/cookie.service";
   providedIn: 'root'
 })
 export class FeedbackService {
-  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   private URL_FEEDBACK = "http://localhost:8080/feedback";
+  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   feedback: Feedback;
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
@@ -27,7 +27,7 @@ export class FeedbackService {
    * @param searchEndDate
    * @param sortRating
    */
-  getAllFeedback(page: number, searchName, searchStartDate, searchEndDate, sortRating) {
+  getAllFeedback(page: number, searchName, searchStartDate, searchEndDate, sortRating){
     let creator;
     let startDate;
     let endDate;
@@ -47,7 +47,8 @@ export class FeedbackService {
       endDate = searchEndDate;
     }
     return this.httpClient.get<Feedback[]>(this.URL_FEEDBACK + '/page?page=' + page + '&searchCreator=' + creator +
-      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating, {headers: new HttpHeaders({'authorization': this.header})}).pipe()
+      '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
+
   }
 
 
@@ -59,7 +60,8 @@ export class FeedbackService {
    * @param id
    */
   findFeedbackById(id: number): Observable<Feedback> {
-    return this.httpClient.get(this.URL_FEEDBACK + '/' + id, {headers: new HttpHeaders({'authorization': this.header})}).pipe()
+    return this.httpClient.get(this.URL_FEEDBACK + '/' + id,
+      {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
   /**
