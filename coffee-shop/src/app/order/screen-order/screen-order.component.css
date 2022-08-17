@@ -8,19 +8,19 @@
     background-color: #be9c79 !important;
 }
 
-iframe { 
-    margin: 0px; 
-    padding: 0px; 
-    height: 100%; 
-    border: none; 
-} 
-iframe { 
-    display: block; 
-    width: 100%; 
-    border: none; 
-    overflow-y: auto; 
-    overflow-x: hidden; 
-} 
+iframe {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    border: none;
+}
+iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 .main{
 
@@ -214,8 +214,8 @@ iframe {
 .buttonOrder .btn-modal-red{
     background-color: rgba(222, 125, 125, 111) !important;
 }
-  
-  
+
+
 
 /* Responsive */
 
@@ -237,7 +237,7 @@ iframe {
         position: relative;
     }
 
-    .show-service-on-desktop{
+    .show-servic  e-on-desktop{
         display: none;
     }
 }
