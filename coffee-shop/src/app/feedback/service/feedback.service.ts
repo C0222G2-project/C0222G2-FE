@@ -8,7 +8,6 @@ import {CookieService} from "../../login/service/cookie.service";
   providedIn: 'root'
 })
 export class FeedbackService {
-
   private URL_FEEDBACK = "http://localhost:8080/feedback";
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   feedback: Feedback;
@@ -49,6 +48,7 @@ export class FeedbackService {
     }
     return this.httpClient.get<Feedback[]>(this.URL_FEEDBACK + '/page?page=' + page + '&searchCreator=' + creator +
       '&searchStartDate=' + startDate + '&searchEndDate=' + endDate + '&sort=' + sortRating, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
+
   }
 
 
@@ -71,6 +71,6 @@ export class FeedbackService {
    * @param feedback
    */
   createFeedback(feedback: Feedback): Observable<Feedback> {
-    return this.httpClient.post<Feedback>(this.URL_FEEDBACK + '/create', feedback);
+    return this.httpClient.post<Feedback>(this.URL_FEEDBACK + '/create', feedback, {headers: new HttpHeaders({'authorization': this.header})}).pipe()
   }
 }
