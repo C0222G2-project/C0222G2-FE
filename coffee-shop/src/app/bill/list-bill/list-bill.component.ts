@@ -3,8 +3,8 @@ import {Bill} from "../model/bill";
 import {FormControl, FormGroup} from "@angular/forms";
 import {BillService} from "../service/bill.service";
 import {ToastrService} from "ngx-toastr";
-// import html2canvas from 'html2canvas';
-// import {jsPDF} from 'jspdf';
+import html2canvas from 'html2canvas';
+import {jsPDF} from 'jspdf';
 
 
 @Component({
@@ -96,20 +96,20 @@ export class ListBillComponent implements OnInit {
 
   generatePDF() {
     var data = document.getElementById('contentToConvert');
-    // html2canvas(data).then(canvas => {
-    //   var imgWidth = 300;
-    //   var imgHeight = canvas.height * imgWidth / canvas.width;
-    //   const contentDataURL = canvas.toDataURL('image/png')
-    //   // @ts-ignore
-    //   let doc = new jsPDF('p', 'pt', 'a4');
-    //   var position = 0;
-    //   doc.addImage(contentDataURL, 'a4', 0, position, imgWidth, imgHeight)
-    //   doc.save('newPDF.pdf');
-    // });
+    html2canvas(data).then(canvas => {
+      var imgWidth = 300;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png')
+      // @ts-ignore
+      let doc = new jsPDF('p', 'pt', 'a4');
+      var position = 0;
+      doc.addImage(contentDataURL, 'a4', 0, position, imgWidth, imgHeight)
+      doc.save('newPDF.pdf');
+    });
   }
 
-  // showDowloaadPDF() {
-  //   this.toastrService.success("Xuất Thành Công!", );
-  // }
+  showDowloaadPDF() {
+    this.toastrService.success("Xuất Thành Công!", );
+  }
 
 }

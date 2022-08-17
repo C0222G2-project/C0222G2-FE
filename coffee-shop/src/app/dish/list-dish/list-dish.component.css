@@ -1,3 +1,4 @@
+
 a, th, td,h1 {
   font-weight: 600;
   font-family: "Poppins", sans-serif;
@@ -37,7 +38,6 @@ label {
 table thead tr {
   height: 60px;
   background: #744e3a;
-
 }
 
 .table100-head th {
@@ -80,5 +80,49 @@ select:not([multiple]) {
   background-image: url(../../../assets/img/hieucd_down.png);
   background-size: 30px;
   padding-right: 30px;
+}
+.bDelete{
+  color: red;
+}
+.tooltipHieu {
+  color: red;
+  position: relative;
+  display: inline-block;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tooltipHieuDelete {
+  position: relative;
+  display: inline-block;
+  text-overflow: ellipsis;
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tooltipHieu .tooltiptextHieu {
+  visibility: hidden;
+  width: 400px;
+  background-color: blue;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tooltipHieu:hover .tooltiptextHieu {
+  visibility: visible;
+  opacity: 1;
 }
 

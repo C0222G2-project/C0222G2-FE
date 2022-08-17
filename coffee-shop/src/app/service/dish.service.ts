@@ -9,12 +9,16 @@ import {Dish} from "../model/dish";
 export class DishService {
 
   private URL_DISH = "http://localhost:8080/dish"
-
+  private URL_DISH_TYPE = "http://localhost:8080/dishType"
   constructor(private httpClient: HttpClient) {
   }
 
-  getDishPage(page: number): Observable<Dish[]> {
-    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page);
+  // getDishPage(page: number): Observable<Dish[]> {
+  //   return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page);
+  // }
+  getDishPage(page: number,dishName:string,dishCode:String,dishPrice:string,dishTypeId:string): Observable<Dish[]> {
+
+    return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish?page=" + page+"&dishName="+dishName+"&dishCode="+dishCode+"&dishPrice="+dishPrice+"&dishTypeId="+dishTypeId);
   }
 
 
@@ -31,9 +35,8 @@ export class DishService {
     return this.httpClient.get<Dish[]>(this.URL_DISH + "/searchDish"+"?dishName="+dishName+"&dishCode="+dishCode+"&dishPrice="+dishPrice+"&dishTypeId="+dishTypeId);
   }
 
-  getDishType(): Observable<Dish[]> {
-    return this.httpClient.get<Dish[]>(this.URL_DISH + "/getDishTypePage" );
+  getAllDishType(): Observable<Dish[]>{
+    return this.httpClient.get<Dish[]>(this.URL_DISH_TYPE+"/dish_list");
   }
-
 
 }
