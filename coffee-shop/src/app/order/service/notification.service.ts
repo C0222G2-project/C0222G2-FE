@@ -24,7 +24,7 @@ export class NotificationService {
   temp;
 
   constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging,
-    private cookieService: CookieService) {
+              private cookieService: CookieService) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
         _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
@@ -49,13 +49,13 @@ export class NotificationService {
 
   sendNotificationToFirebase(){
     const content = {
-                  to: this.registerToken,
-                  notification: {
-                      title: this.notification.title,
-                      body: this.notification.body,
-                      status: false
-                  }
-              }
+      to: this.registerToken,
+      notification: {
+        title: this.notification.title,
+        body: this.notification.body,
+        status: false
+      }
+    }
     let option = {
       method: "POST",
       headers: new Headers({
@@ -73,7 +73,7 @@ export class NotificationService {
 
   requestPermission() {
     this.angularFireMessaging.requestToken.subscribe(
-      (token) => { 
+      (token) => {
         let user = this.cookieService.getCookie('username');
         let role = this.cookieService.getCookie('role');
         this.sendTokenToFcm(user, token, role);
@@ -94,16 +94,16 @@ export class NotificationService {
   writeMessage(){
     this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('true')).snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
-        actions.forEach(action => {
-          this.notification = {
-            title: action.payload.val().title,
-            body: action.payload.val().body,
-            role: action.payload.val().role,
-            date: action.payload.val().date,
-            status: action.payload.val().status
-          }
-          this.keyArray.push(this.notification);
-        });
+      actions.forEach(action => {
+        this.notification = {
+          title: action.payload.val().title,
+          body: action.payload.val().body,
+          role: action.payload.val().role,
+          date: action.payload.val().date,
+          status: action.payload.val().status
+        }
+        this.keyArray.push(this.notification);
+      });
     });
   }
 
@@ -137,7 +137,6 @@ export class NotificationService {
   }
 
   removeToken(){
-    
+
   }
 }
-

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -6,14 +6,15 @@ import { Injectable } from '@angular/core';
 export class CookieService {
   isConsented = false;
 
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * delete cookie
    * @param name
    */
   public deleteCookie(name) {
-    this.setCookie(name, '', -1);
+    this.setCookie(name, '', -1, '');
   }
 
   /**
@@ -27,7 +28,7 @@ export class CookieService {
     const cookieName = `${name}=`;
     let c: string;
 
-    for (let i  = 0; i < caLen; i += 1) {
+    for (let i = 0; i < caLen; i += 1) {
       c = ca[i].replace(/^\s+/g, '');
       if (c.indexOf(cookieName) === 0) {
         return c.substring(cookieName.length, c.length);
@@ -68,9 +69,19 @@ export class CookieService {
       e.preventDefault();
     }
   }
+
   public deleteAllCookies() {
     let cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i];
+      let eqPos = cookie.indexOf("=");
+      let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+  }
 
+  public removeAllCookies() {
+    let cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
       let cookie = cookies[i];
       let eqPos = cookie.indexOf("=");
@@ -78,5 +89,4 @@ export class CookieService {
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   }
-
 }
