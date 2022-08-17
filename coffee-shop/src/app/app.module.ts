@@ -20,6 +20,8 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 
 
+// @ts-ignore
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,

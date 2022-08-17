@@ -8,6 +8,7 @@ import {RouterModule} from '@angular/router';
 import {ShareModule} from '../share/share.module';
 import { Error403PageComponent } from './error403-page/error403-page.component';
 import { LoadingComponent } from './loading/loading.component';
+import { Error404PageComponent } from './error404-page/error404-page.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { LoadingComponent } from './loading/loading.component';
     ForgotPasswordLoginComponent,
     ChangePasswordLoginComponent,
     Error403PageComponent,
-    LoadingComponent],
+    LoadingComponent,
+    Error404PageComponent],
   imports: [
     CommonModule,
     RouterModule,
