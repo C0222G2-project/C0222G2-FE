@@ -70,8 +70,6 @@ export class ListFeedbackComponent implements OnInit {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
     if (value >= curDate) {
-    }
-    if (value >= curDate) {
       return {'checkDate': true}
     }
     return null;

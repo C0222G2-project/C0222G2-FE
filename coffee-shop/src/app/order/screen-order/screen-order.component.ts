@@ -1,4 +1,4 @@
-import {formatDate, NumberFormatStyle} from '@angular/common';
+
 import { Component, ElementRef, OnChanges, OnInit, Output, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -14,6 +14,7 @@ import { NotificationOfCoffeStore } from '../model/notification';
 import { Order } from '../model/order';
 import { NotificationService } from '../service/notification.service';
 import { OrderService } from '../service/order.service';
+import {formatDate} from '@angular/common';
 import {FeedbackService} from "../../feedback/service/feedback.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
@@ -60,10 +61,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   isLoading: Boolean = false;
 
 
-  constructor(private activatedRoute: ActivatedRoute, 
-              private orderService: OrderService, 
+  constructor(private activatedRoute: ActivatedRoute,
+              private orderService: OrderService,
               private notificationService: NotificationService,
-              private toastr: ToastrService, 
+              private toastr: ToastrService,
               private title : Title,
               private feedbackService: FeedbackService,
               private angularFireStorage: AngularFireStorage,){

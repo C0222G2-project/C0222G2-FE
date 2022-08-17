@@ -20,6 +20,8 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 
 
+// @ts-ignore
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,9 +37,9 @@ import {environment} from '../environments/environment';
       {
         timeOut: 2000,
         closeButton: true,
-        // progressBar: true,
+        progressBar: true,
         positionClass: 'toast-top-left',
-        // preventDuplicates: true,
+        preventDuplicates: true,
       }
     ),
     EmployeeModule,
