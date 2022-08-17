@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {IEmployeeDto} from "../dto/i-employee-dto";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {EmployeeService} from "../service/employee.service";
+import {IEmployeeDto} from "../model/employee/i-employee-dto";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-detail-employee',
@@ -12,7 +13,9 @@ import {EmployeeService} from "../service/employee.service";
 export class DetailEmployeeComponent implements OnInit {
   employeeDetailDTO: IEmployeeDto ={};
   constructor(private employeeService:EmployeeService, private activatedRoute:ActivatedRoute,private toast: ToastrService,
-              private router:Router) { }
+              private router:Router,private title:Title) {
+    this.title.setTitle("Chi tiết nhân viên");
+  }
 
   /**
    * Create by TuyenTN

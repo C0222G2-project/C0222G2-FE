@@ -22,7 +22,31 @@ iframe {
     overflow-x: hidden;
 }
 
-.main{
+.main {
+}
+.btn-close{
+    width: 35px !important;
+    height: 35px !important;
+    margin: 0;
+    color: white !important;
+}
+
+iframe {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    border: none;
+}
+iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modal-header{
+    padding: 20px !important;
 }
 
 .shallow-background{
@@ -37,23 +61,11 @@ iframe {
 }
 
 .container-main-content{
-    /* z-index: 999; */
-    padding: 100px 0;
+    padding: 150px 0;
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('src/assets/img/binhpx-background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('src/assets/img/bao4.jpg');
 }
 
-
-/* .pagination,
-.row-container,
-.card,
-.page-item,
-.menu-order-list,
-.btn-container,
-.table-order,
-.table-infor{
-    z-index: 999;
-} */
 
 .card-nameProduct{
     margin: 0;
@@ -87,11 +99,17 @@ iframe {
     border-top-right-radius: 32px;
 }
 
+.card-img-top:hover{
+    transform: scale(1.1);
+}
+
 .card-body{
     background-color: #ffffff;
 }
 
 .my-card{
+    transition: background 0.8s;
+    overflow: hidden;
     height: 400px;
     border-radius: 32px;
 }
@@ -207,8 +225,6 @@ iframe {
 .buttonOrder .btn-modal-red{
     background-color: rgba(222, 125, 125, 111) !important;
 }
-
-
 
 /* Responsive */
 

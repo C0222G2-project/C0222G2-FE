@@ -102,3 +102,11 @@ div p{
   text-align: center;
 }
 
+.tooltipHieu {
+  position: relative;
+  display: inline-block;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+}

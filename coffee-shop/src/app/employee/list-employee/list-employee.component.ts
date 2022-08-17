@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {IEmployeeDto} from "../dto/i-employee-dto";
 import {EmployeeService} from "../service/employee.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {IEmployeeDto} from "../model/employee/i-employee-dto";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-employee',
@@ -27,7 +28,8 @@ export class ListEmployeeComponent implements OnInit {
   checkSpecialCharacterAccount: boolean = false;
   checkSpecialCharacterPhone: boolean = false;
 
-  constructor(private employeeService: EmployeeService, private toast: ToastrService) {
+  constructor(private employeeService: EmployeeService, private toast: ToastrService,private tile:Title) {
+    this.tile.setTitle("Danh sách nhân viên");
   }
 
   /**
@@ -91,6 +93,7 @@ export class ListEmployeeComponent implements OnInit {
    * Method use
    */
   searchEmployeeFormByProperty() {
+
     this.formSearch.value.nameForm = this.formSearch.value.nameForm.trim();
     this.formSearch.value.phoneForm = this.formSearch.value.phoneForm.trim();
     this.formSearch.value.accountForm = this.formSearch.value.accountForm.trim();

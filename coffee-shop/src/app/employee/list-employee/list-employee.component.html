@@ -50,7 +50,8 @@
           <tbody *ngIf="!checkSpecialCharacterName && !checkSpecialCharacterPhone && !checkSpecialCharacterAccount">
           <tr *ngFor="let item of employeeList; index as i">
             <td class="row-bold" style="padding-left: 15px">{{1 + i + pageCurrent * size}}</td>
-            <td  class="hide_content" style="width: 20% !important;">{{item.appUser}}</td>
+<!--            <td  class="hide_content" style="width: 20% !important;">{{item.appUser}}</td>-->
+            <td><span style="color: black; overflow: hidden !important;" class="tooltipHieu">{{item.appUser}}</span></td>
             <td style="width: 20% !important;" ><a class="name-employee" [routerLink]="['/employee/detail',item.id]">{{item.name}}</a></td>
             <td>{{item.phoneNumber | phoneFormat}}</td>
             <td>{{item.position}}</td>

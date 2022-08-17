@@ -34,3 +34,9 @@
     padding-top: 13rem !important;
   }
 }
+@media (max-width: 1400px) {
+  .page-section {
+    padding: 20rem 0;
+    background-color: black;
+  }
+}
