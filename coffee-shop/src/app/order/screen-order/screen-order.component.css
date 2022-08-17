@@ -15,19 +15,19 @@
     color: white !important;
 }
 
-iframe { 
-    margin: 0px; 
-    padding: 0px; 
-    height: 100%; 
-    border: none; 
-} 
-iframe { 
-    display: block; 
-    width: 100%; 
-    border: none; 
-    overflow-y: auto; 
-    overflow-x: hidden; 
-} 
+iframe {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    border: none;
+}
+iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 .modal-header{
     padding: 20px !important;
@@ -209,7 +209,7 @@ iframe {
 .buttonOrder .btn-modal-red{
     background-color: rgba(222, 125, 125, 111) !important;
 }
-  
+
 
 /* Responsive */
 
@@ -229,6 +229,11 @@ iframe {
     .show-service-on-mobile{
         display: block;
         position: relative;
+    }
+
+    .menu-onMobile{
+      position: absolute;
+      top: 40px;
     }
 
     .show-service-on-desktop{
