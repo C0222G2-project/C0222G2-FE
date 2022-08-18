@@ -5,25 +5,28 @@
     </div>
     <div class="row pb-3 ">
       <div class="col-2">
-        <button class="btn btn-outline-light background-btn-add" [routerLink]="['/employee/add']"><i
+        <button class="btn btn-outline-light background-btn-add mt-4" [routerLink]="['/employee/add']"><i
           class="fa-solid fa-plus-minus"></i></button>
       </div>
       <div class="col-10 d-flex justify-content-end">
         <form class="d-flex justify-content-end" [formGroup]="formSearch" (ngSubmit)="searchEmployeeFormByProperty()">
           <div class="col-sm-3 pe-2">
+            <label>Tên tài khoản :</label>
             <input class=" form-control" placeholder="Tìm theo tài khoản" type="text" formControlName="accountForm"
                    name="accountForm">
           </div>
           <div class="col-sm-3  pe-2">
+            <label>Họ và tên :</label>
             <input class=" form-control" placeholder="Tìm theo tên" type="text" formControlName="nameForm"
                    name="nameForm">
           </div>
           <div class="col-sm-3 pe-2">
-            <input class=" form-control" placeholder="Tìm theo sđt" type="text" formControlName="phoneForm"
+            <label>Số điện thoại :</label>
+            <input class=" form-control " placeholder="Tìm theo sđt" type="text" formControlName="phoneForm"
                    name="phoneForm">
           </div>
           <div class="col-sm-1">
-            <button class="btn btn-outline-light btn-search">Tìm</button>
+            <button class="btn btn-outline-light btn-search mt-4">Tìm</button>
           </div>
         </form>
       </div>
@@ -78,8 +81,7 @@
           </tbody>
         </table>
         <div class="mt-2">
-          <p *ngIf="employeeList.length==0 || checkSpecialCharacterName || checkSpecialCharacterPhone ||
-          checkSpecialCharacterAccount">Không có dữ liệu</p>
+          <p *ngIf="employeeList.length==0 || checkSpecialCharacterName || checkSpecialCharacterPhone ||checkSpecialCharacterAccount">Không có dữ liệu</p>
         </div>
 
         <div class="modal fade" id="exampleModalDelete1" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -123,8 +125,10 @@
         </div>
 
         <div class="py-3"
-             *ngIf="employeeList.length>0 && !checkSpecialCharacterName && !checkSpecialCharacterPhone && !checkSpecialCharacterAccount">
-          <nav aria-label="Page navigation example d-flex flex-row-reverse">
+             *ngIf="employeeList.length>0 && !checkSpecialCharacterName && !checkSpecialCharacterPhone
+             && !checkSpecialCharacterAccount">
+
+          <nav aria-label="Page navigation example" class="d-flex justify-content-end">
             <ul class="pagination justify-content-end">
               <div *ngIf="pageCurrent == 0">
                 <li class="page-item disabled">
@@ -168,7 +172,14 @@
                 </li>
               </div>
             </ul>
+            <form style="padding-top: 6px" [formGroup]="formPage" (ngSubmit)="searchPageCurrent()">
+              <div style="width: 120px" class="d-flex justify-content-end ">
+                <label style="padding-right: 5px">Trang : </label>
+                <input style="width: 50px;" type="text" formControlName="pageForm" name="pageForm">
+              </div>
+            </form>
           </nav>
+
         </div>
       </div>
     </div>

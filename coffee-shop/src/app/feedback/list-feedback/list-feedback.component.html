@@ -112,6 +112,12 @@
           </li>
         </div>
       </ul>
+      <form style="padding-top: 6px" [formGroup]="formPage" (ngSubmit)="searchPageCurrent()">
+        <div style="width: 120px" class="d-flex justify-content-end ">
+          <label style="padding-right: 5px">Trang : </label>
+          <input style="width: 50px;" type="text" formControlName="pageForm" name="pageForm">
+        </div>
+      </form>
     </nav>
     <!--end-->
   </div>

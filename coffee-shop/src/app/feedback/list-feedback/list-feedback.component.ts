@@ -33,6 +33,8 @@ export class ListFeedbackComponent implements OnInit {
   checkSortOrNot: boolean = false;
   checkSort: boolean = false;
   checkNameCreator: boolean = false;
+  formPage: FormGroup;
+  pageSearch: number;
 
 
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
@@ -46,6 +48,9 @@ export class ListFeedbackComponent implements OnInit {
       searchName: new FormControl(''),
       searchStartDate: new FormControl('', this.checkInputBirthday),
       searchEndDate: new FormControl('', this.checkInputBirthday)
+    });
+    this.formPage = new FormGroup({
+      pageForm: new FormControl('')
     });
   }
 
@@ -277,5 +282,12 @@ export class ListFeedbackComponent implements OnInit {
    */
   goItemWithoutSort(i: number) {
     this.getAllFeedback(i, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+  searchPageCurrent() {
+    this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
+    if (this.pageSearch > 0 || this.pageSearch <= this.totalPages){
+      this.getAllFeedback(this.pageSearch-1, this.name, this.startDate, this.endDate, 'ASC');
+    }
   }
 }

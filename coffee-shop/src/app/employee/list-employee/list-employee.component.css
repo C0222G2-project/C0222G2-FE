@@ -108,8 +108,12 @@ div p{
   background: white;
   color: blue;
   width: 50px;
+  height: 38.5px;
   text-align: center;
   align-items: center;
   display: flex;
   border-radius: 45%;
+}
+form div label{
+  color: white ;
 }
