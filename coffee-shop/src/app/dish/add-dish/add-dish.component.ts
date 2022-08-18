@@ -32,7 +32,7 @@ export class AddDishComponent implements OnInit {
   getForm() {
     this.formDish = new FormGroup({
       id: new FormControl('', [Validators.required]),
-      code: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^((CF)||(T)||(NE)||(TS))(-)[0-9]{1,}$")]),
+      code: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(CF)(-)[0-9]{1,}$")]),
       price: new FormControl('', [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
       name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern(
         "^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
@@ -65,7 +65,10 @@ export class AddDishComponent implements OnInit {
 
   createDish() {
 
-    const nameImg = this.getCurrentDateTime() + this.selectedImage;
+if (this.selectedImage ==null){
+  this.toastrService.error("vui lòng nhập dữ liệu")
+}
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
       finalize(() => {
@@ -73,19 +76,19 @@ export class AddDishComponent implements OnInit {
             let dish: Dish = this.formDish.value;
             dish.image = url;
 
-            this.dishService.saveDish(dish).subscribe(value => {
-                this.toastrService.success("Thành Công", "Thêm Mới")
-                this.router.navigateByUrl("/dish")
-              },
-              error => {
-                this.toastrService.warning(' Dữ liệu bạn nhập đang bị lỗi hoặc bạn chưa nhập đủ dữ liệu!', 'Thông báo!!!');
+              this.dishService.saveDish(dish).subscribe(value => {
+                  this.toastrService.success("Thành Công", "Thêm Mới")
+                  this.router.navigateByUrl("/dish")
+                },
+                error => {
+                  const codeEr = this.formDish.value.code
+                  if (codeEr == dish.code) {
+                    error.error.defaultMessage = 'codeExists'
+                    this.formDish.controls.code.setErrors({'codeExists': true})
+                  }
 
-                const codeEr = this.formDish.value.code
-                if (codeEr == dish.code) {
-                  error.error.defaultMessage = 'codeExists'
-                  this.formDish.controls.code.setErrors({'codeExists': true})
-                }
-              });
+                });
+
           }
         );
       })
