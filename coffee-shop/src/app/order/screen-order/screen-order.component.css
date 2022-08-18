@@ -8,6 +8,22 @@
     background-color: #be9c79 !important;
 }
 
+iframe {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    border: none;
+}
+iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main {
+}
 
 .btn-close{
     width: 35px !important;
