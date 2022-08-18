@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {GetDishList} from './service/getDishList';
 import {DishWithAmountOrder} from './model/DishWithAmountOrder';
 import {DishWithTimeCreate} from './model/DishWithTimeCreate';
@@ -6,19 +6,20 @@ import {ToastrService} from 'ngx-toastr';
 import {CookieService} from '../login/service/cookie.service';
 import {Title} from "@angular/platform-browser";
 import { NotificationService } from '../order/service/notification.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnChanges {
   dishMostOrderList: DishWithAmountOrder[];
   distNewestList: DishWithTimeCreate[];
   checkData: boolean = true;
   role: string = '';
   token: string = '';
-  messagedUnread = [];
+  show;
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
@@ -27,7 +28,9 @@ export class HomePageComponent implements OnInit {
               private notification: NotificationService,
               private toastr: ToastrService) {
     this.title.setTitle("Trang Chủ");
-    this.messagedUnread = this.notification.keyArray;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -35,6 +38,10 @@ export class HomePageComponent implements OnInit {
     this.token = this.readCookieService('jwToken');
     this.get5DishMostOrder();
     this.get5DishNewest();
+    this.notification.receiveMessage();
+    this.show = this.notification.currentMessage;
+    console.log(this.show);
+    
   }
 
   readCookieService(key: string): string {
@@ -71,16 +78,4 @@ export class HomePageComponent implements OnInit {
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖi');
     });
   }
-
-  /**
-   *  Author: BinhPX
-   *  Date: 17/08/2022
-   */
-  notificationBox(){
-    this.messagedUnread.forEach(items => {
-      this.toastr.warning(items.body, items.title, {timeOut: 2000, progressBar: true});
-    });
-    // console.log(this.messageUnread);
-  }
-
 }
