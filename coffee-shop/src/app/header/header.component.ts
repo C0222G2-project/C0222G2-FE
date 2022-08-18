@@ -65,6 +65,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.sendMessage();
               });
               break;
+            default:
+              this.cookieService.deleteAllCookies();
+              this.cookieService.removeAllCookies();
+              this.router.navigateByUrl('/login').then(() => {
+                this.toastrService.warning('Hết phiên đăng nhập vui lòng đăng nhập lại!');
+                this.sendMessage();
+              });
+              break;
           }
         }, () => {
           this.router.navigateByUrl('/login').then(() => {

@@ -35,7 +35,7 @@ export class ListFeedbackComponent implements OnInit {
   checkNameCreator: boolean = false;
   formPage: FormGroup;
   pageSearch: number;
-
+  checkPage: boolean = true;
 
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
               private title: Title) {
@@ -88,12 +88,15 @@ export class ListFeedbackComponent implements OnInit {
    */
 
   showToast() {
-    if(!this.searchForm.valid){
+    if (!this.searchForm.valid) {
       if (!this.searchStartDate.valid && (this.searchStartDate.value > this.searchEndDate.value)) {
         this.toast.error("Ngày bắt đầu không được hơn ngày hiện tại!", "Lỗi")
       } else if (!this.searchEndDate.valid) {
         this.toast.error("Ngày kết thúc không được hơn ngày hiện tại!", "Lỗi")
       }
+    }
+    if (!this.checkPage) {
+      this.toast.error("Trang bạn tìm không tồn tại!", "Lỗi")
     }
   }
 
@@ -138,6 +141,7 @@ export class ListFeedbackComponent implements OnInit {
    */
   getSearch() {
     this.checkSort = false;
+    this.checkPage = true;
     this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
     if (this.searchForm.value.searchName == null) {
       this.name = '';
@@ -162,7 +166,7 @@ export class ListFeedbackComponent implements OnInit {
       this.endDate = this.searchForm.value.searchEndDate;
     }
     this.showToast()
-    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
   }
 
 
@@ -295,9 +299,9 @@ export class ListFeedbackComponent implements OnInit {
    */
   goEnd() {
     if (this.checkSortOrNot) {
-      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, this.sortRating)
+      this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, this.sortRating)
     } else {
-      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'rating');
+      this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, 'rating');
     }
   }
 
@@ -318,7 +322,7 @@ export class ListFeedbackComponent implements OnInit {
    * Function : page switch button end without sort
    */
   nextWithoutSort() {
-    this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'ASC');
+    this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, 'ASC');
   }
 
   /**
@@ -328,8 +332,13 @@ export class ListFeedbackComponent implements OnInit {
    */
   searchPageCurrent() {
     this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
-    if (this.pageSearch > 0 || this.pageSearch <= this.totalPages){
-      this.getAllFeedback(this.pageSearch-1, this.name, this.startDate, this.endDate, 'ASC');
+    if (this.pageSearch > 0 && this.pageSearch <= this.totalPages) {
+      this.checkPage = true;
+      this.getAllFeedback(this.pageSearch - 1, this.name, this.startDate, this.endDate, 'ASC');
+    } else {
+      this.checkPage = false;
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+      this.showToast()
     }
   }
 }

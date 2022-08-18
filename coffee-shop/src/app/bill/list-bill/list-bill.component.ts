@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
 import {formatDate} from "@angular/common";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -30,7 +31,9 @@ export class ListBillComponent implements OnInit {
 
 
   constructor(private billService: BillService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private title : Title) {
+    this.title.setTitle("Danh sách hóa đơn")
 
     this.billFormReactive = new FormGroup({
       creationDate: new FormControl()

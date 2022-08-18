@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {AngularFireStorage} from "@angular/fire/storage";
@@ -26,7 +26,7 @@ export class AddEmployeeComponent implements OnInit {
   private selectedImage: any = null;
 
   constructor(private employeeService: EmployeeService, private router: Router, private storage: AngularFireStorage,
-              private toast: ToastrService, private title: Title) {
+              private toast: ToastrService, private title: Title, private el: ElementRef) {
     this.title.setTitle("Thêm mới nhân viên")
   }
 
@@ -37,16 +37,16 @@ export class AddEmployeeComponent implements OnInit {
   getEmployeeForm() {
     // @ts-ignore
     this.employeeFormCreate = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(6),,Validators.maxLength(30),
+      username: new FormControl('', [Validators.required, Validators.minLength(6), , Validators.maxLength(30),
         Validators.pattern("^[A-Za-z][a-zA-Z0-9 @]{1,}$")]),
-      image: new FormControl('', [Validators.required,Validators.maxLength(255)]),
-      name: new FormControl('', [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-ZĐ][^A-Z0-9\\s]+)(\\s[A-ZĐ][^A-Z0-9\\s]+)*$")],),
-      email: new FormControl('', [Validators.required, Validators.email,Validators.minLength(6),,Validators.maxLength(50),]),
-      address: new FormControl('', [Validators.required,Validators.minLength(6),Validators.maxLength(255),]),
+      image: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+      name: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30), Validators.pattern("^([A-ZĐ][^A-Z0-9\\s]+)(\\s[A-ZĐ][^A-Z0-9\\s]+)*$")],),
+      email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(6), , Validators.maxLength(50),]),
+      address: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(255),]),
       gender: new FormControl(''),
       phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
-      birthday: new FormControl('',[this.checkInputBirthday,this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
-      salary: new FormControl('', [Validators.required, this.validateCustomSalary,Validators.max(100000000)]),
+      birthday: new FormControl('', [this.checkInputBirthday, this.checkAge16, Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
+      salary: new FormControl('', [Validators.required, this.validateCustomSalary, Validators.max(100000000)]),
       position: new FormControl('')
     });
   }
@@ -60,13 +60,10 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   createEmployee() {
-    const space = this.employeeFormCreate.value;
-    space.username.trim();
-    space.salary.trim();
-    space.address.trim();
-
     this.toggleLoading();
-    if(this.selectedImage == null) {
+    const employee: Employee = this.employeeFormCreate.value;
+    employee.address = employee.address.trim();
+    if (this.selectedImage == null) {
       return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
     }
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
@@ -78,8 +75,8 @@ export class AddEmployeeComponent implements OnInit {
           const appUser: AppUser = {
             userName: this.employeeFormCreate.value.username
           }
-          const employee: Employee = this.employeeFormCreate.value;
           employee.appUser = appUser;
+
           if (this.employeeFormCreate.valid) {
             this.employeeService.saveEmployee(employee).subscribe(value => {
               this.router.navigateByUrl('/employee').then(() => {
@@ -98,7 +95,7 @@ export class AddEmployeeComponent implements OnInit {
                 }
               }
             })
-          }else {
+          } else {
             return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
           }
         })
@@ -118,6 +115,7 @@ export class AddEmployeeComponent implements OnInit {
       this.selectedImage = null;
     }
   }
+
   toggleLoading() {
     this.isLoading = true;
     setTimeout(() => {
@@ -179,7 +177,7 @@ export class AddEmployeeComponent implements OnInit {
   checkInputBirthday(birthday: AbstractControl) {
     const value = birthday.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if(value >= curDate) {
+    if (value >= curDate) {
       return {'checkDate': true}
     }
     return null;

@@ -1,5 +1,5 @@
 <div id="menu">
-  <div id="radius" class="container bg-light">
+  <div id="radius" class="container  bg-light">
 
     <div class="row col-lg-12 management">
 
@@ -55,7 +55,7 @@
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('required') && formDish.controls.code.touched">Mã số món không được để trống. </p>
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('minlength') && formDish.controls.code.touched">Mã số món phải nhiều hơn 3 kí tự. </p>
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('maxlength') && formDish.controls.code.touched">Mã số món phải it hơn 250 kí tự. </p>
-                <p style="color: red" *ngIf="formDish.controls.code.hasError('pattern') && formDish.controls.code.touched"> Mã số món phải bắt đầu bằng CF-/ T- / NE- /TS- : và kết thúc bằng số. </p>
+                <p style="color: red" *ngIf="formDish.controls.code.hasError('pattern') && formDish.controls.code.touched"> Mã số món phải bắt đầu bằng D- và kết thúc bằng số. </p>
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('codeExists') && formDish.controls.code.touched"> Mã số món đã tồn tại. </p>
 
               </div>
@@ -94,12 +94,12 @@
             </div>
 
             <div class="col-sm-6 " id="xoa" >
-              <div class=" form-outline mb-4" >
-                <img  id="image" src="{{formDish.value.image}}" style="height: 100%; width: 100% ; ">
+              <div class=" form-outline mb-2" >
+                <img  id="image" src="{{formDish.value.image}}" style="transform: scale(0.8); height: auto;width: 100% ">
               </div>
 
-              <div class=" form-outline mb-4"  >
-                <img id="img" [src]="imgSrc"  style="height: 100%; width: 100%; display: none "
+              <div class=" form-outline mb-2"  >
+                <img id="img" [src]="imgSrc"   style="transform: scale(0.8); height: auto;width: 100% "
                      (click)="fileUploader.click()">
               </div>
             </div>

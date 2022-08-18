@@ -49,16 +49,12 @@ export class EditDishComponent implements OnInit {
   getForm() {
     this.formDish = new FormGroup({
       id: new FormControl(this.dish.id,),
-      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3),
-        Validators.maxLength(30)]),
-      price: new FormControl(this.dish.price, [Validators.required, Validators.min(5000),
-        Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
-      name: new FormControl(this.dish.name, [Validators.required, Validators.minLength(5),
-        Validators.maxLength(255),
-        Validators.pattern("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
-          "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
-          "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
-          "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
+      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(D)(-)[0-9]{1,}$")]),
+      price: new FormControl(this.dish.price, [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
+      name: new FormControl(this.dish.name, [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+        "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
+        "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+        "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
       image: new FormControl(this.dish.image, [Validators.required]),
       isDeleted: new FormControl(this.dish.isDeleted),
       dishType: new FormControl(this.dish.dishType.name, [Validators.required]),
