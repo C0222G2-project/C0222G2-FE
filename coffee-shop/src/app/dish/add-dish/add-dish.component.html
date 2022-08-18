@@ -50,7 +50,7 @@
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('minlength') && formDish.controls.code.touched">Mã số món phải nhiều hơn 3 kí tự. </p>
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('maxlength') && formDish.controls.code.touched">Mã số món phải it hơn 250 kí tự. </p>
                 <p style="color: red" *ngIf="formDish.controls.code.hasError('pattern') && formDish.controls.code.touched"> Mã số món phải bắt đầu bằng CF-  và kết thúc bằng số. </p>
-                <p style="color: red" *ngIf="formDish.controls.code.hasError('codeExists') && formDish.controls.code.touched"> Mã số món đã tồn tại. </p>
+                <p id="validateCode" style="color: red" *ngIf="formDish.controls.code.hasError('codeExists') && formDish.controls.code.touched"> Mã số món đã tồn tại. </p>
 
               </div>
             </div>
