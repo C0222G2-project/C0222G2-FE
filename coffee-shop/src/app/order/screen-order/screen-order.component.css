@@ -65,7 +65,7 @@ iframe {
 .container-main-content{
     padding: 150px 0;
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('src/assets/img/bao4.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('src/assets/img/bao4.jpg');
 }
 
 

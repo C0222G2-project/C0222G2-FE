@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {LogoutService} from "../service/logout.service";
 import {CookieService} from "../service/cookie.service";
 import {CommonService} from "../service/common.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-forgot-password-login',
@@ -23,7 +24,9 @@ export class ForgotPasswordLoginComponent implements OnInit {
                 private router: Router,
                 private logoutService: LogoutService,
                 private cookieService: CookieService,
+                private title : Title,
                 private commonService: CommonService) {
+      this.title.setTitle("Quên mật khẩu");
         this.activatedRoute.paramMap.subscribe(value => {
             this.token = value.get("token");
         }, error => {

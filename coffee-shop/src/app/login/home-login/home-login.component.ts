@@ -9,6 +9,7 @@ import {ForgotService} from "../service/forgot.service";
 import {CommonService} from "../service/common.service";
 import {Subscription} from "rxjs";
 import { NotificationService } from 'src/app/order/service/notification.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home-login',
@@ -29,7 +30,9 @@ export class HomeLoginComponent implements OnInit {
               private authService: AuthService,
               private forgotService: ForgotService,
               private commonService: CommonService,
+              private title : Title,
               private notificationService: NotificationService) {
+    this.title.setTitle("Đăng Nhập");
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
       this.messageReceived = message;
     });
