@@ -13,7 +13,7 @@ import { DishType } from 'src/app/dish/model/dish-type';
 export class OrderService {
   private urlGetDishes = 'http://localhost:8080/dish/getDishFindIdDishType';
   private urlGetDish = 'http://localhost:8080/dish/findById';
-  private urlGetDishType = 'http://localhost:8080/dishType/getDishTypePage';
+  private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
   private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 

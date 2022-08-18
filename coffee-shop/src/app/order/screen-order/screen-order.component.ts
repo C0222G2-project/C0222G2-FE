@@ -46,6 +46,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   totalMoney = 0;
   presentPage = 1;
   date: Date;
+  tableUser: string;
   employee: Employee;
   coffeTable: CoffeeTable;
   /**
@@ -67,29 +68,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
               private toastr: ToastrService,
               private title : Title,
               private feedbackService: FeedbackService,
-              private angularFireStorage: AngularFireStorage,){
+              private angularFireStorage: AngularFireStorage,
+              private cookieService: CookieService){
       this.formCheckBox = new FormGroup({
         selectCheckBox: new FormArray([])
       });
       this.title.setTitle("Gọi món");
       this.messageUnread = this.notificationService.keyArray;
       this.date = new Date();
-      this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
-        this.getDish(parseInt(p.get('id')));
-      })
-      const tempOrder: string = localStorage.getItem('dish');
-      if(tempOrder){
-        this.dish = JSON.parse(tempOrder) as Dish;
-      }
-      this.order={
-        employee: {},
-        coffeeTable: {},
-        bill: {},
-        quantity: 1,
-        dish: this.dish
-      };
-      this.orderMenu.push(this.order);
-      this.totalMoney = this.order.quantity * this.dish.price;
+      this.tableUser = this.cookieService.getCookie('username');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -171,7 +158,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
          this.dish = dish;
          localStorage.setItem('dish', JSON.stringify(this.dish));
          const tempOrder: string = localStorage.getItem('dish');
-         console.log(tempOrder);
          if(tempOrder){
             this.dish = JSON.parse(tempOrder) as Dish;
           }
@@ -251,7 +237,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 14/08/2022
    *  This function create order have param is table code, employee code, bill code, dish code
    */
-    createOrder(){
+    createOrder(titleContent: string, tableCoffe: string, requestConent: string){
       this.orderMenu.forEach(items => {
         let i = 0;
         this.order = {
@@ -267,6 +253,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       });
       this.toastr.success("Bạn đã order thành công", "Thành công", {timeOut: 2000, progressBar: true});
       this.orderMenu = [];
+      this.sendNotification(titleContent, tableCoffe, requestConent);
+      localStorage.clear();
       this.displayTimer(0);
     }
 
@@ -296,10 +284,17 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   deleteDish(){
     const selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
-
+    let arrayTemp = [];
+    selectCheckBox.value.sort();
     for(let i of selectCheckBox.value){
-      this.orderMenu.splice(Number(i), 1);
+      this.orderMenu.splice(i, 1, 0);
     }
+    arrayTemp = this.orderMenu.filter(item => {
+       if(item != 0){
+        return arrayTemp.push(item);
+       }
+    })
+    this.orderMenu = arrayTemp;
       this.totalMoney = 0;
       this.orderMenu.forEach(items => {
         this.totalMoney+= items.dish.price * items.quantity;

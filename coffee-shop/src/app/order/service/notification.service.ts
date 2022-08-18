@@ -28,7 +28,7 @@ export class NotificationService {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
         _messaging.onMessage = _messaging.onMessage.bind(_messaging);
-        // _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
+        _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     )
@@ -53,8 +53,7 @@ export class NotificationService {
       to: this.registerToken,
       notification: {
         title: this.notification.title,
-        body: this.notification.body,
-        status: false
+        body: this.notification.body
       }
     }
     let option = {
@@ -86,7 +85,7 @@ export class NotificationService {
   }
 
   receiveMessage() {
-    this.angularFireMessaging.messages.subscribe(
+    this.angularFireMessaging.onMessage(
     (payload) => {
       console.log("new message received. ", payload);
       this.currentMessage.next(payload);

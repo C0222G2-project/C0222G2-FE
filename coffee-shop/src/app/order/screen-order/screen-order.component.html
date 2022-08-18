@@ -8,7 +8,7 @@
                             <h1 class="number-table-infor mb-2">Số bàn:</h1>
                         </div>
                         <div class="col-6">
-                            <h1 class="number-table-infor mb-2" #tableCode>A-01</h1>
+                            <h1 class="number-table-infor mb-2" #tableCode>{{tableUser}}</h1>
                         </div>
                     </div>
                     <div class="row">
@@ -42,7 +42,7 @@
                             Menu
                         </button>
                         <ul class="list-group menu-onMobile" *ngIf="hideMenu">
-                            <li class="list-group-item p-3" (click)="sendNotification('Gọi phục vụ', 'T-001', 'yêu cầu phục vụ')"><p class="text-dark m-0">Gọi phục vụ</p></li>
+                            <li class="list-group-item p-3" (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu phục vụ')"><p class="text-dark m-0">Gọi phục vụ</p></li>
                             <li class="list-group-item p-3">
                               <p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback">
                                 Phản hồi</p></li>
@@ -107,11 +107,11 @@
                                     Xóa món
                                 </button>
                                 <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" style="font-size: 20px; align-content: center"
-                                (click)="createOrder()">
+                                (click)="createOrder('Gọi phục vụ', tableUser, 'gọi món')">
                                     Gọi món
                                 </button>
                                 <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" style="font-size: 20px; align-content: center"
-                                (click)="sendNotification('Gọi phục vụ', 'T-001', 'yêu cầu tính tiền')">
+                                (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu tính tiền')">
                                     Tính tiền
                                 </button>
                             </div>
