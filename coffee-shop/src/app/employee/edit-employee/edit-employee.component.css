@@ -66,4 +66,6 @@ label {
     display: none;
   }
 }
-
+.bg-white {
+  border-radius: 40px;
+}

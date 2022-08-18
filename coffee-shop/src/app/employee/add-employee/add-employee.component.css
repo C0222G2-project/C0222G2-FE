@@ -18,7 +18,6 @@
   background-color: white;
 }
 .sliceCss {
-  height: 550px;
   border-radius: 70px;
   margin-top: 20px;
 }
@@ -68,4 +67,9 @@ label {
     display: none;
   }
 }
+.bg-white {
+  border-radius: 40px;
+}
+
+
 
