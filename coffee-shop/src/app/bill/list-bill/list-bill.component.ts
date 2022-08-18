@@ -25,7 +25,9 @@ export class ListBillComponent implements OnInit {
   searchBillDate: string;
 
   constructor(private billService: BillService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private title : Title,) {
+    this.title.setTitle("Danh sách hóa đơn")
   }
 
   ngOnInit(): void {

@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {DishType} from "../model/dish-type";
 import {Dish} from "../model/dish";
+ import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -22,8 +23,8 @@ export class ListDishComponent implements OnInit {
   number: number;
   size: number;
 
-  constructor(private dishService: DishService, private toast: ToastrService, private router: Router) {
-
+  constructor(private dishService: DishService, private toast: ToastrService, private router: Router,private title : Title,) {
+  this.title.setTitle("Danh sách món")
   }
 
   ngOnInit(): void {
