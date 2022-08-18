@@ -103,47 +103,96 @@
           </table>
           <h3 *ngIf="dishArray.length==0" style="color: white; text-align: center">Không có dữ liệu</h3>
           <br>
-          <nav aria-label="Page navigation example" [hidden]="dishArray.length==0">
-            <ul class="pagination justify-content-end">
-              <div *ngIf="number == 0">
-                <li class="page-item disabled">
-                  <button class="page-link" hidden>Previous</button>
-                </li>
-              </div>
-              <div *ngIf="number != 0">
-                <li class="page-item">
-                  <button style="background-color: white;color: black" class="page-link" (click)="goPrevious()">
-                    trước
-                  </button>
-                </li>
-              </div>
-              <div *ngFor="let count of countTotalPages; index as i">
-                <div *ngIf="i == number">
-                  <li class="page-item active">
-                    <button style="background-color: #744e3a;color: white" class="page-link"
-                            (click)="goItem(i)">{{i + 1}}</button>
+<!--          <nav aria-label="Page navigation example" [hidden]="dishArray.length==0">-->
+<!--            <ul class="pagination justify-content-end">-->
+<!--              <div *ngIf="number == 0">-->
+<!--                <li class="page-item disabled">-->
+<!--                  <button class="page-link" hidden>Previous</button>-->
+<!--                </li>-->
+<!--              </div>-->
+<!--              <div *ngIf="number != 0">-->
+<!--                <li class="page-item">-->
+<!--                  <button style="background-color: white;color: black" class="page-link" (click)="goPrevious()">-->
+<!--                    trước-->
+<!--                  </button>-->
+<!--                </li>-->
+<!--              </div>-->
+<!--              <div *ngFor="let count of countTotalPages; index as i">-->
+<!--                <div *ngIf="i == number">-->
+<!--                  <li class="page-item active">-->
+<!--                    <button style="background-color: #744e3a;color: white" class="page-link"-->
+<!--                            (click)="goItem(i)">{{i + 1}}</button>-->
+<!--                  </li>-->
+<!--                </div>-->
+<!--                <div *ngIf="i != number">-->
+<!--                  <li class="page-item">-->
+<!--                    <button style="background-color: white;color: black" class="page-link"-->
+<!--                            (click)="goItem(i)">{{i + 1}}</button>-->
+<!--                  </li>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngIf="number == totalPages - 1">-->
+<!--                <li class="page-item disabled">-->
+<!--                  <button class="page-link" hidden>Next</button>-->
+<!--                </li>-->
+<!--              </div>-->
+<!--              <div *ngIf="number != totalPages - 1">-->
+<!--                <li class="page-item">-->
+<!--                  <button style="background-color: white;color: black" class="page-link" (click)="goNext()">sau-->
+<!--                  </button>-->
+<!--                </li>-->
+<!--              </div>-->
+<!--            </ul>-->
+<!--          </nav>-->
+          <div class="py-3"
+               [hidden]="dishArray.length==0">
+            <nav aria-label="Page navigation example d-flex flex-row-reverse">
+              <ul class="pagination justify-content-end">
+                <div *ngIf="number == 0">
+                  <li class="page-item disabled">
+                    <button class="page-link" (click)="goStart()" hidden><<</button>
                   </li>
                 </div>
-                <div *ngIf="i != number">
+                <div *ngIf="number != 0">
                   <li class="page-item">
-                    <button style="background-color: white;color: black" class="page-link"
-                            (click)="goItem(i)">{{i + 1}}</button>
+                    <button class="page-link" (click)="goStart()"><<</button>
                   </li>
                 </div>
-              </div>
-              <div *ngIf="number == totalPages - 1">
-                <li class="page-item disabled">
-                  <button class="page-link" hidden>Next</button>
-                </li>
-              </div>
-              <div *ngIf="number != totalPages - 1">
-                <li class="page-item">
-                  <button style="background-color: white;color: black" class="page-link" (click)="goNext()">sau
-                  </button>
-                </li>
-              </div>
-            </ul>
-          </nav>
+                <div *ngIf="number == 0">
+                  <li class="page-item disabled">
+                    <button class="page-link" (click)="goPrevious()" hidden><</button>
+                  </li>
+                </div>
+                <div *ngIf="number != 0">
+                  <li class="page-item">
+                    <button class="page-link" (click)="goPrevious()"><</button>
+                  </li>
+                </div>
+
+                <div class="number-pages">{{number +1}} | {{totalPages}}</div>
+                <div *ngIf="number == totalPages - 1">
+                  <li class="page-item disabled">
+                    <button class="page-link" (click)="goNext()" hidden>></button>
+                  </li>
+                </div>
+                <div *ngIf="number != totalPages - 1">
+                  <li class="page-item">
+                    <button class="page-link" (click)="goNext()">></button>
+                  </li>
+                </div>
+                <div *ngIf="number == totalPages - 1">
+                  <li class="page-item disabled">
+                    <button class="page-link" (click)="goEnd()" hidden>>></button>
+                  </li>
+                </div>
+                <div *ngIf="number != totalPages - 1">
+                  <li class="page-item">
+                    <button class="page-link" (click)="goEnd()">>></button>
+                  </li>
+                </div>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>

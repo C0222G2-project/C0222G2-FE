@@ -14,32 +14,26 @@
             </div>
           </div>
         </div>
-
-        <div class="container mt-5">
-          <div class=" row col-12">
-
-            <form class="d-flex center" [formGroup]="searchForm" (ngSubmit)="getFormSearch()">
-              <div class="col-3"></div>
-              <div class="col-3">
-                <input class="form-control me-3 search1" type="text" name="searchBillCode"
-                       formControlName="searchBillCode"
-                       placeholder="Search số hóa đơn" aria-label="Search" aria-describedby="search-addon">
-              </div>
-              <div class="col-3" style="margin-left: 5px">
-                <input class="form-control me-3 search1" type="date" name="searchBillDate"
-                       formControlName="searchBillDate"
-                       placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
-              </div>
-              <div class="col-3" style="margin-left: 5px">
-                <button class="btn btn-success search1" type="submit" name="name" style="color: white">Tìm kiếm
-                </button>
-              </div>
-            </form>
-          </div>
+        <div class="row mt-5">
+          <form class="d-flex" [formGroup]="searchForm" *ngIf="searchForm" (ngSubmit)="getFormSearch()">
+            <label class="text-white mt-1 me-2">Số Hóa Đơn:</label>
+            <input class="form-control me-2 search-1" type="text" name="searchCode"
+                   formControlName="searchCode"
+                   placeholder="số hóa đơn" >
+            <label class="text-white mt-1 me-2" style="margin-left: 5px">Ngày Tạo:</label>
+            <input class="form-control me-2 search-1" type="date" name="searchDate"
+                   formControlName="searchDate"
+                   placeholder="Search Ngày tạo" aria-label="Search" aria-describedby="search-addon">
+            <div *ngIf="!searchDate.valid && (searchDate.dirty || searchDate.touched)">
+              <div class="text-white" [hidden]="!searchDate.errors.checkDate"> Vui Lòng Nhập Nhỏ Hơn Ngày Hiện Tại</div>
+            </div>
+            <button class="btn button-1 me-2" type="submit" name="name" style="color: white; margin-left: 10px">Tìm kiếm
+            </button>
+          </form>
         </div>
       </div>
     </header>
-    <div class="table_wrapper mt-2">
+    <div class="table_wrapper mt-3">
       <table class="table table-hover table-bill">
         <thead class="thead-bill">
         <tr class="table100-head">
@@ -48,30 +42,39 @@
           <th class="th-bill">Ngày Tạo</th>
           <th class="th-bill">Người Tạo</th>
           <th class="th-bill">Số Bàn</th>
-          <th class="vnd th-bill">Tổng Tiền (VND)</th>
+          <th class="vnd th-bill">Tổng Tiền</th>
           <th class="th-bill">Chi Tiết</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!billCode">
         <tr *ngFor="let bill of bills index as i">
-          <td class="td-bill">{{i + 1}}</td>
+          <td class="td-bill">{{(i+1) + size * number}}</td>
           <td class="td-bill">{{bill.billCode}}</td>
           <td class="td-bill">{{bill.creationDate|date: 'dd-MM-yyyy'}}</td>
           <td class="td-bill">{{bill.employeeName}}</td>
           <td class="td-bill">{{bill.coffeeTableCode}}</td>
-          <td class="td-bill" style="text-align: right">{{bill.dishPrice| currency: 'VND': ''}}đ</td>
+          <td class="td-bill">{{bill.totalBill| currency: "VND": ''}}đ</td>
           <td class="td-bill">
-            <a href="#"
-               class="button-detail" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
+            <a href="#" (click)="getBillId(bill.id)"
+               class="a-bill" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
               <mat-icon class="bi">remove_red_eye</mat-icon>
             </a>
 
-            <div class="container  offcanvas offcanvas-end detail " id="offcanvas{{bill.id}}">
-              <div style="display: none">
-                <div class="text-center">
-                  <h1 class="offcanvas-title text-black" style="padding-top: 20px"><b>Chi Tiết Hóa Đơn</b></h1>
+            <div class="container offcanvas offcanvas-end detail aut " id="offcanvas{{bill.id}}" style="overflow: auto">
+              <div id="contentToConvert{{bill.id}}" >
+                <div class="row text-center">
+                  <h1>C0222G2-COFFEE</h1>
                 </div>
-
+                <div class="row text-center">
+                  <h5>ĐC: 295 Nguyễn Tất Thành - Đà Nẵng</h5>
+                </div>
+                <div class="row text-center">
+                  <h5>SĐT: 0236 6517 021</h5>
+                </div>
+                -------------------------
+                <div class="row text-center">
+                  <h4><b>Hóa Đơn Thanh Toán</b></h4>
+                </div>
                 <div class="row" style="text-align: left">
                   <div class="col-4"><b>Số Hóa Đơn:</b></div>
                   <div class="col-8"><p>{{bill.billCode}}</p></div>
@@ -88,260 +91,154 @@
                   <div class="col-4"><b>Nhân Viên:</b></div>
                   <div class="col-8"><p>{{bill.employeeName}}</p></div>
                 </div>
-
                 <table class="table">
                   <thead>
                   <tr>
+                    <th class="th-stt"><b>STT</b></th>
                     <th><b>Tên Món</b></th>
-                    <th><b>Số Lương</b></th>
-                    <th><b>Giá(VND)</b></th>
+                    <th><b>Số Lượng</b></th>
+                    <th><b>Giá</b></th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>{{bill.dishName}}</td>
-                    <td>{{bill.dishOrderQuantity}}</td>
-                    <td class="tien">{{bill.dishPrice| currency: 'VND': ''}}</td>
-                  </tr>
-                  </tbody>
-                </table>
-                <div class="row">
-                  <div class="col-3">
-                    <b>Tổng Tiền:</b>
-                  </div>
-                  <div class="col-6"></div>
-                  <div class="col-3" style="text-align: right">
-                    160.000
-                  </div>
-                </div>
-              </div>
-
-
-              <!--              <div class="col-md-8" id="htmlData" #htmlData>-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h1>C0222G2 COFFEE</h1>-->
-              <!--                </div>-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h5>DC: 295 Nguyen Tat Thanh - Da Nang</h5>-->
-              <!--                </div>-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h5>SDT: 0236 6517 021</h5>-->
-              <!--                </div>-->
-              <!--                -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h4><b>Hoa Don Thanh Toan</b></h4>-->
-              <!--                </div>-->
-              <!--                <div class="row" style="text-align: left">-->
-              <!--                  <div class="col-4"><b>So:</b></div>-->
-              <!--                  <div class="col-8"><p>{{bill.billCode}}</p></div>-->
-              <!--                </div>-->
-              <!--                <div class="row" style="text-align: left">-->
-              <!--                  <div class="col-4"><b>Ban:</b></div>-->
-              <!--                  <div class="col-8"><p>{{bill.coffeeTableCode}}</p></div>-->
-              <!--                </div>-->
-              <!--                <div class="row" style="text-align: left">-->
-              <!--                  <div class="col-4"><b>Ngay:</b></div>-->
-              <!--                  <div class="col-8"><p>{{bill.creationDate|date: 'dd-MM-yyyy'}}</p></div>-->
-              <!--                </div>-->
-              <!--                <div class="row" style="text-align: left">-->
-              <!--                  <div class="col-4"><b>Nhan Vien:</b></div>-->
-              <!--                  <div class="col-8"><p>{{bill.employeeName}}</p></div>-->
-              <!--                </div>-->
-
-              <!--                <table class="table">-->
-              <!--                  <thead>-->
-              <!--                  <tr>-->
-              <!--                    <th><b>Ten Mon</b></th>-->
-              <!--                    <th><b>So Luong</b></th>-->
-              <!--                    <th><b>Gia(VND)</b></th>-->
-              <!--                  </tr>-->
-              <!--                  </thead>-->
-              <!--                  <tbody>-->
-              <!--                  <tr>-->
-              <!--                    <td>{{bill.dishName}}</td>-->
-              <!--                    <td>{{bill.dishOrderQuantity}}</td>-->
-              <!--                    <td class="tien">{{bill.dishPrice| currency: 'VND': ''}}</td>-->
-              <!--                  </tr>-->
-              <!--                  </tbody>-->
-              <!--                </table>-->
-              <!--                <div class="row">-->
-              <!--                  <div class="col-3">-->
-              <!--                    <b>Tong Thanh Tien:</b>-->
-              <!--                  </div>-->
-              <!--                  <div class="col-6"></div>-->
-              <!--                  <div class="col-3" style="text-align: right">-->
-              <!--                    160.000-->
-              <!--                  </div>-->
-              <!--                </div>-->
-
-              <!--                <div class="row">-->
-              <!--                  <div class="col-3">-->
-              <!--                    <b>Tien Khach Tra:</b>-->
-              <!--                  </div>-->
-              <!--                  <div class="col-6"></div>-->
-              <!--                  <div class="col-3" style="text-align: right">-->
-              <!--                    160.000-->
-              <!--                  </div>-->
-              <!--                </div>-->
-
-              <!--                <div class="row">-->
-              <!--                  <div class="col-3">-->
-              <!--                    <b>Tien Thua:</b>-->
-              <!--                  </div>-->
-              <!--                  <div class="col-6"></div>-->
-              <!--                  <div class="col-3" style="text-align: right">-->
-              <!--                    0-->
-              <!--                  </div>-->
-              <!--                </div>-->
-              <!--                &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h5><b>Xin cam on, hen gap lai quy khach</b></h5>-->
-              <!--                </div>-->
-              <!--                <div class="row text-center">-->
-              <!--                  <h6>Mat Khau wifi: codegym@2021</h6>-->
-              <!--                </div>-->
-              <!--              </div>-->
-
-              <div class="col-md-8" id="contentToConvert">
-                <table border="1" class="table table-bordered">
-                  <thead>
-                  <tr class="table-primary">
-                    <th colspan="6">
-                      <h1>C0222G2 COFFEE</h1>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th colspan="6">
-                      <h5>DC: 295 Nguyen Tat Thanh - Da Nang</h5>
-                    </th>
-                  </tr>
-                  <tr>
-                    <td colspan="6">
-                      <h5>SDT: 0236 6517 021</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="6">
-                      -------------------------
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="6">
-                      <h4><b>Hoa Don Thanh Toan</b></h4>
-                    </td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td colspan="1" style="text-align: left">
-                      <div class="row" style="text-align: left">
-                        <div class="col-4"><b>So:</b></div>
-                        <div class="col-8"><p>{{bill.billCode}}</p></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="1">
-                      <div class="row" style="text-align: left">
-                        <div class="col-4"><b>Ban:</b></div>
-                        <div class="col-8"><p>{{bill.coffeeTableCode}}</p></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="1">
-                      <div class="row" style="text-align: left">
-                        <div class="col-4"><b>Ngay:</b></div>
-                        <div class="col-8"><p>{{bill.creationDate|date: 'dd-MM-yyyy'}}</p></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="1">
-                      <div class="row" style="text-align: left">
-                        <div class="col-4"><b>Nhan Vien:</b></div>
-                        <div class="col-8"><p>{{bill.employeeName}}</p></div>
-                      </div>
-                    </td>
+                  <tr *ngFor="let dish of dishs index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{dish.dishName}}</td>
+                    <td>{{dish.dishOrderQuantity}}</td>
+                    <td class="tien">{{dish.dishPrice| currency: "VND": ''}}đ</td>
                   </tr>
                   </tbody>
                 </table>
 
-                <!--                              <table class="table">-->
-                <!--                                <thead>-->
-                <!--                                <tr>-->
-                <!--                                  <th><b>Ten Mon</b></th>-->
-                <!--                                  <th><b>So Luong</b></th>-->
-                <!--                                  <th><b>Gia(VND)</b></th>-->
-                <!--                                </tr>-->
-                <!--                                </thead>-->
-                <!--                                <tbody>-->
-                <!--                                <tr>-->
-                <!--                                  <td></td>-->
-                <!--                                  <td></td>-->
-                <!--                                  <td class="tien"></td>-->
-                <!--                                </tr>-->
-                <!--                                </tbody>-->
-                <!--                              </table>-->
+                <table class="table">
+                  <tr>
+                    <td style="text-align: left"><b>Tổng Cộng:</b></td>
+                    <td style="text-align: right">{{bill.totalBill| currency: "VND": ''}}đ</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left"><b>Tiền Khách Trả:</b></td>
+                    <td style="text-align: right">{{bill.totalBill| currency: "VND": ''}}đ</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left"><b>Tiền Thừa:</b></td>
+                    <td style="text-align: right">0đ</td>
+                  </tr>
+                </table>
+                <div class="row d-flex justify-content-center">
+                  ----------------------------------------------
+                </div>
+                <div class="row text-center">
+                  <div><b>Xin cảm ơn, hẹn gặp lại quý khách!</b></div>
+                </div>
+                <div class="row text-center">
+                  <div><p>Mật khẩu wifi: codegym@2021</p></div>
+                </div>
               </div>
 
-
-              <div class="row mt-4">
-                <div class="col-4" style="text-align: right">
-                  <button class="btn btn-success btn-block" >Xem Hóa Đơn</button>
-                </div>
+              <div class="row mt-3" style="margin-bottom: 10px">
+                <div class="col-2"></div>
                 <div class="col-5" style="text-align: right">
-                  <button class="btn btn-danger btn-block" (click)="generatePDF()">Xuất Hóa Đơn</button>
+                  <button class="btn button-page" [disabled]="isLoading"  (click)="generatePDF(bill.id, bill.billCode)">
+                    <img *ngIf="isLoading" width="30px" src="../../../assets/img/dieptt-loading-symbol.gif">Xuất Hóa Đơn</button>
                 </div>
                 <div class="col-3">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">
                     <b style="color: white">Đóng</b>
                   </button>
                 </div>
+                <div class="col-2"></div>
               </div>
-
             </div>
-
           </td>
         </tr>
         </tbody>
       </table>
+      <h1 *ngIf="bills.length == 0 || billCode"  style="border-top: none; text-align: center; color: white">Không Có Dữ Liệu</h1>
 
-      <div class="container-fluid mt-3">
-        <ul class="pagination float-end">
-          <div *ngIf="number == 0">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goPrevious()">Previous</button>
-            </li>
-          </div>
-          <div *ngIf="number != 0">
-            <li class="page-item">
-              <button class="page-link" (click)="goPrevious()">Previous</button>
-            </li>
-          </div>
-          <div *ngFor="let count of countTotalPages; index as i">
-            <div *ngIf="i == number">
-              <li class="page-item active">
-                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+      <!--      <div class="container-fluid mt-3" *ngIf="!billCode" [hidden]=" bills.length == 0 ">-->
+      <!--        <ul class="pagination float-end">-->
+      <!--          <div *ngIf="number == 0">-->
+      <!--            <li class="page-item disabled">-->
+      <!--              <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>-->
+      <!--            </li>-->
+      <!--          </div>-->
+      <!--          <div *ngIf="number != 0">-->
+      <!--            <li class="page-item">-->
+      <!--              <button class="page-link text-black" (click)="goPrevious()">Trước</button>-->
+      <!--            </li>-->
+      <!--          </div>-->
+      <!--          <div *ngFor="let count of countTotalPages; index as i">-->
+      <!--            <div *ngIf="i == number">-->
+      <!--              <li class="page-item active">-->
+      <!--                <button class="btn button-page" (click)="goItem(i)">{{i + 1}}</button>-->
+      <!--              </li>-->
+      <!--            </div>-->
+      <!--            <div *ngIf="i != number">-->
+      <!--              <li class="page-item">-->
+      <!--                <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>-->
+      <!--              </li>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--          <div *ngIf="number == totalPages - 1">-->
+      <!--            <li class="page-item disabled">-->
+      <!--              <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>-->
+      <!--            </li>-->
+      <!--          </div>-->
+      <!--          <div *ngIf="number != totalPages - 1">-->
+      <!--            <li class="page-item">-->
+      <!--              <button class="page-link text-black" (click)="goNext()">Sau</button>-->
+      <!--            </li>-->
+      <!--          </div>-->
+      <!--        </ul>-->
+      <!--      </div>-->
+      <div class="container-fluid py-3"
+           *ngIf="bills.length>0 && !billCode">
+        <nav aria-label="Page navigation example d-flex flex-row-reverse">
+          <ul class="pagination justify-content-end">
+            <div *ngIf="number == 0">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goStart()" hidden><<</button>
               </li>
             </div>
-            <div *ngIf="i != number">
+            <div *ngIf="number != 0">
               <li class="page-item">
-                <button class="page-link" (click)="goItem(i)">{{i + 1}}</button>
+                <button class="page-link" (click)="goStart()"><<</button>
               </li>
             </div>
-          </div>
-          <div *ngIf="number == totalPages - 1">
-            <li class="page-item disabled">
-              <button class="page-link" (click)="goNext()">Next</button>
-            </li>
-          </div>
-          <div *ngIf="number != totalPages - 1">
-            <li class="page-item">
-              <button class="page-link" (click)="goNext()">Next</button>
-            </li>
-          </div>
-        </ul>
+            <div *ngIf="number == 0">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goPrevious()" hidden><</button>
+              </li>
+            </div>
+            <div *ngIf="number != 0">
+              <li class="page-item">
+                <button class="page-link" (click)="goPrevious()"><</button>
+              </li>
+            </div>
+
+            <div class="number-pages">{{number +1}} | {{totalPages}}</div>
+            <div *ngIf="number == totalPages - 1">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goNext()" hidden>></button>
+              </li>
+            </div>
+            <div *ngIf="number != totalPages - 1">
+              <li class="page-item">
+                <button class="page-link" (click)="goNext()">></button>
+              </li>
+            </div>
+            <div *ngIf="number == totalPages - 1">
+              <li class="page-item disabled">
+                <button class="page-link" (click)="goEnd()" hidden>>></button>
+              </li>
+            </div>
+            <div *ngIf="number != totalPages - 1">
+              <li class="page-item">
+                <button class="page-link" (click)="goEnd()">>></button>
+              </li>
+            </div>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

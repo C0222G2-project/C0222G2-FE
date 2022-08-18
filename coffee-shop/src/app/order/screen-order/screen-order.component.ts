@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, OnChanges, OnInit, Output, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -46,6 +45,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   totalMoney = 0;
   presentPage = 1;
   date: Date;
+  tableUser: string;
   employee: Employee;
   coffeTable: CoffeeTable;
   /**
@@ -67,29 +67,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
               private toastr: ToastrService,
               private title : Title,
               private feedbackService: FeedbackService,
-              private angularFireStorage: AngularFireStorage,){
+              private angularFireStorage: AngularFireStorage,
+              private cookieService: CookieService){
       this.formCheckBox = new FormGroup({
         selectCheckBox: new FormArray([])
       });
       this.title.setTitle("Gọi món");
       this.messageUnread = this.notificationService.keyArray;
       this.date = new Date();
-      this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
-        this.getDish(parseInt(p.get('id')));
-      })
-      const tempOrder: string = localStorage.getItem('dish');
-      if(tempOrder){
-        this.dish = JSON.parse(tempOrder) as Dish;
-      }
-      this.order={
-        employee: {},
-        coffeeTable: {},
-        bill: {},
-        quantity: 1,
-        dish: this.dish
-      };
-      this.orderMenu.push(this.order);
-      this.totalMoney = this.order.quantity * this.dish.price;
+      this.tableUser = this.cookieService.getCookie('username');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -171,7 +157,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
          this.dish = dish;
          localStorage.setItem('dish', JSON.stringify(this.dish));
          const tempOrder: string = localStorage.getItem('dish');
-         console.log(tempOrder);
          if(tempOrder){
             this.dish = JSON.parse(tempOrder) as Dish;
           }
@@ -193,13 +178,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
        bill: 1,
        employee: 1,
        coffeeTable: {
-          id: '1',
           code: tableCode,
           status: true
        }
     };
     if(quantity == null || quantity > 10 || quantity == ''){
-      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9','',{timeOut: 2000, progressBar: true});
+      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
     }
     else{
@@ -251,7 +235,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 14/08/2022
    *  This function create order have param is table code, employee code, bill code, dish code
    */
-    createOrder(){
+    createOrder(titleContent: string, tableCoffe: string, requestConent: string){
       this.orderMenu.forEach(items => {
         let i = 0;
         this.order = {
@@ -261,12 +245,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           employee: {},
           coffeeTable: items.coffeeTable,
         }
-        localStorage.setItem('dish'+ i, items);
-        i++;
+        this.orderService.updateTable(tableCoffe).subscribe();
         this.orderService.createOrder(this.order).subscribe();
       });
-      this.toastr.success("Bạn đã order thành công", "Thành công", {timeOut: 2000, progressBar: true});
+      this.toastr.success("Bạn đã order thành công!", "Thành công", {timeOut: 2000, progressBar: true});
       this.orderMenu = [];
+      this.sendNotification(titleContent, tableCoffe, requestConent);
       this.displayTimer(0);
     }
 
@@ -296,10 +280,17 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   deleteDish(){
     const selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
-
+    let arrayTemp = [];
+    selectCheckBox.value.sort();
     for(let i of selectCheckBox.value){
-      this.orderMenu.splice(Number(i), 1);
+      this.orderMenu.splice(i, 1, 0);
     }
+    arrayTemp = this.orderMenu.filter(item => {
+       if(item != 0){
+        return arrayTemp.push(item);
+       }
+    })
+    this.orderMenu = arrayTemp;
       this.totalMoney = 0;
       this.orderMenu.forEach(items => {
         this.totalMoney+= items.dish.price * items.quantity;
@@ -324,7 +315,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notificationService.getTokenFromFcm();
-    this.toastr.success('Bạn đã gữi yêu cầu thành công','Thành công',{timeOut: 2000, progressBar: true})
+    this.toastr.success('Bạn đã gửi yêu cầu thành công!','Thành công',{timeOut: 2000, progressBar: true})
     this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
   }
 
@@ -372,7 +363,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
             if(++timerCountdown>(60*1)){
-              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gữi đi đến quản lý','',{timeOut: 2000, progressBar: true});
+              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gửi đi đến quản lý!','',{timeOut: 2000, progressBar: true});
               this.orderMenu = [];
               clearInterval(setTimer);
             }
@@ -539,4 +530,3 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.value = 0;
   } 
 }
-
