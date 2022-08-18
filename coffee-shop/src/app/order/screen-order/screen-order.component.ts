@@ -178,7 +178,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
        bill: 1,
        employee: 1,
        coffeeTable: {
-          id: '1',
           code: tableCode,
           status: true
        }
