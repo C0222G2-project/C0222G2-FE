@@ -65,54 +65,74 @@
     </div>
 
     <!--      Phần trang-->
-    <nav aria-label="Page navigation  example" [hidden]=" listFeedback.length == 0" *ngIf="!checkNameCreator">
-      <ul class="pagination justify-content-end"  >
-        <div *ngIf="number == 0" >
-          <li class="page-item disabled">
-            <button class="page-link text-black" (click)="goPrevious()" hidden>Trước</button>
-          </li>
-        </div>
-        <div *ngIf="number != 0">
-          <li class="page-item" *ngIf="checkSort == true">
-            <button class="page-link text-black" (click)="goPrevious()">Trước</button>
-          </li>
-          <li class="page-item" *ngIf="checkSort == false">
-            <button class="page-link text-black" (click)="goPreviousWithoutSort()">Trước</button>
-          </li>
-        </div>
-        <div *ngFor="let count of countTotalPages; index as i">
-          <div *ngIf="i == number">
-            <li class="page-item active" *ngIf="checkSort == true">
-              <button class="btn number-goItem " (click)="goItem(i)">{{i + 1}}</button>
-            </li>
-            <li class="page-item active" *ngIf="checkSort == false">
-              <button class="btn number-goItem " (click)="goItemWithoutSort(i)">{{i + 1}}</button>
+    <div [hidden]=" listFeedback.length == 0" *ngIf="!checkNameCreator">
+      <nav aria-label="Page navigation example d-flex flex-row-reverse">
+        <ul class="pagination justify-content-end">
+          <div *ngIf="number == 0">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goStart()" hidden><<</button>
             </li>
           </div>
-          <div *ngIf="i != number">
+          <div *ngIf="number != 0">
             <li class="page-item" *ngIf="checkSort == true">
-              <button class="page-link text-black" (click)="goItem(i)">{{i + 1}}</button>
+              <button class="page-link" (click)="goStart()"><<</button>
             </li>
             <li class="page-item" *ngIf="checkSort == false">
-              <button class="page-link text-black" (click)="goItemWithoutSort(i)">{{i + 1}}</button>
+              <button class="page-link text-black" (click)="previousWithoutSort()"><<</button>
             </li>
           </div>
-        </div>
-        <div *ngIf="number == totalPages - 1">
-          <li class="page-item disabled">
-            <button class="page-link text-black" (click)="goNext()" hidden>Sau</button>
-          </li>
-        </div>
-        <div *ngIf="number != totalPages - 1">
-          <li class="page-item" *ngIf="checkSort == true">
-            <button class="page-link text-black" (click)="goNext()">Sau</button>
-          </li>
-          <li class="page-item" *ngIf="checkSort == false">
-            <button class="page-link text-black" (click)="goNextWithoutSort()">Sau</button>
-          </li>
-        </div>
-      </ul>
-    </nav>
+          <div *ngIf="number == 0">
+            <li class="page-item disabled"  *ngIf="checkSort == true">
+              <button class="page-link" (click)="goPrevious()" hidden><</button>
+            </li>
+            <li class="page-item" *ngIf="checkSort == false">
+              <button class="page-link text-black" (click)="goPreviousWithoutSort()" hidden><</button>
+            </li>
+          </div>
+          <div *ngIf="number != 0">
+            <li class="page-item" *ngIf="checkSort == true">
+              <button class="page-link" (click)="goPrevious()"><</button>
+            </li>
+            <li class="page-item" *ngIf="checkSort == false">
+              <button class="page-link text-black" (click)="goPreviousWithoutSort()"><</button>
+            </li>
+          </div>
+          <div class="number-pages">{{number +1}} | {{totalPages}}</div>
+          <div *ngIf="number == totalPages - 1">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goNext()" hidden>></button>
+            </li>
+          </div>
+          <div *ngIf="number != totalPages - 1">
+            <li class="page-item" *ngIf="checkSort == true">
+              <button class="page-link" (click)="goNext()">></button>
+            </li>
+            <li class="page-item" *ngIf="checkSort == false">
+              <button class="page-link text-black" (click)="goNextWithoutSort()">></button>
+            </li>
+          </div>
+          <div *ngIf="number == totalPages - 1">
+            <li class="page-item disabled">
+              <button class="page-link" (click)="goEnd()" hidden>>></button>
+            </li>
+          </div>
+          <div *ngIf="number != totalPages - 1">
+            <li class="page-item"  *ngIf="checkSort == true">
+              <button class="page-link" (click)="goEnd()">>></button>
+            </li>
+            <li class="page-item" *ngIf="checkSort == false">
+              <button class="page-link text-black" (click)="nextWithoutSort()">>></button>
+            </li>
+          </div>
+          <form [formGroup]="formPage" (ngSubmit)="searchPageCurrent()" >
+            <div class="d-flex" style="padding-top: 5px; padding-left: 5px">
+              <label style=" color: white ;padding-right: 10px">Trang : </label>
+              <input style="width: 50px;" type="text" formControlName="pageForm" name="pageForm">
+            </div>
+          </form>
+        </ul>
+      </nav>
+    </div>
     <!--end-->
   </div>
 

@@ -33,6 +33,8 @@ export class ListFeedbackComponent implements OnInit {
   checkSortOrNot: boolean = false;
   checkSort: boolean = false;
   checkNameCreator: boolean = false;
+  formPage: FormGroup;
+  pageSearch: number;
 
 
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
@@ -46,6 +48,9 @@ export class ListFeedbackComponent implements OnInit {
       searchName: new FormControl(''),
       searchStartDate: new FormControl('', this.checkInputBirthday),
       searchEndDate: new FormControl('', this.checkInputBirthday)
+    });
+    this.formPage = new FormGroup({
+      pageForm: new FormControl('')
     });
   }
 
@@ -69,8 +74,6 @@ export class ListFeedbackComponent implements OnInit {
   checkInputBirthday(startDate: AbstractControl) {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if (value >= curDate) {
-    }
     if (value >= curDate) {
       return {'checkDate': true}
     }
@@ -275,9 +278,58 @@ export class ListFeedbackComponent implements OnInit {
   /**
    * Creator : LuanTV
    * Date : 16/08/2022
-   * Function : page switch button item without sort
+   * Function : page switch button start
    */
-  goItemWithoutSort(i: number) {
-    this.getAllFeedback(i, this.name, this.startDate, this.endDate, 'ASC');
+  goStart() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button end
+   */
+  goEnd() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button start without sort
+   */
+  previousWithoutSort() {
+    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button end without sort
+   */
+  nextWithoutSort() {
+    this.getAllFeedback(this.totalPages-1, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : find by page number
+   */
+  searchPageCurrent() {
+    this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
+    if (this.pageSearch > 0 || this.pageSearch <= this.totalPages){
+      this.getAllFeedback(this.pageSearch-1, this.name, this.startDate, this.endDate, 'ASC');
+    }
   }
 }

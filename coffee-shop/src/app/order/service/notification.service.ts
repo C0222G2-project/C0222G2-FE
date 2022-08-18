@@ -24,10 +24,11 @@ export class NotificationService {
   temp;
 
   constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging,
-    private cookieService: CookieService) {
+              private cookieService: CookieService) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
-        _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
+        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+        // _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     )
@@ -41,7 +42,7 @@ export class NotificationService {
       body: tableCoffe + " yêu cầu " + requestConent,
       role: this.role,
       date: this.date.toJSON(),
-      status: 'true'
+      status: 'false'
     }
     this.db.list("/notification").push(this.notification);
     this.sendNotificationToFirebase();
@@ -49,13 +50,13 @@ export class NotificationService {
 
   sendNotificationToFirebase(){
     const content = {
-                  to: this.registerToken,
-                  notification: {
-                      title: this.notification.title,
-                      body: this.notification.body,
-                      status: false
-                  }
-              }
+      to: this.registerToken,
+      notification: {
+        title: this.notification.title,
+        body: this.notification.body,
+        status: false
+      }
+    }
     let option = {
       method: "POST",
       headers: new Headers({
@@ -75,13 +76,21 @@ export class NotificationService {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
         let user = this.cookieService.getCookie('username');
-        let role = this.cookieService.getCookie('role')
+        let role = this.cookieService.getCookie('role');
         this.sendTokenToFcm(user, token, role);
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
       }
     );
+  }
+
+  receiveMessage() {
+    this.angularFireMessaging.messages.subscribe(
+    (payload) => {
+      console.log("new message received. ", payload);
+      this.currentMessage.next(payload);
+    })
   }
 
   setPermitGetNotification(){
@@ -92,34 +101,34 @@ export class NotificationService {
   }
 
   writeMessage(){
-    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('true')).snapshotChanges();
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
-        actions.forEach(action => {
-          this.notification = {
-            title: action.payload.val().title,
-            body: action.payload.val().body,
-            role: action.payload.val().role,
-            date: action.payload.val().date,
-            status: action.payload.val().status
-          }
-          this.keyArray.push(this.notification);
-        });
+      actions.forEach(action => {
+        this.notification = {
+          title: action.payload.val().title,
+          body: action.payload.val().body,
+          role: action.payload.val().role,
+          date: action.payload.val().date,
+          status: action.payload.val().status
+        }
+        this.keyArray.push(this.notification);
+      });
     });
   }
 
-  sendTokenToFcm(user: string, token: string, role: string){
+  sendTokenToFcm(user: string, token: string, userrole: string){
     this.registerToken = token;
     const content = {
       user: user,
       token: token,
-      role: role,
-      status: "new"
+      userrole: userrole,
+      status: "false"
     }
     this.db.list("/token").push(content);
   }
 
   getTokenFromFcm(){
-    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('role').equalTo('ROLE_STAFF')).snapshotChanges();
+    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('userrole').equalTo('ROLE_STAFF')).snapshotChanges();
     this.tokenFCM.subscribe(
       actions => {
         actions.forEach(
@@ -131,13 +140,13 @@ export class NotificationService {
       }
     );
     this.registerTokenArray.forEach(items => {
-      this.registerToken = items.replace('""', '');
+      this.registerToken = items;
     });
-    console.log(this.registerToken);
   }
 
   removeToken(){
-    this.db.list('/token', ref => ref.orderByChild('status').equalTo('new')).update('status', {text: 'old'});
+    this.db.list('/notification', ref => ref.orderByChild('status').equalTo('false')).set('status', 'true');
+    this.keyArray = [];
+    this.writeMessage();
   }
 }
-

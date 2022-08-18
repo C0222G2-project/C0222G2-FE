@@ -9,6 +9,7 @@ import {finalize} from "rxjs/operators";
 import {Employee} from "../model/employee/employee";
 import {AppUser} from "../model/account/app-user";
 import {Position} from "../model/employee/position";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-employee',
@@ -24,9 +25,11 @@ export class EditEmployeeComponent implements OnInit {
   imgSrc: any;
   isLoading: Boolean = false;
 
-  constructor(private employeeService: EmployeeService, private router: Router,private storage: AngularFireStorage,
+  constructor(private employeeService: EmployeeService, private router: Router,
+              private storage: AngularFireStorage,
               private activate: ActivatedRoute,
-              private toast: ToastrService) {
+              private toast: ToastrService, private title: Title) {
+    this.title.setTitle("Sửa thông tin nhân viên")
   }
 
   ngOnInit(): void {
@@ -41,7 +44,7 @@ export class EditEmployeeComponent implements OnInit {
         // @ts-ignore
         this.employee = data;
         if(data == null){
-          this.toast.warning("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+          this.toast.error("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
           this.router.navigateByUrl('/employee').then();
         }
         this.getAllUser();
@@ -69,7 +72,7 @@ export class EditEmployeeComponent implements OnInit {
     this.employeeFormEdit = new FormGroup({
       id: new FormControl(this.employee.id),
       appUser: new FormControl(this.employee.appUser,[Validators.required]),
-      name: new FormControl(this.employee.name, [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-Z][^A-Z0-9\\s]+)(\\s[A-Z][^A-Z0-9\\s]+)*$")],),
+      name: new FormControl(this.employee.name, [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-ZĐ][^A-Z0-9\\s]+)(\\s[A-ZĐ][^A-Z0-9\\s]+)*$")],),
       image: new FormControl(this.employee.image, [Validators.required,Validators.maxLength(255)]),
       birthday: new FormControl(this.employee.birthday,[this.checkInputBirthday,this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
       gender: new FormControl(this.employee.gender),
@@ -85,20 +88,18 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   updateEmployee() {
-    this.employeeFormEdit.value.username.trim();
-    this.employeeFormEdit.value.address.trim();
-    this.employeeFormEdit.value.salary.trim();
     this.toggleLoading();
     if (this.selectedImage == null) {
       let employee: Employee = this.employeeFormEdit.value;
       // @ts-ignore
+      if(this.employeeFormEdit.valid){
       this.employeeService.updateEmployee(employee).subscribe((data) => {
           this.toast.success('Cập nhật thành công', 'Thông báo!!!')
           this.router.navigateByUrl('/employee').then();
-        },
-        error => {
-          console.log(error);
         });
+      }else {
+        return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+      }
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
@@ -107,14 +108,14 @@ export class EditEmployeeComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
-            this.employeeService.updateEmployee(employee).subscribe((data) => {
+            if(this.employeeFormEdit.valid){
+              this.employeeService.updateEmployee(employee).subscribe((data) => {
                 this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
-              },
-              error => {
-                console.log(error);
               });
-
+            }else {
+              return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu", "Thông báo")
+            }
           });
         })
       ).subscribe();
@@ -195,13 +196,19 @@ export class EditEmployeeComponent implements OnInit {
     }
     return null;
   }
-  checkAge16(birthday: AbstractControl) {
-    const value = parseInt(birthday.value.substr(0,4));
-    const curYear=new Date().getFullYear()
-    if(curYear - value < 16 ){
-      return {'not16': true}
+
+  private checkAge16(age16: AbstractControl): any {
+    if (age16.value === '') {
+      return null;
     }
-    return null;
+    const today = new Date();
+    const birthDate = new Date(age16.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return (age >= 16) ? null : {age16: true};
   }
 
 }

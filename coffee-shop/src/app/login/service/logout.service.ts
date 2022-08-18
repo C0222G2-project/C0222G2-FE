@@ -9,12 +9,12 @@ import {CookieService} from "./cookie.service";
 export class LogoutService {
   private LOGOUT_URL = "http://localhost:8080/logoutSecurity";
 
+
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
 
   onLogout(token: string): Observable<any> {
-    const tokenHeader = 'Bearer ' + this.cookieService.getCookie('jwToken');
-    const headers = new HttpHeaders({'authorization': tokenHeader});
-    return this.httpClient.post<any>(this.LOGOUT_URL, {'token': token}, {headers: headers}).pipe();
+  const header = 'Bearer ' + this.cookieService.getCookie('jwToken');
+    return this.httpClient.get<any>(this.LOGOUT_URL + "/" + token, {headers: new HttpHeaders({'authorization': header})}).pipe();
   }
 }

@@ -1,28 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {GetDishList} from './service/getDishList';
 import {DishWithAmountOrder} from './model/DishWithAmountOrder';
 import {DishWithTimeCreate} from './model/DishWithTimeCreate';
 import {ToastrService} from 'ngx-toastr';
 import {CookieService} from '../login/service/cookie.service';
 import {Title} from "@angular/platform-browser";
+import { NotificationService } from '../order/service/notification.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnChanges {
   dishMostOrderList: DishWithAmountOrder[];
   distNewestList: DishWithTimeCreate[];
   checkData: boolean = true;
   role: string = '';
   token: string = '';
+  show;
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
               private cookieService: CookieService,
-              private title : Title) {
+              private title : Title,
+              private notification: NotificationService,
+              private toastr: ToastrService) {
     this.title.setTitle("Trang Chủ");
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -30,6 +38,10 @@ export class HomePageComponent implements OnInit {
     this.token = this.readCookieService('jwToken');
     this.get5DishMostOrder();
     this.get5DishNewest();
+    this.notification.receiveMessage();
+    this.show = this.notification.currentMessage;
+    console.log(this.show);
+    
   }
 
   readCookieService(key: string): string {
@@ -45,7 +57,6 @@ export class HomePageComponent implements OnInit {
   get5DishMostOrder() {
     this.getDishList.get5DishMostOrder().subscribe(data => {
       this.dishMostOrderList = data;
-      console.log(data);
     }, error => {
       this.checkData = false;
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖI');
@@ -67,5 +78,4 @@ export class HomePageComponent implements OnInit {
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖi');
     });
   }
-
 }

@@ -1,6 +1,3 @@
-.fs-10 {
-  font-size: 14px;
-}
 .btn-brown {
   background-color: #6c5c48;
   color: white;
@@ -36,9 +33,6 @@
   .pt-xl-13 {
     padding-top: 13rem !important;
   }
-}
-input, label {
-  text-align: left !important;
 }
 @media (max-width: 1400px) {
   .page-section {

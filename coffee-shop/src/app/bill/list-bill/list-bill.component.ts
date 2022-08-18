@@ -1,11 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Bill} from "../model/bill";
-import {FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
 import {BillService} from "../service/bill.service";
 import {ToastrService} from "ngx-toastr";
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
-import {Title} from '@angular/platform-browser';
+import {formatDate} from "@angular/common";
 
 
 @Component({
@@ -14,103 +14,233 @@ import {Title} from '@angular/platform-browser';
   styleUrls: ['./list-bill.component.css']
 })
 export class ListBillComponent implements OnInit {
-
   bills: Bill[] = [];
+  dishs: Bill[] = [];
   searchForm: FormGroup;
   p: number = 0;
   totalPages: number;
   number: number;
   countTotalPages: number[];
-  searchBillCode: string;
-  searchBillDate: string;
+  code: string;
+  creationDate: string;
+  billFormReactive: FormGroup;
+  size: number;
+  isLoading: Boolean = false;
+  billCode: Boolean = false;
+
 
   constructor(private billService: BillService,
               private toastrService: ToastrService) {
+
+    this.billFormReactive = new FormGroup({
+      creationDate: new FormControl()
+    })
   }
 
   ngOnInit(): void {
-    this.getAllBill("", "", 0);
-    this.formSearch();
+    this.getAllBill(0, this.code, this.creationDate);
+    this.searchForm = new FormGroup({
+      searchCode: new FormControl(''),
+      searchDate: new FormControl('', this.checkDate),
+    });
   }
 
-  getAllBill(searchCode: string, searchDate: string, page: number) {
-    // @ts-ignore
-    this.billService.getAllBill(searchCode, searchDate, page).subscribe(data => {
-      // @ts-ignore
-      this.totalPages = data.totalPages;
-      // @ts-ignore
-      console.log(data.content)
-      // @ts-ignore
-      this.countTotalPages = new Array(data.totalPages);
-      // @ts-ignore
-      this.number = data.number;
-      // @ts-ignore
-      this.bills = data.content
-    }, error => {
-      console.log(error);
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: get error
+   */
+
+  get searchDate() {
+    return this.searchForm.get('searchDate')
+  };
+
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: Get bill list, with pagination,search by bill number and creation date
+   *
+   * @param page
+   * @param searchCode
+   * @param searchDate
+   */
+
+  getAllBill(page: number, searchCode: string, searchDate: string) {
+    this.billService.getAllBill(page, searchCode, searchDate).subscribe((data: Bill[]) => {
+      if (data != null) {
+        // @ts-ignore
+        this.bills = data.content
+      } else {
+        this.bills = [];
+      }
+      if (this.bills.length !== 0) {
+        // @ts-ignore
+        this.totalPages = data.totalPages;
+        // @ts-ignore
+        this.countTotalPages = new Array(data.totalPages);
+        // @ts-ignore
+        this.number = data.number;
+        // @ts-ignore
+        this.size = data.size
+      }
     });
-    this.formSearch();
   }
+
+  /**
+   *
+   * Created by: HauLT
+   * Date created: 17/08/2022
+   * function: Get dish list
+   * @param id
+   */
+
+  getAllDish(id: number) {
+    // @ts-ignore
+    this.billService.getAllDish(id).subscribe((data: Bill[]) => {
+      this.dishs = data
+      console.log(data)
+    }, error => {
+    });
+  }
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: Get bill list, with pagination,search by bill number and creation date
+   *
+   */
+
+
+  getFormSearch() {
+    this.searchForm.value.searchCode = this.searchForm.value.searchCode.trim();
+    console.log(this.searchForm.value)
+    if (this.searchForm.value.searchCode === '') {
+      this.code = '';
+    } else {
+      if (this.searchForm.value.searchCode.search("[#%^+]") >= 0) {
+        this.billCode = true;
+        this.code = this.searchForm.value.searchCode;
+      }
+    }
+    if (this.searchForm.value.searchDate === '') {
+      this.creationDate = '';
+    } else {
+      this.creationDate = this.searchForm.value.searchDate
+    }
+    this.getAllBill(0, this.code, this.creationDate)
+  }
+
+  /**
+   * Created by: HauLT
+   * Date created: 17/08/2022
+   * function: toggleLoading, set timeout
+   */
+
+  toggleLoading() {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 4000)
+  }
+
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: previous page switch button
+   */
 
   goPrevious() {
     let numberPage: number = this.number;
     if (numberPage > 0) {
       numberPage--;
-      this.getAllBill("", "", numberPage);
+      this.getAllBill(numberPage, "", "");
     }
   }
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: next page switch button
+   */
 
   goNext() {
     let numberPage: number = this.number;
     if (numberPage < this.totalPages - 1) {
       numberPage++;
-      this.getAllBill("", "", numberPage);
+      this.getAllBill(numberPage, "", "");
     }
   }
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: page switch button
+   */
 
   goItem(i: number) {
-    this.getAllBill("", "", i);
+    this.getAllBill(i, "", "");
   }
 
 
-  formSearch() {
-    this.searchForm = new FormGroup({
-      searchBillCode: new FormControl(""),
-      searchBillDate: new FormControl("")
-    });
-  }
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: export invoice to pdf file
+   * @param id
+   * @param code
+   */
 
-  getFormSearch() {
-    let searchCode = this.searchForm.value.searchBillCode;
-    let searchDate = this.searchForm.value.searchBillDate;
-    if (searchCode == null) {
-      searchCode = "";
-    }
-    if (searchDate == null) {
-      searchDate = "";
-    }
-    this.getAllBill(searchCode, searchDate, this.number);
-  }
-
-
-  // HauLT-PDF
-
-  generatePDF() {
-    var data = document.getElementById('contentToConvert');
+  generatePDF(id, code) {
+    this.toggleLoading();
+    let data = document.getElementById('contentToConvert' + id);
     html2canvas(data).then(canvas => {
-      var imgWidth = 300;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
+      let imgWidth = 600;
+      let imgHeight = canvas.height * imgWidth / canvas.width * 0.1;
       const contentDataURL = canvas.toDataURL('image/png')
       // @ts-ignore
-      let doc = new jsPDF('p', 'pt', 'a4');
-      var position = 0;
-      doc.addImage(contentDataURL, 'a4', 0, position, imgWidth, imgHeight)
-      doc.save('newPDF.pdf');
+      let doc = new jsPDF('p', 'pt', 'a5');
+      let position = 0;
+      // @ts-ignore
+      doc.addImage(contentDataURL, 35, 0);
+      doc.save('Bill-' + code + '.pdf');
+      this.toastrService.success("Xuất Hóa Đơn Thành Công!", "Thông Báo");
     });
   }
 
-  // showDowloaadPDF() {
-  //   this.toastrService.success("Xuất Thành Công!", );
-  // }
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: validate date
+   * @param creationDate
+   */
 
+  checkDate(creationDate: AbstractControl) {
+    const value = creationDate.value;
+    const curDate = formatDate(new Date(), 'yyyy-mm-dd', 'en-US')
+    if (value >= curDate) {
+      return {'checkDate': true}
+    }
+    return null;
+  }
+
+
+  /**
+   * Created by: HauLT
+   * Date created: 12/08/2022
+   * function: get id
+   * @param id
+   */
+  getBillId(id: number) {
+    this.getAllDish(id);
+  }
+
+  goStart() {
+    this.getAllBill(0, "", "");
+  }
+
+  goEnd() {
+    this.getAllBill(this.totalPages - 1, "", "");
+  }
 }
