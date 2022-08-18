@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, OnChanges, OnInit, Output, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -185,7 +184,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
        }
     };
     if(quantity == null || quantity > 10 || quantity == ''){
-      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9','',{timeOut: 2000, progressBar: true});
+      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
     }
     else{
@@ -247,14 +246,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           employee: {},
           coffeeTable: items.coffeeTable,
         }
-        localStorage.setItem('dish'+ i, items);
-        i++;
+        this.orderService.updateTable(tableCoffe).subscribe();
         this.orderService.createOrder(this.order).subscribe();
       });
-      this.toastr.success("Bạn đã order thành công", "Thành công", {timeOut: 2000, progressBar: true});
+      this.toastr.success("Bạn đã order thành công!", "Thành công", {timeOut: 2000, progressBar: true});
       this.orderMenu = [];
       this.sendNotification(titleContent, tableCoffe, requestConent);
-      localStorage.clear();
       this.displayTimer(0);
     }
 
@@ -319,7 +316,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notificationService.getTokenFromFcm();
-    this.toastr.success('Bạn đã gữi yêu cầu thành công','Thành công',{timeOut: 2000, progressBar: true})
+    this.toastr.success('Bạn đã gửi yêu cầu thành công!','Thành công',{timeOut: 2000, progressBar: true})
     this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
   }
 
@@ -367,7 +364,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
             if(++timerCountdown>(60*1)){
-              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gữi đi đến quản lý','',{timeOut: 2000, progressBar: true});
+              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gửi đi đến quản lý!','',{timeOut: 2000, progressBar: true});
               this.orderMenu = [];
               clearInterval(setTimer);
             }
@@ -534,4 +531,3 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.value = 0;
   } 
 }
-

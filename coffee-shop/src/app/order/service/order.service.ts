@@ -6,6 +6,7 @@ import { Order } from '../model/order';
 import { CookieService } from 'src/app/login/service/cookie.service';
 import { Dish } from 'src/app/dish/model/dish';
 import { DishType } from 'src/app/dish/model/dish-type';
+import { CoffeeTable } from '../model/CoffeeTable';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class OrderService {
   private urlGetDish = 'http://localhost:8080/dish/findById';
   private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
   private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
+  private urlUpdateTable = 'http://localhost:8080/api/payment/total/';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
@@ -39,4 +41,7 @@ export class OrderService {
     return this.http.post<Order>(this.urlCreateOrder, order, {headers: new HttpHeaders({'authorization':this.header})})
   }
 
+  updateTable(id: string): Observable<CoffeeTable>{
+    return this.http.patch<CoffeeTable>(this.urlUpdateTable+`${id}`, {headers: new HttpHeaders({'authorization':this.header})})
+  }
 }
