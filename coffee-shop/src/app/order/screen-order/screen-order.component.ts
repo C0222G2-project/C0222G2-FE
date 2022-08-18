@@ -1,26 +1,20 @@
-import {formatDate} from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  OnChanges,
-  OnInit,
-  QueryList,
-  SimpleChanges,
-  VERSION,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+
+import { Component, ElementRef, OnChanges, OnInit, Output, QueryList, SimpleChange, SimpleChanges, VERSION, ViewChild, ViewChildren } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Title} from '@angular/platform-browser';
-import {ActivatedRoute, ParamMap} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {Dish} from 'src/app/dish/model/dish';
-import {Employee} from 'src/app/employee/model/employee/employee';
-import {CoffeeTable} from '../model/CoffeeTable';
-import {NotificationOfCoffeStore} from '../model/notification';
-import {Order} from '../model/order';
-import {NotificationService} from '../service/notification.service';
-import {OrderService} from '../service/order.service';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { Observable, Subject } from 'rxjs';
+import { Dish } from 'src/app/dish/model/dish';
+import { Employee } from 'src/app/employee/model/employee/employee';
+import { CookieService } from 'src/app/login/service/cookie.service';
+import { CoffeeTable } from '../model/CoffeeTable';
+import { NotificationOfCoffeStore } from '../model/notification';
+import { Order } from '../model/order';
+import { NotificationService } from '../service/notification.service';
+import { OrderService } from '../service/order.service';
+import {formatDate} from '@angular/common';
 import {FeedbackService} from "../../feedback/service/feedback.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
@@ -33,7 +27,6 @@ import {finalize} from "rxjs/operators";
 export class ScreenOrderComponent implements OnInit, OnChanges{
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
-
   order: Order;
   dishId: number;
   formCheckBox: FormGroup;
@@ -81,7 +74,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       this.title.setTitle("Gọi món");
       this.messageUnread = this.notificationService.keyArray;
       this.date = new Date();
-      this.notificationBox();
       this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
         this.getDish(parseInt(p.get('id')));
       })
@@ -116,7 +108,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
      */
     this.getFeedbackForm();
   }
-
 
 
   /**
@@ -394,11 +385,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   /**
    * Func progress message
    */
-  notificationBox(){
-    this.messageUnread.forEach(items => {
-      this.toastr.warning(items.body, items.title, {timeOut: 2000, progressBar: true});
-    });
-    // console.log(this.messageUnread);
+  showMessage(){
+    let title = this.notificationService.notification.title;
+    let body = this.notificationService.notification.body;
+    this.toastr.warning(body, title, {timeOut: 3000, progressBar: true});
   }
 
 
@@ -547,6 +537,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   reset() {
     this.feedbackFrom.reset();
     this.value = 0;
-  }
+  } 
 }
 

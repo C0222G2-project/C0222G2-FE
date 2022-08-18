@@ -27,7 +27,8 @@ export class NotificationService {
               private cookieService: CookieService) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
-        _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
+        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+        // _messaging.onMessage = _messaging.onBackgroundMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     )
@@ -84,6 +85,14 @@ export class NotificationService {
     );
   }
 
+  receiveMessage() {
+    this.angularFireMessaging.messages.subscribe(
+    (payload) => {
+      console.log("new message received. ", payload);
+      this.currentMessage.next(payload);
+    })
+  }
+
   setPermitGetNotification(){
     if(this.cookieService.getCookie('role') == 'ROLE_ADMIN'){
       this.role = this.cookieService.getCookie('role');
@@ -92,7 +101,7 @@ export class NotificationService {
   }
 
   writeMessage(){
-    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('true')).snapshotChanges();
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
       actions.forEach(action => {
         this.notification = {
@@ -120,7 +129,6 @@ export class NotificationService {
 
   getTokenFromFcm(){
     this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('userrole').equalTo('ROLE_STAFF')).snapshotChanges();
-    this.tokenFCM = this.db.list('/token', ref => ref.orderByChild('user').equalTo('manager')).snapshotChanges();
     this.tokenFCM.subscribe(
       actions => {
         actions.forEach(
@@ -137,6 +145,8 @@ export class NotificationService {
   }
 
   removeToken(){
-
+    this.db.list('/notification', ref => ref.orderByChild('status').equalTo('false')).set('status', 'true');
+    this.keyArray = [];
+    this.writeMessage();
   }
 }

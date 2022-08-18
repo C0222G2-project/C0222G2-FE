@@ -7,7 +7,6 @@ import {DishType} from "../model/dish-type";
 import {Dish} from "../model/dish";
  import {Title} from "@angular/platform-browser";
 
-
 @Component({
   selector: 'app-list-dish',
   templateUrl: './list-dish.component.html',
@@ -36,7 +35,7 @@ export class ListDishComponent implements OnInit {
   getAllDishType() {
     this.dishService.getAllDishType().subscribe(data => {
       this.dishTypeArray = data;
-      console.log(data)
+      console.log(data);
     });
   }
 
@@ -122,5 +121,16 @@ export class ListDishComponent implements OnInit {
     });
   }
 
-
+  goStart() {
+    this.getDishPage(0, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
+  goEnd(){
+    this.getDishPage(this.totalPages-1, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
 }

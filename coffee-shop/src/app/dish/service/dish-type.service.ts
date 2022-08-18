@@ -10,13 +10,13 @@ import {CookieService} from "../../login/service/cookie.service";
 export class DishTypeService {
 
   private API_URL = "http://localhost:8080/dishType"
+
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
-
-
   constructor(private http: HttpClient,private cookieService: CookieService) {
   }
 
   getAll(): Observable<DishType[]> {
-    return this.http.get<DishType[]>(this.API_URL + '/list_dish_type'  , {headers: new HttpHeaders({'authorization': this.header})}).pipe();
+    return this.http.get<DishType[]>(this.API_URL + '/list_dish_type',{headers: new HttpHeaders({'authorization': this.header})}).pipe()
   }
 }
+
