@@ -48,6 +48,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   tableUser: string;
   employee: Employee;
   coffeTable: CoffeeTable;
+  idTable;
   /**
  * Created by: DiepTT
  * Date created: 11/08/2022
@@ -76,6 +77,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       this.messageUnread = this.notificationService.keyArray;
       this.date = new Date();
       this.tableUser = this.cookieService.getCookie('username');
+      this.getTable(this.tableUser);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -142,7 +144,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   getAllDishType(){
     this.orderService.getAllDishType().subscribe(dishTypes => {
        // @ts-ignore
-      this.dishTypes = dishTypes.content;
+      this.dishTypes = dishTypes
+    });
+  }
+
+  getTable(code: string){
+    this.orderService.getTable(code).subscribe(items => {
+      this.idTable = items.id;
+      localStorage.setItem('idTable', ''+items.id);
     });
   }
 
@@ -169,20 +178,20 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 11/08/2022
    *  This function do insert dish into menu order
    */
-  addIntoMenuOrder(quantity, tableCode){
-    let flag = false;
-    let id = 0;
-    const order = {
-       quantity: Number(quantity),
-       dish: this.dish,
-       bill: 1,
-       employee: 1,
-       coffeeTable: {
-          code: tableCode,
-          status: true
-       }
-    };
-    if(quantity == null || quantity > 10 || quantity == ''){
+  addIntoMenuOrder(quantity){
+    console.log( localStorage.getItem('idTable'));
+    
+      let flag = false;
+      let id = 0;
+      const order = {
+          quantity: Number(quantity),
+          dish: this.dish,
+          bill: 1,
+          employee: 1,
+          coffeeTable: localStorage.getItem('idTable')
+      };
+    
+    if(quantity == null || quantity > 10 || quantity == '' || quantity < 0){
       this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
     }
@@ -236,22 +245,28 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  This function create order have param is table code, employee code, bill code, dish code
    */
     createOrder(titleContent: string, tableCoffe: string, requestConent: string){
-      this.orderMenu.forEach(items => {
-        let i = 0;
-        this.order = {
-          quantity: items.quantity,
-          dish: this.dish,
-          bill: {},
-          employee: {},
-          coffeeTable: items.coffeeTable,
-        }
-        this.orderService.updateTable(tableCoffe).subscribe();
-        this.orderService.createOrder(this.order).subscribe();
-      });
-      this.toastr.success("Bạn đã order thành công!", "Thành công", {timeOut: 2000, progressBar: true});
-      this.orderMenu = [];
-      this.sendNotification(titleContent, tableCoffe, requestConent);
-      this.displayTimer(0);
+      if(this.orderMenu.length ==0 ){
+        this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
+      }
+      else{
+        this.orderMenu.forEach(items => {
+          this.order = {
+            quantity: items.quantity,
+            dish: this.dish,
+            bill: {},
+            employee: {},
+            coffeeTable: {
+              id: items.coffeeTable,
+              code: this.idTable
+            }
+          }
+          this.orderService.updateTable(tableCoffe).subscribe();
+          this.orderService.createOrder(this.order).subscribe();
+        });
+        this.orderMenu = [];
+        this.sendNotification(titleContent, tableCoffe, requestConent);
+        this.displayTimer(0);
+      }
     }
 
 
