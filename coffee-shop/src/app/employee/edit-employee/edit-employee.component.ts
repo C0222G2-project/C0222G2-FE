@@ -76,7 +76,7 @@ export class EditEmployeeComponent implements OnInit {
       image: new FormControl(this.employee.image, [Validators.required, Validators.maxLength(255)]),
       birthday: new FormControl(this.employee.birthday, [this.checkInputBirthday, this.checkAge16, Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
       gender: new FormControl(this.employee.gender),
-      phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
+      phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('^(03|08|09|\\(84\\)\\+9)[0-9]\\d{7}$')]),
       address: new FormControl(this.employee.address, [Validators.required, Validators.minLength(6), Validators.maxLength(255),]),
       email: new FormControl(this.employee.email, [Validators.required, Validators.email, Validators.minLength(6), , Validators.maxLength(50),]),
       salary: new FormControl(this.employee.salary, [Validators.required, this.validateCustomSalary, Validators.max(100000000)]),

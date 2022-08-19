@@ -15,7 +15,9 @@ import {Title} from "@angular/platform-browser";
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
+
 })
+
 export class AddEmployeeComponent implements OnInit {
   employeeFormCreate: FormGroup;
   employee: Employee = {};
@@ -44,11 +46,11 @@ export class AddEmployeeComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(6), , Validators.maxLength(50),]),
       address: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(255),]),
       gender: new FormControl(''),
-      phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^(03|08|09|\\(84\\)\\+9)[0-9]\\d{7}$')]),
       birthday: new FormControl('', [this.checkInputBirthday, this.checkAge16, Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
       salary: new FormControl('', [Validators.required, this.validateCustomSalary, Validators.max(100000000)]),
       position: new FormControl('')
-    });
+    }, {updateOn: 'submit'});
   }
 
   getAllPosition() {
@@ -60,6 +62,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   createEmployee() {
+
     this.toggleLoading();
     const employee: Employee = this.employeeFormCreate.value;
     employee.address = employee.address.trim();
@@ -76,14 +79,12 @@ export class AddEmployeeComponent implements OnInit {
             userName: this.employeeFormCreate.value.username
           }
           employee.appUser = appUser;
-
           if (this.employeeFormCreate.valid) {
             this.employeeService.saveEmployee(employee).subscribe(value => {
               this.router.navigateByUrl('/employee').then(() => {
                 this.toast.success('thêm mới thành công', 'Thông báo');
               })
             }, err => {
-              console.log(err)
               if (err.error.field == "appUser") {
                 if (err.error.defaultMessage == "userNameExists") {
                   this.employeeFormCreate.controls.username.setErrors({'userNameExists': true});
@@ -96,7 +97,9 @@ export class AddEmployeeComponent implements OnInit {
               }
             })
           } else {
-            return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
+
+             this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
+            return this.employeeFormCreate.value.invalid.focus();
           }
         })
       })
@@ -159,7 +162,6 @@ export class AddEmployeeComponent implements OnInit {
     return this.employeeFormCreate.get('salary');
   }
 
-
   private checkAge16(abstractControl: AbstractControl): any {
     if (abstractControl.value === '') {
       return null;
@@ -190,5 +192,6 @@ export class AddEmployeeComponent implements OnInit {
     }
     return null;
   }
+
 
 }
