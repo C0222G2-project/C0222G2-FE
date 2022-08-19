@@ -267,9 +267,7 @@ export class ListEmployeeComponent implements OnInit {
       this.getAllSearch(this.pageSearch-1,this.searchName,this.searchPhone,this.searchAccount,this.sort)
     }else{
   // @ts-ignore
-      this.toast.error("Trang bạn tìm không tồn tại","",100)
-      // this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort)
+      this.toast.error("Trang bạn tìm không tồn tại","",300)
     }
-
   }
 }

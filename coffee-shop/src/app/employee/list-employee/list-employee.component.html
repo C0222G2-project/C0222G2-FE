@@ -4,11 +4,11 @@
       <h2>Danh sách nhân viên</h2>
     </div>
     <div class="row pb-3 ">
-      <div class="col-2">
-        <button class="btn btn-outline-light background-btn-add mt-4" [routerLink]="['/employee/add']"><i
-          class="fa-solid fa-plus-minus"></i></button>
+      <div class="col-x col-sm-12 col-lg-2">
+        <button class="btn btn-outline-light background-btn-add mt-4" [routerLink]="['/employee/add']">
+          <i class="fa-solid fa-plus"></i></button>
       </div>
-      <div class="col-10 d-flex justify-content-end">
+      <div class="col-sm-12 col-lg-10 d-flex justify-content-end">
         <form class="d-flex justify-content-end" [formGroup]="formSearch" (ngSubmit)="searchEmployeeFormByProperty()">
           <div class="col-sm-3 pe-2">
             <label>Tên tài khoản :</label>
@@ -25,8 +25,8 @@
             <input class=" form-control " placeholder="Tìm theo sđt" type="text" formControlName="phoneForm"
                    name="phoneForm">
           </div>
-          <div class="col-sm-1">
-            <button class="btn btn-outline-light btn-search mt-4">Tìm</button>
+          <div class="col-sm-2">
+            <button class="form-control btn btn-outline-light btn-search mt-4">Tìm</button>
           </div>
         </form>
       </div>
@@ -38,13 +38,13 @@
           <tr>
             <th style="width: 5%">STT</th>
             <th style="width: 20%">Tên tài khoản</th>
-            <th style="width: 25%">Họ và tên<sup>
+            <th style="width: 20%">Họ và tên<sup>
               <a class="btn btn-link"
                  (click)="sortByName()"><i class="fa-solid fa-arrow-down-a-z" style="margin-left: 5px"></i>
               </a></sup></th>
             <th style="width: 15%">Số điện thoại</th>
             <th style="width: 10%">Vị trí</th>
-            <th style="width: 10%">Lương</th>
+            <th style="width: 15%">Lương</th>
             <th style="text-align: center;width: 15%">Hoạt động</th>
           </tr>
           </thead>
@@ -81,7 +81,9 @@
           </tbody>
         </table>
         <div class="mt-2">
-          <p *ngIf="employeeList.length==0 || checkSpecialCharacterName || checkSpecialCharacterPhone ||checkSpecialCharacterAccount">Không có dữ liệu</p>
+          <p
+            *ngIf="employeeList.length==0 || checkSpecialCharacterName || checkSpecialCharacterPhone ||checkSpecialCharacterAccount">
+            Không có dữ liệu</p>
         </div>
 
         <div class="modal fade" id="exampleModalDelete1" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -124,7 +126,7 @@
           </div>
         </div>
 
-        <div class="py-3"
+        <div class="py-2"
              *ngIf="employeeList.length>0 && !checkSpecialCharacterName && !checkSpecialCharacterPhone
              && !checkSpecialCharacterAccount">
 
@@ -150,7 +152,7 @@
                   <button class="page-link" (click)="goPrevious()"><</button>
                 </li>
               </div>
-              <div class="number-pages">{{pageCurrent +1}} | {{totalPages}}</div>
+              <div class="number-pages">{{pageCurrent + 1}} | {{totalPages}}</div>
               <div *ngIf="pageCurrent == totalPages - 1">
                 <li class="page-item disabled">
                   <button class="page-link" (click)="goNext()" hidden>></button>
