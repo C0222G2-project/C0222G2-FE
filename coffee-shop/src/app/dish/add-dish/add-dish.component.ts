@@ -31,18 +31,18 @@ export class AddDishComponent implements OnInit {
 
   getForm() {
     this.formDish = new FormGroup({
-      id: new FormControl('', [Validators.required]),
-      code: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(D)(-)[0-9]{1,}$")]),
-      price: new FormControl('', [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
+      id: new FormControl(),
       name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern(
         "^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
         "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
         "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
         "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
+      code: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(CF)|(T)|(NE)|(TS)(-)[0-9]{1,}$")]),
+      price: new FormControl('', [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
       image: new FormControl('', [Validators.required]),
-      isDeleted: new FormControl('', [Validators.required]),
-      dishType: new FormControl('', [Validators.required]),
-      creationDate: new FormControl('', [Validators.required])
+      dishType: new FormControl( '',Validators.required),
+      isDeleted: new FormControl(),
+      creationDate: new FormControl()
     });
   }
 
@@ -64,35 +64,33 @@ export class AddDishComponent implements OnInit {
   }
 
   createDish() {
+if(this.formDish.valid){
 
-    if (this.selectedImage ==null){
-      this.toastrService.error("vui lòng nhập dữ liệu")
-    }
-    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg);
-    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
-            let dish: Dish = this.formDish.value;
-            dish.image = url;
+  const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+  const fileRef = this.storage.ref(nameImg);
+  this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+    finalize(() => {
+      fileRef.getDownloadURL().subscribe((url) => {
+          let dish: Dish = this.formDish.value;
+          dish.image = url;
 
-            this.dishService.saveDish(dish).subscribe(value => {
-                this.toastrService.success("Thành Công", "Thêm Mới")
-                this.router.navigateByUrl("/dish")
-              },
-              error => {
-                const codeEr = this.formDish.value.code
-                if (codeEr == dish.code) {
-                  error.error.defaultMessage = 'codeExists'
-                  this.formDish.controls.code.setErrors({'codeExists': true})
+          this.dishService.saveDish(dish).subscribe(value => {
+              this.toastrService.success("Thành Công", "Thêm Mới")
+              this.router.navigateByUrl("/dish")
+            },
+            error => {
+              if (error.error.field == "name") {
+                if (error.error.defaultMessage == "nameExists") {
+                  this.formDish.controls.code.setErrors({'nameExists': true});
                 }
+              }
+            });
+        }
+      );
+    })
+  ).subscribe();
+} else {this.toastrService.error("vui lòng nhập dữ liệu")}
 
-              });
-
-          }
-        );
-      })
-    ).subscribe();
   }
 
   private getCurrentDateTime(): string {

@@ -152,7 +152,6 @@ export class EditDishComponent implements OnInit {
       document.getElementById("opt").setAttribute("selected", "true");
       document.getElementById("opt").setAttribute("disabled", "true");
     }
-
   }
 
   compareDishType(o1: DishType, o2: DishType): boolean {
@@ -160,6 +159,4 @@ export class EditDishComponent implements OnInit {
       return o1.id == o2.id;
     }
   }
-
-
 }

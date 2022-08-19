@@ -16,14 +16,13 @@
   margin-bottom: 60px;
   color: #363535;
 }
-
 .form-label {
-  color: black;
+  color: sandybrown;
 }
 
-/*label.form-label {*/
-/*  font-family: Blippo, fantasy;*/
-/*}*/
+label.form-label {
+  font-family: Blippo, fantasy;
+}
 
 .complain {
   color: red;
