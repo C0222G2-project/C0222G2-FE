@@ -16,17 +16,22 @@
   background-color: white;
 }
 .image-css {
-  width: 260px;
-  height: 250px;
-  border-radius: 200px;
+  background: #dddddd;
+  border-radius: 50%;
+  border: 2px solid #a1a1a1;
+  height: 85%;
+  width: 80%;
+  margin-left: 25px;
+  text-align: center ;
 }
 @media only screen and (max-width: 1100px) {
   .image-edit {
     display: none;
   }
-}
-.image-edit {
-  padding-left: 57px;
+  .title-image{
+    display: block;
+    width: 100%;
+  }
 }
 
 .sliceCss {
@@ -61,4 +66,6 @@ label {
     display: none;
   }
 }
-
+.bg-white {
+  border-radius: 40px;
+}

@@ -117,3 +117,6 @@ div p{
 form div label{
   color: white ;
 }
+nav ul div li{
+  padding: 0 1px;
+}

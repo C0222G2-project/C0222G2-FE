@@ -65,7 +65,6 @@
                 </div>
               </ul>
             </nav>
-            <!-- ------------ -->
           </div>
 
         </div>
@@ -75,11 +74,11 @@
         <div class="container">
           <div style="overflow-x:auto ; background-color: beige;
                             border-radius: 30px; box-shadow:5px 5px 5px 5px #cdaa83">
-            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable != null">THÔNG TIN BÀN {{this.codeTable}} </h4></div>
+            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable != null">THÔNG TIN BÀN {{this.idTable}} </h4></div>
             <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable == null">VUI LÒNG CHỌN BÀN</h4></div>
             <div>
               <table class="table table-bordered table-sm table-striped table-hover"
-                     style="; padding-top: 2px ; border-color: #eeeeee">
+                     style=" padding-top: 2px ; border-color: #eeeeee">
                 <thead>
                 <tr class="table-secondary text-center" style="background: #f1f1f1; color: #041c32; ">
                   <td>STT</td>
@@ -121,7 +120,7 @@
                    class="btn button-bg" style="margin-right: 3rem; border-color: white">Tính tiền</a>
               </li>
               <li class="page-item">
-                <a class="btn button-bg " style="; border-color: white" (click)="reset()">Làm mới bảng</a>
+                <a class="btn button-bg " style=" border-color: white" (click)="reset()">Làm mới bảng</a>
               </li>
             </ul>
           </div>

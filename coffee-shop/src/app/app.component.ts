@@ -15,7 +15,6 @@ export class AppComponent {
   constructor(private cookieService: CookieService,
               private logoutService: LogoutService,
               private commonService: CommonService) {
-    console.log(this.cookieService.getCookie('stayLogged'))
     if (this.cookieService.getCookie('stayLogged') != 'true') {
       this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(value => {
         this.cookieService.deleteAllCookies();

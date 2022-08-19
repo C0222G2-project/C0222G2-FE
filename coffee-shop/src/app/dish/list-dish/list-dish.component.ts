@@ -5,7 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {DishType} from "../model/dish-type";
 import {Dish} from "../model/dish";
-
+ import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-dish',
@@ -22,8 +22,8 @@ export class ListDishComponent implements OnInit {
   number: number;
   size: number;
 
-  constructor(private dishService: DishService, private toast: ToastrService, private router: Router) {
-
+  constructor(private dishService: DishService, private toast: ToastrService, private router: Router,private title : Title,) {
+  this.title.setTitle("Danh sách món")
   }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class ListDishComponent implements OnInit {
   getAllDishType() {
     this.dishService.getAllDishType().subscribe(data => {
       this.dishTypeArray = data;
-      console.log(data)
+      console.log(data);
     });
   }
 
@@ -121,5 +121,16 @@ export class ListDishComponent implements OnInit {
     });
   }
 
-
+  goStart() {
+    this.getDishPage(0, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
+  goEnd(){
+    this.getDishPage(this.totalPages-1, this.searchForm.value.dishName,
+      this.searchForm.value.dishCode,
+      this.searchForm.value.dishPrice,
+      this.searchForm.value.dishTypeId);
+  }
 }
