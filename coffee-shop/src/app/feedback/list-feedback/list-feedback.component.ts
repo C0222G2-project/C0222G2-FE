@@ -37,6 +37,7 @@ export class ListFeedbackComponent implements OnInit {
   pageSearch: number;
   checkPage: boolean = true;
 
+
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
               private title: Title) {
     this.title.setTitle("Quản lý phản hồi");

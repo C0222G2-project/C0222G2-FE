@@ -25,6 +25,8 @@ export class ListEmployeeComponent implements OnInit {
   totalElement: number;
   checkSort: boolean = false;
   formSearch: FormGroup;
+  formPage: FormGroup;
+  pageSearch: number;
   checkSpecialCharacterName: boolean = false;
   checkSpecialCharacterAccount: boolean = false;
   checkSpecialCharacterPhone: boolean = false;
@@ -42,6 +44,7 @@ export class ListEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllSearch(0, '', '', '', this.sort);
     this.searchEmployeeForm();
+    this.searchPageForm();
   }
 
   /**
@@ -88,6 +91,11 @@ export class ListEmployeeComponent implements OnInit {
       accountForm: new FormControl('')
     });
   }
+  searchPageForm(){
+    this.formPage = new FormGroup({
+      pageForm: new FormControl('')
+    })
+  }
 
   /**
    * Create by TuyenTN
@@ -95,7 +103,7 @@ export class ListEmployeeComponent implements OnInit {
    * Method use
    */
   searchEmployeeFormByProperty() {
-
+    this.formPage.value.pageForm ='';
     this.formSearch.value.nameForm = this.formSearch.value.nameForm.trim();
     this.formSearch.value.phoneForm = this.formSearch.value.phoneForm.trim();
     this.formSearch.value.accountForm = this.formSearch.value.accountForm.trim();
@@ -123,7 +131,6 @@ export class ListEmployeeComponent implements OnInit {
         this.searchPhone = this.formSearch.value.phoneForm;
       }
     }
-    console.log(this.searchPhone);
     if (this.formSearch.value.accountForm == null) {
       this.searchAccount = '';
       this.checkSpecialCharacterAccount = false;
@@ -136,7 +143,13 @@ export class ListEmployeeComponent implements OnInit {
         this.searchAccount = this.formSearch.value.accountForm;
       }
     }
-    this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+    if (this.searchName =="",this.searchPhone=="",this.searchAccount==""){
+      this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      this.searchPageForm();
+    }else{
+      this.getAllSearch(this.pageCurrent,this.searchName,this.searchPhone,this.searchAccount,this.sort)
+      this.searchPageForm();
+    }
   }
 
 
@@ -180,6 +193,7 @@ export class ListEmployeeComponent implements OnInit {
    */
   goStart() {
     this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+    this.searchPageForm();
   }
   /**
    * Create by TuyenTN
@@ -189,6 +203,7 @@ export class ListEmployeeComponent implements OnInit {
   goEnd() {
     if (this.totalPages>0){
       this.getAllSearch(this.totalPages-1,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      this.searchPageForm();
     }
   }
 
@@ -203,6 +218,7 @@ export class ListEmployeeComponent implements OnInit {
     if (numberPage > 0) {
       numberPage--;
       this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+      this.searchPageForm();
     }
   }
 
@@ -216,6 +232,7 @@ export class ListEmployeeComponent implements OnInit {
     if (numberPage < this.totalPages - 1) {
       numberPage++;
       this.getAllSearch(numberPage, this.searchName, this.searchPhone, this.searchAccount, this.sort);
+      this.searchPageForm();
     }
   }
 
@@ -226,9 +243,6 @@ export class ListEmployeeComponent implements OnInit {
    * Method use come page i
    * @param i
    */
-  goItem(i: number) {
-    this.getAllSearch(i, this.searchName, this.searchPhone, this.searchAccount, this.sort);
-  }
 
   /**
    * Create by TuyenTN
@@ -247,4 +261,13 @@ export class ListEmployeeComponent implements OnInit {
   }
 
 
+  searchPageCurrent() {
+    this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
+    if (this.pageSearch > 0 && this.pageSearch <= this.totalPages){
+      this.getAllSearch(this.pageSearch-1,this.searchName,this.searchPhone,this.searchAccount,this.sort)
+    }else{
+  // @ts-ignore
+      this.toast.error("Trang bạn tìm không tồn tại","",300)
+    }
+  }
 }
