@@ -245,6 +245,4 @@ export class ListEmployeeComponent implements OnInit {
       this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
     }
   }
-
-
 }

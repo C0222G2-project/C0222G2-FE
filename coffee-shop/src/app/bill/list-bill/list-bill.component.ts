@@ -206,8 +206,8 @@ export class ListBillComponent implements OnInit {
       let doc = new jsPDF('p', 'pt', 'a5');
       let position = 0;
       // @ts-ignore
-      doc.addImage(contentDataURL, 35, 0);
-      doc.save('Bill-' + code + '.pdf');
+      doc.addImage(contentDataURL, 1, 0);
+      doc.save('Bill-' + code + '.');
       this.toastrService.success("Xuất Hóa Đơn Thành Công!", "Thông Báo");
     });
   }
