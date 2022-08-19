@@ -38,6 +38,11 @@ export class DetailEmployeeComponent implements OnInit {
       });
   }
 
+  /**
+   * Create by TuyenTN
+   * Date:14-8-2022
+   * @param id
+   */
   deleteEmployee(id: number) {
     this.employeeService.deleteEmployee(id).subscribe(d => {
       // @ts-ignore
