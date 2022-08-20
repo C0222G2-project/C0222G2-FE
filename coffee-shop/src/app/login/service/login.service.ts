@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { CookieService } from './cookie.service';
+import {environment} from "../../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
-  private AUTHENTICATION_URL = "http://localhost:8080/authenticate";
+  private AUTHENTICATION_URL = API_URL + "/authenticate";
   private header = 'Bearer '+ this.cookieService.getCookie('jwToken');
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) { }

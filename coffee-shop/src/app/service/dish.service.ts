@@ -3,14 +3,17 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {Dish} from "../dish/model/dish";
 import {CookieService} from '../login/service/cookie.service';
+import {environment} from "../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class DishService {
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
-  private URL_DISH = "http://localhost:8080/dish"
-  private URL_DISH_TYPE = "http://localhost:8080/dishType"
+  private URL_DISH = API_URL + "/dish"
+  private URL_DISH_TYPE = API_URL + "/dishType"
 
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {}

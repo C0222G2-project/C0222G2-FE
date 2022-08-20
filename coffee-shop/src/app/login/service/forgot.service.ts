@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForgotService {
-  private SEND_MAIL_URL = "http://localhost:8080/sendSimpleEmail";
-  private FIND_PASSWORD_URL = "http://localhost:8080/findPassword";
+  private SEND_MAIL_URL = API_URL + "/sendSimpleEmail";
+  private FIND_PASSWORD_URL = API_URL + "/findPassword";
 
   constructor(private httpClient: HttpClient) {
   }

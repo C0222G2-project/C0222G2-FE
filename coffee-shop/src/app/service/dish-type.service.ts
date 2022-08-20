@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Dish} from "../dish/model/dish";
+import {environment} from "../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +12,7 @@ import {Dish} from "../dish/model/dish";
 export class DishTypeService {
   private header = 'Bearer ' + localStorage.getItem('jwToken');
 
-  private URL_DISH_TYPE = "http://localhost:8080/dishType"
+  private URL_DISH_TYPE = API_URL + "/dishType"
 
   constructor(private httpClient: HttpClient) {
   }

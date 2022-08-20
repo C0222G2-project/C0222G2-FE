@@ -7,17 +7,20 @@ import { CookieService } from 'src/app/login/service/cookie.service';
 import { Dish } from 'src/app/dish/model/dish';
 import { DishType } from 'src/app/dish/model/dish-type';
 import { CoffeeTable } from '../model/CoffeeTable';
+import {environment} from "../../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private urlGetDishes = 'http://localhost:8080/dish/getDishFindIdDishType';
-  private urlGetDish = 'http://localhost:8080/dish/findById';
-  private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
-  private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
-  private urlUpdateTable = 'http://localhost:8080/api/payment/total/';
-  private urlGetTable = 'http://localhost:8080/api/payment/getTable/';
+  private urlGetDishes = API_URL + '/dish/getDishFindIdDishType';
+  private urlGetDish = API_URL + '/dish/findById';
+  private urlGetDishType = API_URL + '/dishType/getDishTypeList';
+  private urlCreateOrder = API_URL + '/dish-order/create-dishOrder';
+  private urlUpdateTable = API_URL + '/api/payment/total/';
+  private urlGetTable = API_URL + '/api/payment/getTable/';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
