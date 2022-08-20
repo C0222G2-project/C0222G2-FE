@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://trungdc.synology.me:8080',
+  apiUrl: 'http://trungdc.synology.me:8080/coffee-store-api',
 
   firebase: {
     apiKey: "AIzaSyCsrF2SQ5PRuUi-IrIW_khM1_z9GYPlwgU",
