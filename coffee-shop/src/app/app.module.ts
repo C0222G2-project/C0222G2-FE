@@ -18,6 +18,7 @@ import {ShareModule} from './share/share.module';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
+import {ChatModule} from './home-page/app-chat/chat.module';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {environment} from '../environments/environment';
     ShareModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebase),
-    OrderModule
+    OrderModule,
+    ChatModule,
   ],
 
   providers: [],
