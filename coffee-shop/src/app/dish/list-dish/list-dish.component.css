@@ -87,6 +87,7 @@ select:not([multiple]) {
 .tooltipHieu {
   color: red;
   position: relative;
+  display: inline-block;
   text-overflow: ellipsis;
   width: 200px;
   overflow: hidden;
