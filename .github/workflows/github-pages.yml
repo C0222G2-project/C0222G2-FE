@@ -28,6 +28,7 @@ jobs:
         uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
         with:
           github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets
+          angular_project_dir: coffee-shop
           build_configuration: production # The build environment for the app. please look configurations in your angular.json
           base_href: /C0222G2-FE/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
           deploy_branch: gh-pages # The branch the action should deploy to.
