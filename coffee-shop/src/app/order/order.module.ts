@@ -9,6 +9,7 @@ import {ShareModule} from '../share/share.module';
 import { ScreenOrderComponent } from './screen-order/screen-order.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule} from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -28,6 +29,7 @@ import {MatIconModule} from '@angular/material/icon';
       ShareModule,
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireDatabaseModule,
+      AngularFireAuthModule,
       MatIconModule
     ],
   providers: [{

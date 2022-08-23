@@ -13,6 +13,7 @@ import { CoffeeTable } from '../model/CoffeeTable';
 })
 export class OrderService {
   private urlGetDishes = 'http://localhost:8080/dish/getDishFindIdDishType';
+  private urlGetDishHasOrder = 'http://localhost:8080/dish-order/get-order-have-code';
   private urlGetDish = 'http://localhost:8080/dish/findById';
   private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
   private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
@@ -39,14 +40,19 @@ export class OrderService {
   }
 
   createOrder(order: Order): Observable<Order>{
-    return this.http.post<Order>(this.urlCreateOrder, order, {headers: new HttpHeaders({'authorization':this.header})})
+    return this.http.post<Order>(this.urlCreateOrder, order, {headers: new HttpHeaders({'authorization':this.header})});
   }
 
   updateTable(id: string): Observable<CoffeeTable>{
-    return this.http.patch<CoffeeTable>(this.urlUpdateTable+`${id}`, {headers: new HttpHeaders({'authorization':this.header})})
+    return this.http.patch<CoffeeTable>(this.urlUpdateTable+`${id}`, {headers: new HttpHeaders({'authorization':this.header})});
   }
 
   getTable(code: string): Observable<CoffeeTable>{
-    return this.http.get<CoffeeTable>(this.urlGetTable+`${code}`, {headers: new HttpHeaders({'authorization':this.header})})
+    return this.http.get<CoffeeTable>(this.urlGetTable+`${code}`, {headers: new HttpHeaders({'authorization':this.header})});
   }
+
+  getAllDishHasOrder(codeTable: string): Observable<Order[]>{
+    return this.http.get<Order[]>(this.urlGetDishHasOrder+`/${codeTable}`, {headers: new HttpHeaders({'authorization':this.header})});
+  }
+
 }

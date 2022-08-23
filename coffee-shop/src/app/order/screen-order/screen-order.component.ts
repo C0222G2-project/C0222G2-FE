@@ -26,6 +26,8 @@ import {finalize} from "rxjs/operators";
 export class ScreenOrderComponent implements OnInit, OnChanges{
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+
+  selected = null;
   order: Order;
   dishId: number;
   formCheckBox: FormGroup;
@@ -37,6 +39,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   dishTypes: any;
   dish: Dish;
   orderMenu = [];
+  orders = [];
+  dishWasOrder = [];
   checkOrderMenu = [];
   messageUnread = [];
   checkBox: boolean = false;
@@ -87,7 +91,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     throw new Error('Method not implemented.');
   }
 
-
   ngOnInit(): void {
     this.getAllDish(1, this.presentPage);
     this.getAllDishType();
@@ -97,6 +100,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.getFeedbackForm();
   }
 
+  /**
+   *  Author: BinhPx
+   *  Date: 19/08/2022
+   *  This function active tag when tag have been click
+   */
+  activeAction(dishType, presentPage, index){
+    this.getAllDish(dishType, presentPage);
+    this.selected = index;
+  }
 
   /**
    *  Author: BinhPx
@@ -164,6 +176,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   getDish(id: number){
       this.orderService.getDish(id).subscribe(dish => {
          this.dish = dish;
+         this.orders.push(dish);
          localStorage.setItem('dish', JSON.stringify(this.dish));
          const tempOrder: string = localStorage.getItem('dish');
          if(tempOrder){
@@ -178,9 +191,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 11/08/2022
    *  This function do insert dish into menu order
    */
-  addIntoMenuOrder(quantity){
-    console.log( localStorage.getItem('idTable'));
-    
+  addIntoMenuOrder(quantity, codeProduct: number){
+      this.getDish(codeProduct)
       let flag = false;
       let id = 0;
       const order = {
@@ -250,9 +262,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       }
       else{
         this.orderMenu.forEach(items => {
-          this.order = {
+          let order2 = {
             quantity: items.quantity,
-            dish: this.dish,
+            dish: items.dish,
             bill: {},
             employee: {},
             coffeeTable: {
@@ -261,10 +273,16 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             }
           }
           this.orderService.updateTable(tableCoffe).subscribe();
-          this.orderService.createOrder(this.order).subscribe();
+          this.orderService.createOrder(order2).subscribe();
         });
         this.orderMenu = [];
         this.sendNotification(titleContent, tableCoffe, requestConent);
+        this.orderService.getAllDishHasOrder(this.idTable).subscribe(items => {
+          console.log(this.idTable);
+          
+          this.dishWasOrder = items;
+          console.log(items);
+        });
         this.displayTimer(0);
       }
     }

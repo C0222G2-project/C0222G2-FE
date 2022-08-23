@@ -38,10 +38,7 @@ export class HomePageComponent implements OnInit, OnChanges {
     this.token = this.readCookieService('jwToken');
     this.get5DishMostOrder();
     this.get5DishNewest();
-    this.notification.receiveMessage();
     this.show = this.notification.currentMessage;
-    console.log(this.show);
-    
   }
 
   readCookieService(key: string): string {

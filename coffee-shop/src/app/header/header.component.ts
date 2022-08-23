@@ -5,6 +5,7 @@ import {LogoutService} from '../login/service/logout.service';
 import {Router} from '@angular/router';
 import {CommonService} from '../login/service/common.service';
 import {Subscription} from 'rxjs';
+import { NotificationService } from '../order/service/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +17,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username: string = '';
   token: string = '';
   messageReceived: any;
+  notification;
+  selected = false;
   private subscriptionName: Subscription;
 
   constructor(private cookieService: CookieService,
               private toastrService: ToastrService,
               private logoutService: LogoutService,
               private router: Router,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private notificationService: NotificationService) {
     this.role = this.readCookieService('role');
     this.username = this.readCookieService('username');
     this.token = this.readCookieService('jwToken');
@@ -36,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.notification = [];
   }
 
   /**
@@ -96,6 +101,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // send message to subscribers via observable subject
     this.commonService.sendUpdate('Đăng Xuất thành công!');
   }
+
+  watchNotification(){
+   this.showNotificationTable();
+   this.notification.length = 0;
+   this.notification = this.notificationService.writeMessage();
+  }
+
+  showNotificationTable(){
+    if(this.selected == false){
+        this.selected = true;
+    }
+    else{
+      this.selected = false;
+    }
+  }
+
+
 }
 
 

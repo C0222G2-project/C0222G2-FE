@@ -58,6 +58,9 @@ export class HomeLoginComponent implements OnInit {
   }
 
   onLogin() {
+    this.cookieService.deleteAllCookies();
+    this.cookieService.removeAllCookies();
+    this.sendMessage();
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
