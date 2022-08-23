@@ -14,10 +14,10 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/home">TRANG CHỦ</a>
           </li>
-          <li class="nav-item" *ngIf="token !== ''">
+          <li class="nav-item" *ngIf="role === 'ROLE_USER'">
             <a class="nav-link" routerLink="/order/screen">ĐẶT MÓN</a>
           </li>
-          <li class="nav-item" *ngIf="role === 'ROLE_ADMIN' || role === 'ROLE_STAFF'">
+          <li class="nav-item" *ngIf="role === 'ROLE_STAFF'">
             <a class="nav-link" routerLink="/order/list">THANH TOÁN</a>
           </li>
           <li class="nav-item" *ngIf="role === 'ROLE_ADMIN'">

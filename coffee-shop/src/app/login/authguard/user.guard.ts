@@ -16,13 +16,19 @@ export class UserGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.cookieService.getCookie("role") == "ROLE_ADMIN" || this.cookieService.getCookie("role") == "ROLE_STAFF" || this.cookieService.getCookie("role") == "ROLE_USER") {
-      return true;
+    if (this.cookieService.getCookie("jwToken") == '') {
+      this.router.navigateByUrl("/error401").then(() => {
+        this.toastrService.error("Vui lòng đăng nhập để tiếp tục!")
+      })
+      return false;
     }
-    this.router.navigateByUrl("/login").then(() => {
-      this.toastrService.error("Vui lòng đăng nhập để tiếp tục!")
-    })
-    return false;
+    if (this.cookieService.getCookie("role") != "ROLE_USER") {
+      this.router.navigateByUrl("/error403").then(() => {
+        this.toastrService.error("Bạn không có quyền truy cập!")
+      })
+      return false;
+    }
+    return true;
   }
 
 }
