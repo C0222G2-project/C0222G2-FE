@@ -36,6 +36,7 @@ export class ListEmployeeTestComponent implements OnInit {
       if (data != null) {
         // @ts-ignore
         this.employeeList = data.content;
+        console.log(this.employeeList);
         // @ts-ignore
         this.totalPages = data.totalPages;
         // @ts-ignore
