@@ -5,6 +5,7 @@ import {ListOrderManagementComponent} from './list-order-management/list-order-m
 import { ScreenOrderComponent } from './screen-order/screen-order.component';
 import {UserGuard} from "../login/authguard/user.guard";
 import {Error404PageComponent} from "../login/error404-page/error404-page.component";
+import {StaffGuard} from "../login/authguard/staff.guard";
 
 
 const routes: Routes = [
@@ -21,7 +22,7 @@ const routes: Routes = [
   {
     path: 'order/list',
     component: ListOrderManagementComponent,
-    canActivate: [UserGuard]
+    canActivate: [StaffGuard]
   },
   {
     path: 'order/screen/:id',
