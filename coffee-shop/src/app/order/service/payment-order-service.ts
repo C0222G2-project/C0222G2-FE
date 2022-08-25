@@ -4,18 +4,22 @@ import {Observable} from "rxjs";
 import {CoffeeTable} from "../model/CoffeeTable";
 import {Payment} from "../model/Payment";
 import {CookieService} from "../../login/service/cookie.service";
+import {environment} from "../../../environments/environment";
+
+const API_URL = `${environment.apiUrl}`
 
 @Injectable({
   providedIn: "root"
 })
 
+
 export class PaymentOrderService {
 
   private header = "Bearer " + this.cookieService.getCookie('jwToken');
-  private URL_GET_COFFEE_TABLE_PAGE = "http://localhost:8080/api/payment/page";
-  private URL_GET_LIST_BY_ID = "http://localhost:8080/api/payment/list";
-  private URL_PAYMENT = "http://localhost:8080/api/payment/total";
-  private URL_CREATE_BILL = "http://localhost:8080/api/payment/in-bill";
+  private URL_GET_COFFEE_TABLE_PAGE = API_URL + "/api/payment/page";
+  private URL_GET_LIST_BY_ID = API_URL + "/api/payment/list";
+  private URL_PAYMENT = API_URL + "/api/payment/total";
+  private URL_CREATE_BILL = API_URL + "/api/payment/in-bill";
 
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {
