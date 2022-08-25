@@ -241,6 +241,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
         this.order = {
           quantity: items.quantity,
           dish: this.dish,
+          // @ts-ignore
           bill: {},
           employee: {},
           coffeeTable: items.coffeeTable,
@@ -528,5 +529,5 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   reset() {
     this.feedbackFrom.reset();
     this.value = 0;
-  } 
+  }
 }
