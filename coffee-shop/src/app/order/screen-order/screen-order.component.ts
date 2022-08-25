@@ -24,21 +24,22 @@ import {OrderService} from '../service/order.service';
 import {FeedbackService} from "../../feedback/service/feedback.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
+import {Feedback} from "../../feedback/model/feedback";
 
 @Component({
   selector: 'app-screen-order',
   templateUrl: './screen-order.component.html',
   styleUrls: ['./screen-order.component.css']
 })
-export class ScreenOrderComponent implements OnInit, OnChanges{
+export class ScreenOrderComponent implements OnInit, OnChanges {
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   order: Order;
   dishId: number;
   formCheckBox: FormGroup;
-  hideMenu:boolean = false;
-  checkButton:boolean = true;
+  hideMenu: boolean = false;
+  checkButton: boolean = true;
   checkButtonOption: boolean = false;
   notificationMessage: NotificationOfCoffeStore;
   dishes: Dish[] = [];
@@ -56,10 +57,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   employee: Employee;
   coffeTable: CoffeeTable;
   /**
- * Created by: DiepTT
- * Date created: 11/08/2022
- * Function: Create feedback (User send feedback)
- */
+   * Created by: DiepTT
+   * Date created: 11/08/2022
+   * Function: Create feedback (User send feedback)
+   */
   currentDate = new Date();
   rating: number[] = [1, 2, 3, 4, 5];
   value: number = 0;
@@ -72,32 +73,32 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
               private orderService: OrderService,
               private notificationService: NotificationService,
               private toastr: ToastrService,
-              private title : Title,
+              private title: Title,
               private feedbackService: FeedbackService,
-              private angularFireStorage: AngularFireStorage,){
-      this.formCheckBox = new FormGroup({
-        selectCheckBox: new FormArray([])
-      });
-      this.title.setTitle("Gọi món");
-      this.messageUnread = this.notificationService.keyArray;
-      this.date = new Date();
-      this.notificationBox();
-      this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
-        this.getDish(parseInt(p.get('id')));
-      })
-      const tempOrder: string = localStorage.getItem('dish');
-      if(tempOrder){
-        this.dish = JSON.parse(tempOrder) as Dish;
-      }
-      this.order={
-        employee: {},
-        coffeeTable: {},
-        bill: {},
-        quantity: 1,
-        dish: this.dish
-      };
-      this.orderMenu.push(this.order);
-      this.totalMoney = this.order.quantity * this.dish.price;
+              private angularFireStorage: AngularFireStorage,) {
+    this.formCheckBox = new FormGroup({
+      selectCheckBox: new FormArray([])
+    });
+    this.title.setTitle("Gọi món");
+    this.messageUnread = this.notificationService.keyArray;
+    this.date = new Date();
+    this.notificationBox();
+    this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
+      this.getDish(parseInt(p.get('id')));
+    })
+    const tempOrder: string = localStorage.getItem('dish');
+    if (tempOrder) {
+      this.dish = JSON.parse(tempOrder) as Dish;
+    }
+    this.order = {
+      employee: {},
+      coffeeTable: {},
+      bill: {},
+      quantity: 1,
+      dish: this.dish
+    };
+    this.orderMenu.push(this.order);
+    this.totalMoney = this.order.quantity * this.dish.price;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -118,21 +119,19 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   }
 
 
-
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
    *  This function to open and close menu
    *  when web site responsive which width is less than 930px
    */
-  openMenuService(){
-    if(this.checkButton){
+  openMenuService() {
+    if (this.checkButton) {
       this.hideMenu = true;
       this.checkButton = false;
-    }
-    else{
+    } else {
       this.hideMenu = false;
-      this.checkButton= true;
+      this.checkButton = true;
     }
   }
 
@@ -142,17 +141,17 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  This function to get all dish have when api return
    */
 
-  getAllDish(id:number, page){
+  getAllDish(id: number, page) {
     this.dishId = id;
     this.orderService.redirect(id, page).subscribe(dishes => {
       // @ts-ignore
-       this.dishes = dishes.content;
-       // @ts-ignore
-       this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
-       // @ts-ignore
       this.dishes = dishes.content;
-       // @ts-ignore
-      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+      // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v, k) => k + 1);
+      // @ts-ignore
+      this.dishes = dishes.content;
+      // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v, k) => k + 1);
     });
   }
 
@@ -162,9 +161,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 11/08/2022
    *  This function to get all dish type have when api return
    */
-  getAllDishType(){
+  getAllDishType() {
     this.orderService.getAllDishType().subscribe(dishTypes => {
-       // @ts-ignore
+      // @ts-ignore
       this.dishTypes = dishTypes.content;
     });
   }
@@ -175,16 +174,16 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 11/08/2022
    *  This function use id to get dish then show result to function addIntoMenuOrder()
    */
-  getDish(id: number){
-      this.orderService.getDish(id).subscribe(dish => {
-         this.dish = dish;
-         localStorage.setItem('dish', JSON.stringify(this.dish));
-         const tempOrder: string = localStorage.getItem('dish');
-         console.log(tempOrder);
-         if(tempOrder){
-            this.dish = JSON.parse(tempOrder) as Dish;
-          }
-      })
+  getDish(id: number) {
+    this.orderService.getDish(id).subscribe(dish => {
+      this.dish = dish;
+      localStorage.setItem('dish', JSON.stringify(this.dish));
+      const tempOrder: string = localStorage.getItem('dish');
+      console.log(tempOrder);
+      if (tempOrder) {
+        this.dish = JSON.parse(tempOrder) as Dish;
+      }
+    })
   }
 
 
@@ -193,60 +192,57 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 11/08/2022
    *  This function do insert dish into menu order
    */
-  addIntoMenuOrder(quantity, tableCode){
+  addIntoMenuOrder(quantity, tableCode) {
     let flag = false;
     let id = 0;
     const order = {
-       quantity: Number(quantity),
-       dish: this.dish,
-       bill: 1,
-       employee: 1,
-       coffeeTable: {
-          id: '1',
-          code: tableCode,
-          status: true
-       }
+      quantity: Number(quantity),
+      dish: this.dish,
+      bill: 1,
+      employee: 1,
+      coffeeTable: {
+        id: '1',
+        code: tableCode,
+        status: true
+      }
     };
-    if(quantity == null || quantity > 10 || quantity == ''){
-      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9','',{timeOut: 2000, progressBar: true});
+    if (quantity == null || quantity > 10 || quantity == '') {
+      this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9', '', {timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
-    }
-    else{
-      if(this.orderMenu.length == 0){
+    } else {
+      if (this.orderMenu.length == 0) {
         this.orderMenu.push(order);
         this.totalMoney = 0;
         this.orderMenu.forEach(items => {
-          this.totalMoney+= items.dish.price * items.quantity;
+          this.totalMoney += items.dish.price * items.quantity;
         });
-      }
-      else{
-        for(let i = 0; i < this.orderMenu.length; i++){
-          if(this.orderMenu[i].dish.id == this.dish.id){
+      } else {
+        for (let i = 0; i < this.orderMenu.length; i++) {
+          if (this.orderMenu[i].dish.id == this.dish.id) {
             id = i;
             flag = true;
             break;
-          }
-          else{
+          } else {
             flag = false;
           }
         }
-        if(flag){
-            for(let i =0; i < this.orderMenu.length; i++){
-              if(i == id){
-                let temp = this.orderMenu[i].quantity;
-                this.orderMenu[i].quantity = Number(quantity) + Number(temp);
-                this.totalMoney = 0;
-                this.orderMenu.forEach(items => {
-                this.totalMoney+= items.dish.price * items.quantity});
-              }
+        if (flag) {
+          for (let i = 0; i < this.orderMenu.length; i++) {
+            if (i == id) {
+              let temp = this.orderMenu[i].quantity;
+              this.orderMenu[i].quantity = Number(quantity) + Number(temp);
+              this.totalMoney = 0;
+              this.orderMenu.forEach(items => {
+                this.totalMoney += items.dish.price * items.quantity
+              });
             }
-            flag = false;
-        }
-        else{
+          }
+          flag = false;
+        } else {
           this.orderMenu.push(order);
           this.totalMoney = 0;
           this.orderMenu.forEach(items => {
-            this.totalMoney+= items.dish.price * items.quantity
+            this.totalMoney += items.dish.price * items.quantity
           });
           flag = false;
         }
@@ -255,64 +251,62 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.inputQuantity.nativeElement.value = '';
   }
 
-    /**
+  /**
    *  Author: BinhPx
    *  Date: 14/08/2022
    *  This function create order have param is table code, employee code, bill code, dish code
    */
-    createOrder(){
-      this.orderMenu.forEach(items => {
-        let i = 0;
-        this.order = {
-          quantity: items.quantity,
-          dish: this.dish,
-          bill: {},
-          employee: {},
-          coffeeTable: items.coffeeTable,
-        }
-        localStorage.setItem('dish'+ i, items);
-        i++;
-        this.orderService.createOrder(this.order).subscribe();
-      });
-      this.toastr.success("Bạn đã order thành công", "Thành công", {timeOut: 2000, progressBar: true});
-      this.orderMenu = [];
-      this.displayTimer(0);
-    }
+  createOrder() {
+    this.orderMenu.forEach(items => {
+      let i = 0;
+      this.order = {
+        quantity: items.quantity,
+        dish: this.dish,
+        bill: {},
+        employee: {},
+        coffeeTable: items.coffeeTable,
+      }
+      localStorage.setItem('dish' + i, items);
+      i++;
+      this.orderService.createOrder(this.order).subscribe();
+    });
+    this.toastr.success("Bạn đã order thành công", "Thành công", {timeOut: 2000, progressBar: true});
+    this.orderMenu = [];
+    this.displayTimer(0);
+  }
 
 
-
-   /**
+  /**
    *  Author: BinhPx
    *  Date: 12/08/2022
    *  This function check event check box and push it into selectCheckBox
    */
-  onCheckBoxChange(event){
-    this.selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
-    if(event.target.checked){
+  onCheckBoxChange(event) {
+    this.selectCheckBox = this.formCheckBox.controls['selectCheckBox'] as FormArray;
+    if (event.target.checked) {
       this.selectCheckBox.push(new FormControl(event.target.value));
-    }
-    else{
+    } else {
       const index = this.selectCheckBox.controls.findIndex(i => i.value === event.target.value);
       this.selectCheckBox.removeAt(index);
     }
   }
 
 
-   /**
+  /**
    *  Author: BinhPx
    *  Date: 12/08/2022
    *  This function use to delete dish in to list dish order
    */
-  deleteDish(){
-    const selectCheckBox  = this.formCheckBox.controls['selectCheckBox'] as FormArray;
+  deleteDish() {
+    const selectCheckBox = this.formCheckBox.controls['selectCheckBox'] as FormArray;
 
-    for(let i of selectCheckBox.value){
+    for (let i of selectCheckBox.value) {
       this.orderMenu.splice(Number(i), 1);
     }
-      this.totalMoney = 0;
-      this.orderMenu.forEach(items => {
-        this.totalMoney+= items.dish.price * items.quantity;
-      });
+    this.totalMoney = 0;
+    this.orderMenu.forEach(items => {
+      this.totalMoney += items.dish.price * items.quantity;
+    });
     this.formCheckBox = new FormGroup({
       selectCheckBox: new FormArray([])
     });
@@ -331,9 +325,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    *  Date: 13/08/2022
    *  This function use to send messager
    */
-  sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
+  sendNotification(titleContent: string, tableCoffe: string, requestConent: string) {
     this.notificationService.getTokenFromFcm();
-    this.toastr.success('Bạn đã gữi yêu cầu thành công','Thành công',{timeOut: 2000, progressBar: true})
+    this.toastr.success('Bạn đã gữi yêu cầu thành công', 'Thành công', {timeOut: 2000, progressBar: true})
     this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
   }
 
@@ -368,33 +362,34 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   }
 
 
-
-
   name = "Angular" + VERSION.major;
-  displayTimer(timer){
-      let timerString: HTMLElement = document.getElementById('timerCountdown') as HTMLElement;
-      let timerCountdown = timer;
-      let minutes, seconds;
-      let setTimer = setInterval(()=>{
-            minutes = Math.floor(timerCountdown/60);
-            seconds = Math.floor(timerCountdown%60);
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            if(++timerCountdown>(60*1)){
-              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gữi đi đến quản lý','',{timeOut: 2000, progressBar: true});
-              this.orderMenu = [];
-              clearInterval(setTimer);
-            }
-            timerString.innerHTML = minutes + ':' + seconds;
-        }, 1000);
-  }
 
+  displayTimer(timer) {
+    let timerString: HTMLElement = document.getElementById('timerCountdown') as HTMLElement;
+    let timerCountdown = timer;
+    let minutes, seconds;
+    let setTimer = setInterval(() => {
+      minutes = Math.floor(timerCountdown / 60);
+      seconds = Math.floor(timerCountdown % 60);
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      if (++timerCountdown > (60 * 1)) {
+        this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gữi đi đến quản lý', '', {
+          timeOut: 2000,
+          progressBar: true
+        });
+        this.orderMenu = [];
+        clearInterval(setTimer);
+      }
+      timerString.innerHTML = minutes + ':' + seconds;
+    }, 1000);
+  }
 
 
   /**
    * Func progress message
    */
-  notificationBox(){
+  notificationBox() {
     this.messageUnread.forEach(items => {
       this.toastr.warning(items.body, items.title, {timeOut: 2000, progressBar: true});
     });
@@ -426,12 +421,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( )){0,14}" +
             "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
             "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
-      email: new FormControl("", [Validators.required, Validators.email,
+      email: new FormControl("", [Validators.email,
         Validators.minLength(5)]),
       content: new FormControl("", [Validators.required, Validators.minLength(2)]),
       rating: new FormControl(this.value),
       image: new FormControl("",
-        [Validators.pattern("^.+((.jpg)|(.png)|(.gif)|(.jpeg)|(.psd)|(.bmp)|(.heic))$")])
+        [Validators.pattern("^.+((.jpg)|(.png)|(.jpeg)|(.heic))$")])
     })
   }
 
@@ -446,48 +441,46 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       this.toggleLoading();
       const feedback = this.feedbackFrom.value;
       feedback.rating = this.value;
-      feedback.email= feedback.email.trim();
+      feedback.email = feedback.email.trim();
       feedback.content = feedback.content.trim();
 
-      if (!(this.selectedImage == null)) {
+      if (feedback.image == null || feedback.image == "") {
+        feedback.image = "";
+        this.saveFeedbackToDB(feedback);
+      } else {
         const imgName = this.getCurrentDateTime() + this.selectedImage.name;
         const fileRef = this.angularFireStorage.ref(imgName);
-
         this.angularFireStorage.upload(imgName, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               feedback.image = url;
-              this.feedbackService.createFeedback(feedback).subscribe(
-                () => {
-                  this.showToastrSuccess();
-                  this.feedbackFrom.reset();
-                  this.value = 0;
-                  //@ts-ignore
-                  $('#staticBackdropFeedback').modal('hide');
-                }, error => {
-                  console.log(error.error);
-                  let errs = error.error;
-                })
+              this.saveFeedbackToDB(feedback);
             })
           })
         ).subscribe();
-      } else {
-        feedback.image = "";
-        this.feedbackService.createFeedback(feedback).subscribe(
-          () => {
-            this.showToastrSuccess();
-            this.feedbackFrom.reset();
-            this.value = 0;
-            //@ts-ignore
-            $('#staticBackdropFeedback').modal('hide');
-          }, error => {
-            console.log(error.error);
-            let errs = error.error;
-          })
       }
     } else {
       this.showToastrWarning();
     }
+  }
+
+  /**
+   * Created by: DiepTT
+   * Date created: 17/08/2022
+   * Function: Save feedback to Database
+   */
+  saveFeedbackToDB(feedback: Feedback) {
+    this.feedbackService.createFeedback(feedback).subscribe(
+      () => {
+        this.showToastrSuccess();
+        this.feedbackFrom.reset();
+        this.value = 0;
+        //@ts-ignore
+        $('#staticBackdropFeedback').modal('hide');
+      }, error => {
+        console.log(error.error);
+        let errs = error.error;
+      })
   }
 
   /**
@@ -549,4 +542,3 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.value = 0;
   }
 }
-
