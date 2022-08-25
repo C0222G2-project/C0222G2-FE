@@ -28,7 +28,7 @@ export class ListFeedbackComponent implements OnInit {
   id: number;
   name: string;
   startDate: string;
-  endDate: Date;
+  endDate: string;
   sortRating: string = 'DESC';
   checkSortOrNot: boolean = false;
   checkSort: boolean = false;
@@ -75,7 +75,7 @@ export class ListFeedbackComponent implements OnInit {
   checkInputBirthday(startDate: AbstractControl) {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if (value >= curDate) {
+    if (value > curDate) {
       return {'checkDate': true}
     }
     return null;
@@ -141,14 +141,14 @@ export class ListFeedbackComponent implements OnInit {
     this.checkSort = false;
     this.checkPage = true;
     this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
-
+    if (this.searchForm.valid) {
       if (this.searchForm.value.searchName == null) {
         this.name = '';
         this.checkNameCreator = false;
       } else {
-        if (this.searchForm.value.searchName.search("[#+&%^]") >= 0) {
+        if (this.searchForm.value.searchName.search("[`~!@#$%^&*(){}:;<>,.?/+=-_]") >= 0) {
           this.checkNameCreator = true;
-          this.toast.error("Vui lòng không nhập ký tự!", "Lỗi")
+          this.toast.error("Vui lòng không nhập ký tự đặc biệt!", "Lỗi")
           this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
         } else {
           this.checkNameCreator = false;
@@ -157,17 +157,17 @@ export class ListFeedbackComponent implements OnInit {
       }
       if (this.searchForm.value.searchStartDate === '') {
         this.startDate = '1000-01-01'
-      }
-      else {
+      } else {
         this.startDate = this.searchForm.value.searchStartDate;
       }
       if (this.searchForm.value.searchEndDate === '') {
-        this.endDate = new Date()
+        this.endDate = '8000-01-01'
       } else {
         this.endDate = this.searchForm.value.searchEndDate;
       }
       this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
-     this.showToast()
+    }
+    this.showToast()
   }
 
 

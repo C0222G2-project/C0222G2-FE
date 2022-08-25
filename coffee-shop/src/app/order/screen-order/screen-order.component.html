@@ -239,7 +239,7 @@
     <div class="modal-content feedback">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Phản hồi</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 10px"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 10px" (click)="reset()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="feedbackFrom" (ngSubmit)="save()" class="feedback-form m-auto">
@@ -271,16 +271,14 @@
           </div>
 
           <div class="mb-3 row">
-            <label for="email" class="col-sm-2 col-form-label">Email <sup
-              class="text-danger">*</sup></label>
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
               <input formControlName="email" name="email" type="email" class="form-control" id="email">
               <div class="text-danger error"
-                   *ngIf="(feedbackFrom.controls.email.hasError('required')
-                   || feedbackFrom.controls.email.hasError('email')
+                   *ngIf="(feedbackFrom.controls.email.hasError('email')
                    || feedbackFrom.controls.email.hasError('minlength'))
                    && feedbackFrom.controls.email.touched">
-                Vui lòng nhập địa chỉ email cá nhân, từ 5 ký tự trở lên và đúng định dạng email.
+                Vui lòng nhập từ 5 ký tự trở lên và đúng định dạng email.
               </div>
             </div>
           </div>
@@ -335,7 +333,7 @@
           <div class="modal-footer">
             <a class="btn btn-secondary" data-bs-dismiss="modal" [style.btn.disabled]="isLoading" (click)="reset()">Hủy</a>
             <button id="send" type="submit" class="btn btn-primary" [disabled]="isLoading">
-              <img *ngIf="isLoading" width="30px" src="../../../assets/img/dieptt-loading-symbol.gif">
+              <img *ngIf="isLoading" width="30px" src="assets/img/dieptt-loading-symbol.gif">
               Gửi phản hồi
             </button>
           </div>
