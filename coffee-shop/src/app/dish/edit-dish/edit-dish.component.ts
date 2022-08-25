@@ -49,16 +49,12 @@ export class EditDishComponent implements OnInit {
   getForm() {
     this.formDish = new FormGroup({
       id: new FormControl(this.dish.id,),
-      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3),
-        Validators.maxLength(30)]),
-      price: new FormControl(this.dish.price, [Validators.required, Validators.min(5000),
-        Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
-      name: new FormControl(this.dish.name, [Validators.required, Validators.minLength(5),
-        Validators.maxLength(255),
-        Validators.pattern("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
-          "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
-          "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
-          "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
+      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(D)(-)[0-9]{1,}$")]),
+      price: new FormControl(this.dish.price, [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
+      name: new FormControl(this.dish.name, [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+        "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
+        "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+        "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
       image: new FormControl(this.dish.image, [Validators.required]),
       isDeleted: new FormControl(this.dish.isDeleted),
       dishType: new FormControl(this.dish.dishType.name, [Validators.required]),
@@ -84,14 +80,17 @@ export class EditDishComponent implements OnInit {
   private getDish(id: number) {
     return this.dishService.findById(id).subscribe(data => {
       this.dish = data;
-    }, error => {
 
-    }, () => {
+      if (data==null){
+        this.toastrService.error("lỗi")
+        this.router.navigateByUrl("/dish")
+      }
       this.getForm()
     });
   }
 
   editDish(id: number) {
+
     if (this.selectedImage == null) {
       const dish: Dish = this.formDish.value;
       this.dishService.editDish(id, dish).subscribe((data) => {
@@ -99,7 +98,13 @@ export class EditDishComponent implements OnInit {
           this.toastrService.success("Thành Công", "Sửa")
         },
         error => {
-          this.toastrService.warning(' Dữ liệu bạn nhập đang bị lỗi hoặc bạn chưa nhập đủ dữ liệu!', 'Thông báo!!!');
+
+          if (error.error.field === "code") {
+            if (error.error.defaultMessage == "codeExists") {
+              this.formDish.controls.code.setErrors({'codeExists': true});
+            }
+          }
+
         });
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
@@ -114,12 +119,18 @@ export class EditDishComponent implements OnInit {
                 this.toastrService.success("Thành Công", "Sửa")
               },
               error => {
-                this.toastrService.warning(' Dữ liệu bạn nhập đang bị lỗi hoặc bạn chưa nhập đủ dữ liệu!', 'Thông báo!!!');
+                if (error.error.field === "code") {
+                  if (error.error.defaultMessage == "codeExists") {
+                    this.formDish.controls.code.setErrors({'codeExists': true});
+                  }
+                }
               });
           });
         })
       ).subscribe();
     }
+
+
   }
 
   showPreviews(event: any) {
@@ -156,7 +167,6 @@ export class EditDishComponent implements OnInit {
       document.getElementById("opt").setAttribute("selected", "true");
       document.getElementById("opt").setAttribute("disabled", "true");
     }
-
   }
 
   compareDishType(o1: DishType, o2: DishType): boolean {
@@ -164,6 +174,4 @@ export class EditDishComponent implements OnInit {
       return o1.id == o2.id;
     }
   }
-
-
 }

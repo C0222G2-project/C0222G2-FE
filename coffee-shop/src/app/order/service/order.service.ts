@@ -17,6 +17,7 @@ export class OrderService {
   private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
   private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
   private urlUpdateTable = 'http://localhost:8080/api/payment/total/';
+  private urlGetTable = 'http://localhost:8080/api/payment/getTable/';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
@@ -43,5 +44,9 @@ export class OrderService {
 
   updateTable(id: string): Observable<CoffeeTable>{
     return this.http.patch<CoffeeTable>(this.urlUpdateTable+`${id}`, {headers: new HttpHeaders({'authorization':this.header})})
+  }
+
+  getTable(code: string): Observable<CoffeeTable>{
+    return this.http.get<CoffeeTable>(this.urlGetTable+`${code}`, {headers: new HttpHeaders({'authorization':this.header})})
   }
 }

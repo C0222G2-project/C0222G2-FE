@@ -31,7 +31,7 @@ export class AddDishComponent implements OnInit {
 
   getForm() {
     this.formDish = new FormGroup({
-      id: new FormControl('', [Validators.required]),
+      id: new FormControl(),
       code: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^((CF)||(T)||(NE)||(TS))(-)[0-9]{1,}$")]),
       price: new FormControl('', [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
       name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern(
@@ -40,9 +40,9 @@ export class AddDishComponent implements OnInit {
         "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
         "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
       image: new FormControl('', [Validators.required]),
-      isDeleted: new FormControl('', [Validators.required]),
       dishType: new FormControl('', [Validators.required]),
-      creationDate: new FormControl('', [Validators.required])
+      isDeleted: new FormControl(),
+      creationDate: new FormControl( )
     });
   }
 

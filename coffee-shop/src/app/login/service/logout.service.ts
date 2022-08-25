@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {CookieService} from "./cookie.service";
 
 @Injectable({
@@ -15,6 +15,7 @@ export class LogoutService {
 
   onLogout(token: string): Observable<any> {
   const header = 'Bearer ' + this.cookieService.getCookie('jwToken');
-    return this.httpClient.get<any>(this.LOGOUT_URL + "/" + token, {headers: new HttpHeaders({'authorization': header})}).pipe();
+     this.httpClient.get<any>(this.LOGOUT_URL + "/" + token, {headers: new HttpHeaders({'authorization': header})}).pipe();
+     return of(token);
   }
 }

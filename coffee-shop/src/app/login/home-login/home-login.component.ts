@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CookieService} from "../service/cookie.service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {LoginService} from "../service/login.service";
 import {AuthService} from "../service/auth.service";
 import {ForgotService} from "../service/forgot.service";
 import {CommonService} from "../service/common.service";
 import {Subscription} from "rxjs";
-import { NotificationService } from 'src/app/order/service/notification.service';
+import {NotificationService} from 'src/app/order/service/notification.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -16,12 +16,16 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './home-login.component.html',
   styleUrls: ['./home-login.component.css']
 })
-export class HomeLoginComponent implements OnInit {
+export class HomeLoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   forgotForm: FormGroup;
   messageReceived: any;
   private subscriptionName: Subscription;
+  public activeLogin: boolean = false;
+  public LoginFailCount: number = 0;
+  public realTimeSecond: number = 0;
+  public realTimeMinute: number = 2;
 
   constructor(private cookieService: CookieService,
               private router: Router,
@@ -30,8 +34,33 @@ export class HomeLoginComponent implements OnInit {
               private authService: AuthService,
               private forgotService: ForgotService,
               private commonService: CommonService,
-              private title : Title,
+              private title: Title,
               private notificationService: NotificationService) {
+
+    const timePrevious = Number(localStorage.getItem("time"));
+
+    if (timePrevious != 0) {
+      let realTimeInterval = setInterval(() => {
+        const d = new Date();
+        let hours: number = d.getHours();
+        let minutes: number = d.getMinutes();
+        let seconds: number = d.getSeconds();
+        const timeNext = hours * 60 * 60 + minutes * 60 + seconds;
+        if (timeNext - timePrevious >= 120) {
+          this.activeLogin = true;
+          clearInterval(realTimeInterval);
+          this.realTimeSecond = 0;
+          this.realTimeSecond = 0;
+          localStorage.setItem("time", "0");
+        }
+        let realTime = ((timePrevious - timeNext) + 120)
+        this.realTimeMinute = Math.floor(realTime / 60);
+        this.realTimeSecond = realTime % 60;
+      }, 1000)
+    } else {
+      this.activeLogin = true;
+    }
+
     this.title.setTitle("Đăng Nhập");
     this.subscriptionName = this.commonService.getUpdate().subscribe(message => {
       this.messageReceived = message;
@@ -39,7 +68,7 @@ export class HomeLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.createLoginForm();
+    this.createLoginForm();
     this.createForgotForm();
   }
 
@@ -58,33 +87,48 @@ export class HomeLoginComponent implements OnInit {
   }
 
   onLogin() {
-    if (this.loginForm.valid) {
+    if (this.loginForm.valid && this.activeLogin) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
-      const stayLogged = this.loginForm.value.stayLogged;
       if (this.loginForm.value.stayLogged) {
         this.cookieService.setCookie('stayLogged', 'true', 1);
       }
       this.loginService.onLogin(username, password).subscribe(value => {
         this.authService.isLogin(value);
       }, error => {
-        switch (error.error) {
-          case "isLogin":
-            this.toastrService.warning("Bạn đã đăng nhập rồi!");
-            break;
-          case "PasswordExpired":
-            this.toastrService.warning("Mật khẩu bạn đã quá hạn vui lòng đổi mật khẩu mới!");
-            break;
-          default:
-            this.toastrService.warning("Tên đăng nhập hoặc mật khẩu không chính xác!")
-            break;
+        this.LoginFailCount++;
+        if (this.LoginFailCount >= 3) {
+          const d = new Date();
+          let hours = d.getHours();
+          let minutes = d.getMinutes();
+          let seconds: number = d.getSeconds();
+          localStorage.setItem("time", String(hours * 60 * 60 + minutes * 60 + seconds));
+          this.activeLogin = false;
+          this.toastrService.error("Bạn nhập sai quá 3 lần hãy thử lại sau ít phút!");
+          this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
+            this.router.navigate([window.location.pathname]);
+          });
+        } else {
+          switch (error.error) {
+            case "isLogin":
+              this.toastrService.warning("Bạn đã đăng nhập rồi!");
+              break;
+            case "PasswordExpired":
+              this.toastrService.warning("Mật khẩu bạn đã quá hạn vui lòng đổi mật khẩu mới!");
+              break;
+            default:
+              this.toastrService.warning("Tên đăng nhập hoặc mật khẩu không chính xác!");
+              this.toastrService.warning("Bạn nhập sai " + this.LoginFailCount + " lần.");
+              break;
+          }
         }
+
       }, () => {
         this.router.navigateByUrl('/home').then(() => {
           this.notificationService.requestPermission();
           this.toastrService.success("Đăng nhập thành công!")
         });
-        setTimeout(()=> {
+        setTimeout(() => {
           this.router.navigateByUrl('/home').then(() => {
             this.toastrService.success("Đăng nhập thành công!")
             this.sendMessage();
@@ -94,7 +138,22 @@ export class HomeLoginComponent implements OnInit {
         })
       });
     } else {
-      this.toastrService.error("Thông tin bạn nhập không chính xác!");
+      this.LoginFailCount++;
+      if (this.LoginFailCount >= 3) {
+        const d = new Date();
+        let hours = d.getHours();
+        let minutes = d.getMinutes();
+        let seconds: number = d.getSeconds();
+        localStorage.setItem("time", String(hours * 60 * 60 + minutes * 60 + seconds));
+        this.activeLogin = false;
+        this.toastrService.error("Bạn nhập sai quá 3 lần hãy thử lại sau ít phút!");
+        this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
+          this.router.navigate([window.location.pathname]);
+        });
+      } else {
+        this.toastrService.warning("Bạn nhập sai " + this.LoginFailCount + " lần.");
+        this.toastrService.error("Thông tin bạn nhập không chính xác!");
+      }
     }
   }
 
@@ -133,5 +192,8 @@ export class HomeLoginComponent implements OnInit {
 
   closeForgot() {
     this.forgotForm.reset();
+  }
+  ngOnDestroy(): void {
+    this.subscriptionName.unsubscribe();
   }
 }
