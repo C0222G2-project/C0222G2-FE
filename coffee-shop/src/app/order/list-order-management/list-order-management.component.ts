@@ -5,6 +5,7 @@ import {Payment} from "../model/Payment";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
 
+
 @Component({
   selector: 'app-list-order-management',
   templateUrl: './list-order-management.component.html',
@@ -22,6 +23,9 @@ export class ListOrderManagementComponent implements OnInit {
   size: number;
   tableOn: boolean = false;
   tableOff: boolean = true;
+  payCustomer: any;
+  backMoneyToCustomer: any;
+
   constructor(private paymentOrderService: PaymentOrderService,
               private toast: ToastrService,
               private title: Title) {
@@ -31,7 +35,7 @@ export class ListOrderManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPage(this.numberPage);
-    this.reset();
+
 
   }
 
@@ -40,6 +44,7 @@ export class ListOrderManagementComponent implements OnInit {
     this.paymentOrderService.getCoffeeTablePage(numberPage).subscribe(data => {
       // @ts-ignore
       this.coffeeTableList = data.content;
+      console.log(data)
       // @ts-ignore
       this.totalPage = data.totalPages;
       // @ts-ignore
@@ -72,9 +77,6 @@ export class ListOrderManagementComponent implements OnInit {
     }
   }
 
-  item(i: number) {
-    this.getAllPage(i);
-  }
 
   // lấy danh sách món trên từng bàn theo id bàn
   getListById(id: number) {
@@ -84,8 +86,10 @@ export class ListOrderManagementComponent implements OnInit {
     }, error => {
     }, () => {
       this.idTable = id;
+      console.log(id)
       this.displayTotal();
-
+      this.payCustomer = '';
+      this.backMoneyToCustomer = '';
     })
   }
 
@@ -100,6 +104,8 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   // thanh toán dựa vào id bàn
+
+
   payment() {
     if (this.idTable == null) {
       this.toast.warning("Vui lòng chọn món để được tính tiền!!")
@@ -140,4 +146,20 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
 
+  refresh() {
+    this.ngOnInit();
+  }
+
+  notification(id: number) {
+    this.toast.warning("Bàn " + id + " chưa có khách sử dụng", "Thông báo!!")
+  }
+
+  payFunction() {
+    if (this.payCustomer > this.totalNeedPayment) {
+      this.backMoneyToCustomer = this.payCustomer - this.totalNeedPayment;
+    } else {
+      this.toast.warning("Số tiền khách trả không đủ để thanh toán", "Cảnh báo")
+    }
+
+  }
 }

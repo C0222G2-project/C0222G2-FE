@@ -22,18 +22,18 @@ export class PaymentOrderService {
   }
 
   getCoffeeTablePage(page: number): Observable<CoffeeTable[]> {
-    return this.httpClient.get<CoffeeTable[]>(this.URL_GET_COFFEE_TABLE_PAGE + `?page=${page}`, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get<CoffeeTable[]>(this.URL_GET_COFFEE_TABLE_PAGE + `?page=${page}`, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
   getListTableById(id: number): Observable<CoffeeTable[]> {
-    return this.httpClient.get<CoffeeTable[]>(this.URL_GET_LIST_BY_ID + `/${id}`, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get<CoffeeTable[]>(this.URL_GET_LIST_BY_ID + `/${id}`, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
   payment(id: number): Observable<Payment> {
-    return this.httpClient.get<Payment>(this.URL_PAYMENT + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get<Payment>(this.URL_PAYMENT + '/' + id, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
   createBill(idTable: number): Observable<any> {
-    return this.httpClient.get(this.URL_CREATE_BILL + '?idTable=' + idTable, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get(this.URL_CREATE_BILL + '?idTable=' + idTable, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 }
