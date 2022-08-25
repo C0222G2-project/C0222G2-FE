@@ -107,7 +107,7 @@ p{
   background-attachment: fixed;
   background-size: cover;
   backdrop-filter: brightness(20%);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(src/assets/img/baobg.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/assets/img/baobg.jpg);
   padding-bottom: 50px;
 
 }
@@ -123,7 +123,7 @@ p{
   /*background-attachment: fixed;*/
   background-size: cover;
   backdrop-filter: brightness(20%);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(src/assets/img/baobg3.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/assets/img/baobg3.jpg);
   padding-bottom: 50px;
 }
 
@@ -133,7 +133,7 @@ p{
   /*background-attachment: fixed;*/
   background-size: cover;
   backdrop-filter: brightness(20%);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(src/assets/img/baobg2.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/assets/img/baobg2.jpg);
   padding-bottom: 50px;
   font-family: 'Bungee', cursive;
 }
