@@ -49,16 +49,17 @@ export class EditDishComponent implements OnInit {
   getForm() {
     this.formDish = new FormGroup({
       id: new FormControl(this.dish.id,),
-      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^(D)(-)[0-9]{1,}$")]),
+      code: new FormControl(this.dish.code, [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern("^((CF)||(T)||(SD)||(S)||(NE))(-)[0-9]{1,}$")]),
       price: new FormControl(this.dish.price, [Validators.required, Validators.min(5000), Validators.max(1000000), Validators.pattern("^([0-9]){1,}$")]),
       name: new FormControl(this.dish.name, [Validators.required, Validators.minLength(5), Validators.maxLength(255), Validators.pattern("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
         "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( ))*" +
         "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
         "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
       image: new FormControl(this.dish.image, [Validators.required]),
-      isDeleted: new FormControl(this.dish.isDeleted),
       dishType: new FormControl(this.dish.dishType.name, [Validators.required]),
       creationDate: new FormControl(this.dish.creationDate),
+      isDeleted: new FormControl(this.dish.isDeleted),
+
     });
   }
 
@@ -69,7 +70,13 @@ export class EditDishComponent implements OnInit {
 
   getAllDishType() {
     this.dishTypeService.getAll().subscribe((data) => {
-      this.dishTypeList = data;
+      if (data==null){
+        this.toastrService.error("không tìm thấy dữ liệu")
+        this.router.navigateByUrl("/dish")
+      }else {
+        this.dishTypeList = data;
+      }
+
     }, error => {
 
     }, () => {
@@ -81,55 +88,54 @@ export class EditDishComponent implements OnInit {
     return this.dishService.findById(id).subscribe(data => {
       this.dish = data;
 
-      if (data==null){
-        this.toastrService.error("lỗi")
-        this.router.navigateByUrl("/dish")
-      }
+    }, error => {
+    }, () => {
       this.getForm()
     });
   }
 
   editDish(id: number) {
 
-    if (this.selectedImage == null) {
+  if (this.selectedImage == null) {
+    if (this.formDish.valid){
       const dish: Dish = this.formDish.value;
       this.dishService.editDish(id, dish).subscribe((data) => {
           this.router.navigateByUrl('/dish').then();
           this.toastrService.success("Thành Công", "Sửa")
         },
         error => {
-
-          if (error.error.field === "code") {
-            if (error.error.defaultMessage == "codeExists") {
-              this.formDish.controls.code.setErrors({'codeExists': true});
-            }
+          const codeEr = this.formDish.value.code
+          if (codeEr == dish.code) {
+            error.error.defaultMessage = 'codeExists'
+            this.formDish.controls.code.setErrors({'codeExists': true})
           }
-
         });
-    } else {
-      const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-      const fileRef = this.storage.ref(nameImg);
-      this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            let dish: Dish = this.formDish.value;
-            dish.image = url;
-            this.dishService.editDish(id, dish).subscribe((data) => {
-                this.router.navigateByUrl('/dish').then();
-                this.toastrService.success("Thành Công", "Sửa")
-              },
-              error => {
-                if (error.error.field === "code") {
-                  if (error.error.defaultMessage == "codeExists") {
-                    this.formDish.controls.code.setErrors({'codeExists': true});
-                  }
-                }
-              });
-          });
-        })
-      ).subscribe();
     }
 
+  } else {
+
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+          let dish: Dish = this.formDish.value;
+          dish.image = url;
+          this.dishService.editDish(id, dish).subscribe((data) => {
+              this.router.navigateByUrl('/dish').then();
+              this.toastrService.success("Thành Công", "Sửa")
+            },
+            error => {
+              const codeEr = this.formDish.value.code
+              if (codeEr == dish.code) {
+                error.error.defaultMessage = 'codeExists'
+                this.formDish.controls.code.setErrors({'codeExists': true})
+              }
+            });
+        });
+      })
+    ).subscribe();
+}
 
   }
 
@@ -146,6 +152,7 @@ export class EditDishComponent implements OnInit {
       this.selectedImage = null;
     }
   }
+
   private getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-YYY', 'en-US');
   }
