@@ -82,12 +82,13 @@
         </div>
       </div>
       <div class="menu row d-flex justify-content-center" style="text-align: center">
-        <div *ngFor="let dish of dishMostOrderList" class="card col-md-2 col-sm-6 col-12" [style.background-image]="'url('+dish.image+')'" >
+        <div *ngFor="let dish of dishMostOrderList; index as i" class="card col-md-2 col-sm-6 col-12" [style.background-image]="'url('+dish.image+')'" >
           <div class="box">
             <div class="text-in-box">
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number}} VNĐ</h2>
               <button class="btn btn-light" *ngIf="token !== ''" [routerLink]="['/order/screen', dish.dishId]">Đặt món</button>
+              <h2 style="white-space: nowrap; font-size: 120%;">Xếp hạng {{i+1}}</h2>
             </div>
           </div>
         </div>
@@ -107,6 +108,9 @@
               <h2 style="white-space: nowrap; font-size: 130%">{{dish.name}}</h2>
               <h2 style="white-space: nowrap; font-size: 120%">{{dish.price | number }} VNĐ</h2>
               <button class="btn btn-light" *ngIf="token !== ''" (click)="order(dish.id)">Đặt món</button>
+              <button class="btn btn-light" *ngIf="token !== ''" [routerLink]="['/order/screen', dish.id]">Đặt món</button>
+              <h2 style="white-space: nowrap; font-size: 120%;">Ngày tạo </h2>
+              <h2 style="white-space: nowrap; font-size: 120%;">{{dish.dateCreate | date : 'dd-MM-yyyy'}}</h2>
             </div>
           </div>
         </div>

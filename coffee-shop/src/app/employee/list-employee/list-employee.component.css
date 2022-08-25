@@ -29,7 +29,7 @@ table {
 }
 
 .background-btn-add {
-  background: #4c4234;
+  background: #744e3a;
 }
 
 .img-background-component {
@@ -42,8 +42,8 @@ th {
 }
 
 table thead tr {
-  background: #804707;
-  background: #6c5c48;
+  background: #744e3a;
+  /*background: #6c5c48;*/
   font-size: larger;
 }
 
@@ -63,10 +63,10 @@ table thead tr {
 }
 
 .btn-search {
-  background: #4c4234;
+  background: #744e3a;
 }
 
-h2 {
+h1 {
   color: white;
 }
 table th a{
@@ -108,8 +108,20 @@ div p{
   background: white;
   color: blue;
   width: 50px;
+  height: 39px;
   text-align: center;
   align-items: center;
   display: flex;
-  border-radius: 45%;
+  border-radius: 90%;
+}
+form div label{
+  color: white ;
+}
+nav ul div li{
+  padding: 0 1px;
+}
+.show-element{
+  color: white;
+  /*display: flex;*/
+  padding-top: 5px;
 }

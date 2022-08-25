@@ -20,6 +20,7 @@
                 <p style="color: red" *ngIf="formDish.controls.name.hasError('minlength') && formDish.controls.name.touched">Tên món phải nhiều hơn 5 kí tự. </p>
                 <p style="color: red" *ngIf="formDish.controls.name.hasError('maxlength') && formDish.controls.name.touched">Tên món phải dưới 250 kí tự. </p>
                 <p style="color: red" *ngIf="formDish.controls.name.hasError('pattern') && formDish.controls.name.touched"> chỉ viết hoa chữ cái đầu mỗi từ, không chứa ký tự đặc biệt, không chứa khoảng trắng thừa. </p>
+
               </div>
             </div>
 
@@ -33,6 +34,11 @@
                   <option id="opt" value="">Vui Lòng Chọn</option>
                   <option *ngFor="let item of dishTypeList" [ngValue]="item"> {{item.name}}</option>
                 </select>
+              </div>
+              <div class="validate">
+                <p style="color: red"
+                   *ngIf="formDish.controls.dishType.hasError('required') && formDish.controls.dishType.touched">Nhóm
+                  món không được để trống. </p>
               </div>
             </div>
 
@@ -83,7 +89,7 @@
 
             <div class="col-sm-6 " id="xoa" >
               <div class=" form-outline mb-2"  >
-                <img id="img" [src]="imgSrc"   style="transform: scale(0.8); height: auto;width: 100% "
+                <img id="img" [src]="imgSrc"   style=" height: auto;width: 100% "
                      (click)="fileUploader.click()">
               </div>
             </div>

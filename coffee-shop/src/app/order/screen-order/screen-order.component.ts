@@ -17,13 +17,14 @@ import {formatDate} from '@angular/common';
 import {FeedbackService} from "../../feedback/service/feedback.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
+import {Feedback} from "../../feedback/model/feedback";
 
 @Component({
   selector: 'app-screen-order',
   templateUrl: './screen-order.component.html',
   styleUrls: ['./screen-order.component.css']
 })
-export class ScreenOrderComponent implements OnInit, OnChanges{
+export class ScreenOrderComponent implements OnInit, OnChanges {
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -54,10 +55,10 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   coffeTable: CoffeeTable;
   idTable;
   /**
- * Created by: DiepTT
- * Date created: 11/08/2022
- * Function: Create feedback (User send feedback)
- */
+   * Created by: DiepTT
+   * Date created: 11/08/2022
+   * Function: Create feedback (User send feedback)
+   */
   currentDate = new Date();
   rating: number[] = [1, 2, 3, 4, 5];
   value: number = 0;
@@ -74,14 +75,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
               private feedbackService: FeedbackService,
               private angularFireStorage: AngularFireStorage,
               private cookieService: CookieService){
-      this.formCheckBox = new FormGroup({
-        selectCheckBox: new FormArray([])
-      });
-      this.title.setTitle("Gọi món");
-      this.messageUnread = this.notificationService.keyArray;
-      this.date = new Date();
-      this.tableUser = this.cookieService.getCookie('username');
-      this.getTable(this.tableUser);
+    this.formCheckBox = new FormGroup({
+      selectCheckBox: new FormArray([])
+    });
+    this.title.setTitle("Gọi món");
+    this.messageUnread = this.notificationService.keyArray;
+    this.date = new Date();
+    this.tableUser = this.cookieService.getCookie('username');
+    this.getTable(this.tableUser);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -137,12 +138,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.dishId = id;
     this.orderService.redirect(id, page).subscribe(dishes => {
       // @ts-ignore
-       this.dishes = dishes.content;
-       // @ts-ignore
-       this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
-       // @ts-ignore
       this.dishes = dishes.content;
-       // @ts-ignore
+      // @ts-ignore
+      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+      // @ts-ignore
+      this.dishes = dishes.content;
+      // @ts-ignore
       this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
     });
   }
@@ -155,7 +156,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   getAllDishType(){
     this.orderService.getAllDishType().subscribe(dishTypes => {
-       // @ts-ignore
+      // @ts-ignore
       this.dishTypes = dishTypes
     });
   }
@@ -183,6 +184,14 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             this.dish = JSON.parse(tempOrder) as Dish;
           }
       })
+    this.orderService.getDish(id).subscribe(dish => {
+      this.dish = dish;
+      localStorage.setItem('dish', JSON.stringify(this.dish));
+      const tempOrder: string = localStorage.getItem('dish');
+      if(tempOrder){
+        this.dish = JSON.parse(tempOrder) as Dish;
+      }
+    })
   }
 
 
@@ -202,7 +211,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           employee: 1,
           coffeeTable: localStorage.getItem('idTable')
       };
-    
+
     if(quantity == null || quantity > 10 || quantity == '' || quantity < 0){
       this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
@@ -227,16 +236,16 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           }
         }
         if(flag){
-            for(let i =0; i < this.orderMenu.length; i++){
-              if(i == id){
-                let temp = this.orderMenu[i].quantity;
-                this.orderMenu[i].quantity = Number(quantity) + Number(temp);
-                this.totalMoney = 0;
-                this.orderMenu.forEach(items => {
+          for(let i =0; i < this.orderMenu.length; i++){
+            if(i == id){
+              let temp = this.orderMenu[i].quantity;
+              this.orderMenu[i].quantity = Number(quantity) + Number(temp);
+              this.totalMoney = 0;
+              this.orderMenu.forEach(items => {
                 this.totalMoney+= items.dish.price * items.quantity});
-              }
             }
-            flag = false;
+          }
+          flag = false;
         }
         else{
           this.orderMenu.push(order);
@@ -251,12 +260,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
     this.inputQuantity.nativeElement.value = '';
   }
 
-    /**
+  /**
    *  Author: BinhPx
    *  Date: 14/08/2022
    *  This function create order have param is table code, employee code, bill code, dish code
    */
-    createOrder(titleContent: string, tableCoffe: string, requestConent: string){
+  createOrder(titleContent: string, tableCoffe: string, requestConent: string){
       if(this.orderMenu.length ==0 ){
         this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
       }
@@ -282,11 +291,11 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
         });
         this.displayTimer(0);
       }
-    }
+  }
 
 
 
-   /**
+  /**
    *  Author: BinhPx
    *  Date: 12/08/2022
    *  This function check event check box and push it into selectCheckBox
@@ -303,7 +312,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   }
 
 
-   /**
+  /**
    *  Author: BinhPx
    *  Date: 12/08/2022
    *  This function use to delete dish in to list dish order
@@ -316,15 +325,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       this.orderMenu.splice(i, 1, 0);
     }
     arrayTemp = this.orderMenu.filter(item => {
-       if(item != 0){
+      if(item != 0){
         return arrayTemp.push(item);
-       }
+      }
     })
     this.orderMenu = arrayTemp;
-      this.totalMoney = 0;
-      this.orderMenu.forEach(items => {
-        this.totalMoney+= items.dish.price * items.quantity;
-      });
+    this.totalMoney = 0;
+    this.orderMenu.forEach(items => {
+      this.totalMoney+= items.dish.price * items.quantity;
+    });
     this.formCheckBox = new FormGroup({
       selectCheckBox: new FormArray([])
     });
@@ -388,21 +397,21 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
 
   name = "Angular" + VERSION.major;
   displayTimer(timer){
-      let timerString: HTMLElement = document.getElementById('timerCountdown') as HTMLElement;
-      let timerCountdown = timer;
-      let minutes, seconds;
-      let setTimer = setInterval(()=>{
-            minutes = Math.floor(timerCountdown/60);
-            seconds = Math.floor(timerCountdown%60);
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            if(++timerCountdown>(60*1)){
-              this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gửi đi đến quản lý!','',{timeOut: 2000, progressBar: true});
-              this.orderMenu = [];
-              clearInterval(setTimer);
-            }
-            timerString.innerHTML = minutes + ':' + seconds;
-        }, 1000);
+    let timerString: HTMLElement = document.getElementById('timerCountdown') as HTMLElement;
+    let timerCountdown = timer;
+    let minutes, seconds;
+    let setTimer = setInterval(()=>{
+      minutes = Math.floor(timerCountdown/60);
+      seconds = Math.floor(timerCountdown%60);
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      if(++timerCountdown>(60*1)){
+        this.toastr.error('Thời gian chờ của bạn đã tới hạn, yêu cầu sẽ tự động gửi đi đến quản lý!','',{timeOut: 2000, progressBar: true});
+        this.orderMenu = [];
+        clearInterval(setTimer);
+      }
+      timerString.innerHTML = minutes + ':' + seconds;
+    }, 1000);
   }
 
 
@@ -441,12 +450,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
             "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( )){0,14}" +
             "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
             "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$")]),
-      email: new FormControl("", [Validators.required, Validators.email,
+      email: new FormControl("", [Validators.email,
         Validators.minLength(5)]),
       content: new FormControl("", [Validators.required, Validators.minLength(2)]),
       rating: new FormControl(this.value),
       image: new FormControl("",
-        [Validators.pattern("^.+((.jpg)|(.png)|(.gif)|(.jpeg)|(.psd)|(.bmp)|(.heic))$")])
+        [Validators.pattern("^.+((.jpg)|(.png)|(.jpeg)|(.heic))$")])
     })
   }
 
@@ -461,48 +470,46 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
       this.toggleLoading();
       const feedback = this.feedbackFrom.value;
       feedback.rating = this.value;
-      feedback.email= feedback.email.trim();
+      feedback.email = feedback.email.trim();
       feedback.content = feedback.content.trim();
 
-      if (!(this.selectedImage == null)) {
+      if (feedback.image == null || feedback.image == "") {
+        feedback.image = "";
+        this.saveFeedbackToDB(feedback);
+      } else {
         const imgName = this.getCurrentDateTime() + this.selectedImage.name;
         const fileRef = this.angularFireStorage.ref(imgName);
-
         this.angularFireStorage.upload(imgName, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               feedback.image = url;
-              this.feedbackService.createFeedback(feedback).subscribe(
-                () => {
-                  this.showToastrSuccess();
-                  this.feedbackFrom.reset();
-                  this.value = 0;
-                  //@ts-ignore
-                  $('#staticBackdropFeedback').modal('hide');
-                }, error => {
-                  console.log(error.error);
-                  let errs = error.error;
-                })
+              this.saveFeedbackToDB(feedback);
             })
           })
         ).subscribe();
-      } else {
-        feedback.image = "";
-        this.feedbackService.createFeedback(feedback).subscribe(
-          () => {
-            this.showToastrSuccess();
-            this.feedbackFrom.reset();
-            this.value = 0;
-            //@ts-ignore
-            $('#staticBackdropFeedback').modal('hide');
-          }, error => {
-            console.log(error.error);
-            let errs = error.error;
-          })
       }
     } else {
       this.showToastrWarning();
     }
+  }
+
+  /**
+   * Created by: DiepTT
+   * Date created: 17/08/2022
+   * Function: Save feedback to Database
+   */
+  saveFeedbackToDB(feedback: Feedback) {
+    this.feedbackService.createFeedback(feedback).subscribe(
+      () => {
+        this.showToastrSuccess();
+        this.feedbackFrom.reset();
+        this.value = 0;
+        //@ts-ignore
+        $('#staticBackdropFeedback').modal('hide');
+      }, error => {
+        console.log(error.error);
+        let errs = error.error;
+      })
   }
 
   /**
@@ -562,5 +569,5 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   reset() {
     this.feedbackFrom.reset();
     this.value = 0;
-  } 
+  }
 }
