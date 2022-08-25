@@ -36,17 +36,19 @@ export class NotificationService {
       }
     )
     // this.writeMessage();
+    this.writeMessageUnhandle();
     this.getTokenFromFcm();
   }
 
-  sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
+  sendNotification(titleContent: string, tableCoffe: string, requestConent: string, object: string){
     this.notification = {
       title: titleContent,
       body: tableCoffe + " yêu cầu " + requestConent,
       role: this.role,
       date: this.date.toLocaleDateString().toString(),
       time: this.time.toLocaleTimeString().toString(),
-      status: 'false'
+      status: 'false',
+      object: object
     }
     this.db.list("/notification").push(this.notification);
     this.sendNotificationToFirebase();
@@ -91,7 +93,7 @@ export class NotificationService {
 
   writeMessage(): string[]{
     let arrayNotifi = [];
-    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
+    this.messagedUnread = this.db.list("/notification").snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
       arrayNotifi.length = 0;
       actions.forEach(action => {
@@ -101,7 +103,8 @@ export class NotificationService {
           role: action.payload.val().role,
           date: action.payload.val().date,
           time: action.payload.val().time,
-          status: action.payload.val().status
+          status: action.payload.val().status,
+          object: action.payload.val().object
         }
         if(''+this.date.toLocaleDateString() == this.notification.date){
           arrayNotifi.push(this.notification);
@@ -109,6 +112,28 @@ export class NotificationService {
       });
     });
     return arrayNotifi;
+  }
+
+  writeMessageUnhandle(): string[]{
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
+    this.messagedUnread.subscribe((actions) => {
+      this.containerMessengeUnread.length = 0;
+      actions.forEach(action => {
+        this.notification = {
+          title: action.payload.val().title,
+          body: action.payload.val().body,
+          role: action.payload.val().role,
+          date: action.payload.val().date,
+          time: action.payload.val().time,
+          status: action.payload.val().status,
+          object: action.payload.val().object
+        }
+        if(''+this.date.toLocaleDateString() == this.notification.date){
+          this.containerMessengeUnread.push(this.notification);
+        }
+      });
+    });
+    return this.containerMessengeUnread;
   }
 
   sendTokenToFcm(user: string, token: string, userrole: string){
@@ -140,11 +165,13 @@ export class NotificationService {
   }
 
   // update notification
-  getKeyNotification(){
+  updateNotification(object: string){
     this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
       actions.forEach(action => {
-        this.keyRemove.push(action.key);
+        if(action.payload.val().title == 'Gọi phục vụ' && action.payload.val().object == object){
+          this.keyRemove.push(action.key);
+        }
       });
     });
     this.deleteNotification();

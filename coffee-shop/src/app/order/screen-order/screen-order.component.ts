@@ -278,10 +278,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
         this.orderMenu = [];
         this.sendNotification(titleContent, tableCoffe, requestConent);
         this.orderService.getAllDishHasOrder(this.idTable).subscribe(items => {
-          console.log(this.idTable);
-          
           this.dishWasOrder = items;
-          console.log(items);
         });
         this.displayTimer(0);
       }
@@ -349,7 +346,11 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notificationService.getTokenFromFcm();
     this.toastr.success('Bạn đã gửi yêu cầu thành công!','Thành công',{timeOut: 2000, progressBar: true})
-    this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
+    this.notificationService.sendNotification(titleContent, tableCoffe, requestConent, this.cookieService.getCookie('username'));
+  }
+
+  handleRequestNotifi(){
+    this.notificationService.updateNotification(this.cookieService.getCookie('username'));
   }
 
 

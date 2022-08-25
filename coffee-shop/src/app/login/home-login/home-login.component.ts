@@ -85,6 +85,7 @@ export class HomeLoginComponent implements OnInit {
       }, () => {
         this.router.navigateByUrl('/home').then(() => {
           this.notificationService.requestPermission();
+          this.notificationService.writeMessageUnhandle();
           this.toastrService.success("Đăng nhập thành công!")
         });
         setTimeout(()=> {

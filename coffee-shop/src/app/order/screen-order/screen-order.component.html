@@ -17,6 +17,10 @@
                     <div class="col-6">
                         <h1 class="table-infor-date mb-2">{{date | date: 'dd/MM/yyyy'}}</h1>
                     </div>
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center m-2"
+                        style="font-size: 20px; align-content: center" data-bs-toggle="modal" data-bs-target="#gameButton">
+                        Game
+                    </button>
                 </div>
             </div>
             <div class="col-8 btn-container service-container d-flex flex-row-reverse">
@@ -31,8 +35,8 @@
                         Phản hồi
                     </button>
                     <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
-                        style="font-size: 20px; align-content: center" data-bs-toggle="modal" data-bs-target="#gameButton">
-                        Game
+                        style="font-size: 20px; align-content: center" (click)="handleRequestNotifi()">
+                        Đã xử lý
                     </button>
                 </div>
                 <div class="show-service-on-mobile">
@@ -45,7 +49,7 @@
                         <li class="list-group-item p-3">
                           <p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback">
                             Phản hồi</p></li>
-                        <li class="list-group-item p-3"><p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#gameButton">Game</p></li>
+                        <li class="list-group-item p-3"><p class="text-dark m-0">Đã xử lý</p></li>
                     </ul>
                 </div>
             </div>
@@ -138,6 +142,7 @@
                       </tr>
                     </tbody>
                   </table>
+                  <!-- <div *ngIf="dishWasOrder.length == 0" class="text-center"><p>Chưa có món ăn được order</p></div> -->
             </div>
         </div>
             <!-- Game -->

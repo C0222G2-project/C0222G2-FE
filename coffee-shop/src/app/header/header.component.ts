@@ -17,8 +17,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username: string = '';
   token: string = '';
   messageReceived: any;
-  notification;
+  notification = [];
   selected = false;
+  notificationNotHandle=[];
   private subscriptionName: Subscription;
 
   constructor(private cookieService: CookieService,
@@ -37,10 +38,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.username = this.readCookieService('username');
       this.token = this.readCookieService('jwToken');
     });
+    this.notificationUnHandle();
+    this.watchNotification();
   }
 
   ngOnInit(): void {
-    this.notification = [];
+  
   }
 
   /**
@@ -103,20 +106,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   watchNotification(){
-   this.showNotificationTable();
    this.notification.length = 0;
    this.notification = this.notificationService.writeMessage();
+  }
+
+  notificationUnHandle(){
+    this.notificationNotHandle = this.notificationService.writeMessageUnhandle();
   }
 
   showNotificationTable(){
     if(this.selected == false){
         this.selected = true;
+        this.watchNotification();
     }
     else{
-      this.selected = false;
+      this.selected = false;      
     }
   }
-
 
 }
 

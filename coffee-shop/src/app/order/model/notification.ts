@@ -5,4 +5,5 @@ export interface NotificationOfCoffeStore {
     role: string;
     date: string;
     time: string;
+    object: string;
 }

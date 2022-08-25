@@ -7,6 +7,7 @@ import { CookieService } from 'src/app/login/service/cookie.service';
 import { Dish } from 'src/app/dish/model/dish';
 import { DishType } from 'src/app/dish/model/dish-type';
 import { CoffeeTable } from '../model/CoffeeTable';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

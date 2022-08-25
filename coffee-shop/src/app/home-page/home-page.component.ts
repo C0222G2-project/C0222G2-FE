@@ -7,6 +7,7 @@ import {CookieService} from '../login/service/cookie.service';
 import {Title} from "@angular/platform-browser";
 import { NotificationService } from '../order/service/notification.service';
 import { map } from 'rxjs/operators';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +27,8 @@ export class HomePageComponent implements OnInit, OnChanges {
               private cookieService: CookieService,
               private title : Title,
               private notification: NotificationService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private route: Router) {
     this.title.setTitle("Trang Chủ");
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -69,10 +71,14 @@ export class HomePageComponent implements OnInit, OnChanges {
   get5DishNewest() {
     this.getDishList.get5DishNewest().subscribe(data => {
       this.distNewestList = data;
-      console.log(data);
     }, error => {
       this.checkData = false;
       this.mess.error('Máy chủ có thể đãng gặp sự cố, một số thông tin sẽ không thể hiển thị, hãy thử lại sau', 'LỖi');
     });
+  }
+
+  order(id: number){
+    localStorage.setItem('dishId', ''+id);
+    this.route.navigateByUrl("order/screen");
   }
 }

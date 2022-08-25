@@ -212,7 +212,7 @@ iframe {
 
 .buttonOrder {
     height: 40px;
-    width: 160px;
+    width: 200px;
     background-color: rgba(0, 0, 0, 0.77);
     color: #ffffff;
     border-color: white;
@@ -263,6 +263,13 @@ iframe {
     }
 
     .show-service-on-desktop{
+        display: none;
+    }
+}
+
+
+@media (max-width: 742px) {
+    .has-order-container::after{
         display: none;
     }
 }

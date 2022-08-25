@@ -64,6 +64,20 @@
     font-size: 13px;
   }
 
+  .nav-item-notification-size{
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 50%;
+    background-color: red;
+    color: #ffffff;
+    position: absolute;
+    top: -7px;
+    right: -6px;
+    line-height: 19px;
+    font-size: 13px;
+  }
+
   .scrollbar{
     margin-left: 30px;
     float: left;
@@ -81,6 +95,7 @@
     background-color: #ffffff;
     outline: none;
     border: none;
+    position: relative;
   }
 
   .btn-notification:hover{
