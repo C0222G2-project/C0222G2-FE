@@ -75,7 +75,7 @@ export class ListFeedbackComponent implements OnInit {
   checkInputBirthday(startDate: AbstractControl) {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if (value >= curDate) {
+    if (value > curDate) {
       return {'checkDate': true}
     }
     return null;
@@ -146,7 +146,7 @@ export class ListFeedbackComponent implements OnInit {
         this.name = '';
         this.checkNameCreator = false;
       } else {
-        if (this.searchForm.value.searchName.search("[#+&%^]") >= 0) {
+        if (this.searchForm.value.searchName.search("[`~!@#$%^&*(){}:;<>,.?/+=-_]") >= 0) {
           this.checkNameCreator = true;
           this.toast.error("Vui lòng không nhập ký tự đặc biệt!", "Lỗi")
           this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
