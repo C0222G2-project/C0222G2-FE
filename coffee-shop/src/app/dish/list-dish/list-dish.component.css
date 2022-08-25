@@ -43,7 +43,7 @@ table thead tr {
 .table100-head th {
   font-size: 18px;
   color: #fff;
-  line-height: 1.2;
+  vertical-align: middle;
   font-weight: 600;
 }
 
@@ -134,5 +134,8 @@ select:not([multiple]) {
   align-items: center;
   display: flex;
   border-radius: 45%;
+}
+.table tbody {
+  vertical-align: middle;
 }
 
