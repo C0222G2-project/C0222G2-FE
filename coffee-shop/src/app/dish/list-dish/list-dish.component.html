@@ -28,7 +28,6 @@
                   <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel=""
                           class="form-control">
                     <option value="">Chọn loại món</option>
-                    -->
                     <option *ngFor="let element of dishTypeArray"
                             value="{{element.id}}">{{element.name}}</option>
                   </select>
