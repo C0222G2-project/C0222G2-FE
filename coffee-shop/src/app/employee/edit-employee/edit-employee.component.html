@@ -5,7 +5,6 @@
         <h1 class="mb-5 text-center title">Chỉnh Sửa Thông Tin Nhân Viên</h1>
         <form class="row g-3"  [formGroup]="employeeFormEdit" *ngIf="employeeFormEdit" (ngSubmit)="updateEmployee()">
           <div class="row g-3">
-
             <div class="col-sm-6 image-edit"  >
               <div class=" form-outline mb-4" >
                 <img  id="image" src="{{employeeFormEdit.value.image}}" class="image-css">

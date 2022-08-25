@@ -24,7 +24,7 @@ export class DishService {
 
   deleteDishById(id: number): Observable<Dish> {
     // @ts-ignore
-    return this.httpClient.patch<Dish>(this.URL_DISH + "/delete/" + id,{headers: new HttpHeaders({'authorization': this.header})})
+    return this.httpClient.patch<Dish>(this.URL_DISH + "/delete/" + id,null,{headers: new HttpHeaders({'authorization': this.header})})
   }
 
   getAllDishType(): Observable<Dish[]>{
