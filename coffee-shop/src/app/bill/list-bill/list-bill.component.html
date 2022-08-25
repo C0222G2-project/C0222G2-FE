@@ -53,7 +53,7 @@
           <td class="td-bill">{{bill.creationDate|date: 'dd-MM-yyyy'}}</td>
           <td class="td-bill">{{bill.employeeName}}</td>
           <td class="td-bill">{{bill.coffeeTableCode}}</td>
-          <td class="td-bill">{{bill.totalBill| currency: "VND": ''}}đ</td>
+          <td class="td-bill">{{bill.totalBill | currency: "VND": ''}}đ</td>
           <td class="td-bill">
             <a href="#" (click)="getBillId(bill.id)"
                class="a-bill" data-bs-toggle="offcanvas" [attr.data-bs-target]="'#offcanvas' + bill.id">
