@@ -24,6 +24,7 @@ export class ListOrderManagementComponent implements OnInit {
   tableOn: boolean = false;
   tableOff: boolean = true;
   payCustomer: any;
+
   backMoneyToCustomer: any;
 
   constructor(private paymentOrderService: PaymentOrderService,
@@ -155,11 +156,13 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   payFunction() {
+    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(this.payCustomer) ;
     if (this.payCustomer > this.totalNeedPayment) {
       this.backMoneyToCustomer = this.payCustomer - this.totalNeedPayment;
     } else {
       this.toast.warning("Số tiền khách trả không đủ để thanh toán", "Cảnh báo")
     }
-
   }
+
+
 }
