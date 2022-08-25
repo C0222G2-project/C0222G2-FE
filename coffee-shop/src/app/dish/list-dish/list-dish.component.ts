@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+ import {Component, OnInit} from '@angular/core';
 import {DishService} from "../../service/dish.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {DishType} from "../model/dish-type";
 import {Dish} from "../model/dish";
-import {Title} from "@angular/platform-browser";
+ import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-list-dish',
@@ -21,10 +21,9 @@ export class ListDishComponent implements OnInit {
   countTotalPages: number[];
   number: number;
   size: number;
-  numberOfElements: number;
 
-  constructor(private dishService: DishService, private toast: ToastrService, private router: Router, private title: Title,) {
-    this.title.setTitle("Danh sách món")
+  constructor(private dishService: DishService, private toast: ToastrService, private router: Router,private title : Title,) {
+  this.title.setTitle("Danh sách món")
   }
 
   ngOnInit(): void {
@@ -36,6 +35,7 @@ export class ListDishComponent implements OnInit {
   getAllDishType() {
     this.dishService.getAllDishType().subscribe(data => {
       this.dishTypeArray = data;
+      console.log(data);
     });
   }
 
@@ -69,9 +69,6 @@ export class ListDishComponent implements OnInit {
         this.dishArray = data.content;
         // @ts-ignore
         this.size = data.size;
-        // @ts-ignore
-        this.numberOfElements = data.numberOfElements;
-        console.log(data)
       } else {
         this.dishArray = [];
       }
@@ -112,25 +109,15 @@ export class ListDishComponent implements OnInit {
 
   deleteDishById(id: number) {
     this.dishService.deleteDishById(id).subscribe(value => {
-      this.toast.success('Xóa thành công');
-      if (this.numberOfElements <=1) {
-        this.getDishPage(this.number - 1, this.searchForm.value.dishName,
-          this.searchForm.value.dishCode,
-          this.searchForm.value.dishPrice,
-          this.searchForm.value.dishTypeId);
-        console.log('hello')
-      }else {
-        this.getDishPage(this.number, this.searchForm.value.dishName,
-          this.searchForm.value.dishCode,
-          this.searchForm.value.dishPrice,
-          this.searchForm.value.dishTypeId);
-      }
-
     }, error => {
     }, () => {
       // @ts-ignore
       $('#exampleModal' + id).modal('hide');
-
+      this.getDishPage(0, this.searchForm.value.dishName,
+        this.searchForm.value.dishCode,
+        this.searchForm.value.dishPrice,
+        this.searchForm.value.dishTypeId);
+      this.router.navigateByUrl('/dish').then(next => this.toast.success('Xóa thành công'));
     });
   }
 
@@ -140,9 +127,8 @@ export class ListDishComponent implements OnInit {
       this.searchForm.value.dishPrice,
       this.searchForm.value.dishTypeId);
   }
-
-  goEnd() {
-    this.getDishPage(this.totalPages - 1, this.searchForm.value.dishName,
+  goEnd(){
+    this.getDishPage(this.totalPages-1, this.searchForm.value.dishName,
       this.searchForm.value.dishCode,
       this.searchForm.value.dishPrice,
       this.searchForm.value.dishTypeId);
