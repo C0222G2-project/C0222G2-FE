@@ -263,7 +263,6 @@ export class ListEmployeeComponent implements OnInit {
     }
   }
 
-
   searchPageCurrent() {
     this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
     if (this.pageSearch > 0 && this.pageSearch <= this.totalPages){
