@@ -1,4 +1,5 @@
 export interface Bill {
+  totalBill: number;
   id?: number;
   billCode?: string;
   creationDate?: string;

@@ -180,7 +180,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
    */
   addIntoMenuOrder(quantity){
     console.log( localStorage.getItem('idTable'));
-    
+
       let flag = false;
       let id = 0;
       const order = {
@@ -190,7 +190,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           employee: 1,
           coffeeTable: localStorage.getItem('idTable')
       };
-    
+
     if(quantity == null || quantity > 10 || quantity == '' || quantity < 0){
       this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
       this.inputQuantity.nativeElement.value = '';
@@ -253,6 +253,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
           this.order = {
             quantity: items.quantity,
             dish: this.dish,
+            // @ts-ignore
             bill: {},
             employee: {},
             coffeeTable: {
@@ -543,5 +544,5 @@ export class ScreenOrderComponent implements OnInit, OnChanges{
   reset() {
     this.feedbackFrom.reset();
     this.value = 0;
-  } 
+  }
 }

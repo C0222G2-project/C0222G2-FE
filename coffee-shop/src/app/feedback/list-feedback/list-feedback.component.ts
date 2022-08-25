@@ -142,7 +142,6 @@ export class ListFeedbackComponent implements OnInit {
     this.checkPage = true;
     this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
 
-    if(this.searchForm.valid){
       if (this.searchForm.value.searchName == null) {
         this.name = '';
         this.checkNameCreator = false;
@@ -168,8 +167,7 @@ export class ListFeedbackComponent implements OnInit {
         this.endDate = this.searchForm.value.searchEndDate;
       }
       this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
-    }
-    this.showToast()
+     this.showToast()
   }
 
 

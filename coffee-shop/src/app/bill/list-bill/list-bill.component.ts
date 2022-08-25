@@ -28,11 +28,13 @@ export class ListBillComponent implements OnInit {
   size: number;
   isLoading: Boolean = false;
   billCode: Boolean = false;
+  formPage: FormGroup;
+  pageSearch: number;
 
 
   constructor(private billService: BillService,
               private toastrService: ToastrService,
-              private title : Title) {
+              private title: Title) {
     this.title.setTitle("Danh sách hóa đơn")
 
     this.billFormReactive = new FormGroup({
@@ -45,6 +47,9 @@ export class ListBillComponent implements OnInit {
     this.searchForm = new FormGroup({
       searchCode: new FormControl(''),
       searchDate: new FormControl('', this.checkDate),
+    });
+    this.formPage = new FormGroup({
+      pageForm: new FormControl('')
     });
   }
 
@@ -120,9 +125,13 @@ export class ListBillComponent implements OnInit {
     console.log(this.searchForm.value)
     if (this.searchForm.value.searchCode === '') {
       this.code = '';
+      this.billCode = false
     } else {
-      if (this.searchForm.value.searchCode.search("[#%^+]") >= 0) {
+      if (this.searchForm.value.searchCode.search(["#+&%"]) >= 0) {
         this.billCode = true;
+        this.code = this.searchForm.value.searchCode;
+      } else {
+        this.billCode = false;
         this.code = this.searchForm.value.searchCode;
       }
     }
@@ -158,7 +167,7 @@ export class ListBillComponent implements OnInit {
     let numberPage: number = this.number;
     if (numberPage > 0) {
       numberPage--;
-      this.getAllBill(numberPage, "", "");
+      this.getAllBill(numberPage, this.code, this.creationDate);
     }
   }
 
@@ -172,7 +181,7 @@ export class ListBillComponent implements OnInit {
     let numberPage: number = this.number;
     if (numberPage < this.totalPages - 1) {
       numberPage++;
-      this.getAllBill(numberPage, "", "");
+      this.getAllBill(numberPage, this.code, this.creationDate);
     }
   }
 
@@ -199,15 +208,13 @@ export class ListBillComponent implements OnInit {
     this.toggleLoading();
     let data = document.getElementById('contentToConvert' + id);
     html2canvas(data).then(canvas => {
-      let imgWidth = 600;
-      let imgHeight = canvas.height * imgWidth / canvas.width * 0.1;
       const contentDataURL = canvas.toDataURL('image/png')
       // @ts-ignore
-      let doc = new jsPDF('p', 'pt', 'a5');
+      let doc = new jsPDF('p', 'pt', 'a4');
       let position = 0;
       // @ts-ignore
-      doc.addImage(contentDataURL, 1, 0);
-      doc.save('Bill-' + code + '.');
+      doc.addImage(contentDataURL, 130, 0);
+      doc.save('Bill-' + code + '.pdf');
       this.toastrService.success("Xuất Hóa Đơn Thành Công!", "Thông Báo");
     });
   }
@@ -221,7 +228,7 @@ export class ListBillComponent implements OnInit {
 
   checkDate(creationDate: AbstractControl) {
     const value = creationDate.value;
-    const curDate = formatDate(new Date(), 'yyyy-mm-dd', 'en-US')
+    const curDate = formatDate(new Date(), 'yyyy-mm-yy', 'en-US')
     if (value >= curDate) {
       return {'checkDate': true}
     }
@@ -240,10 +247,22 @@ export class ListBillComponent implements OnInit {
   }
 
   goStart() {
-    this.getAllBill(0, "", "");
+    this.getAllBill(0, this.code, this.creationDate);
   }
 
   goEnd() {
-    this.getAllBill(this.totalPages - 1, "", "");
+    this.getAllBill(this.totalPages - 1, this.code, this.creationDate);
+  }
+
+  searchPageCurrent() {
+    this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
+    if (this.pageSearch > 0 && this.pageSearch <= this.totalPages) {
+      this.getAllBill(this.pageSearch - 1, this.code, this.creationDate);
+    } else {
+      // @ts-ignore
+      this.toastrService.error("Trang bạn tìm không tồn tại", "", 100);
+      this.getAllBill(0, this.code, this.creationDate);
+    }
   }
 }
+
