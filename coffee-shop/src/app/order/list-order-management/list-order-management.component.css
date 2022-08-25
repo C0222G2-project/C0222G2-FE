@@ -5,7 +5,6 @@
   padding-bottom: 50px;
   font-family: 'Montserrat', sans-serif;
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("src/assets/img/bg3-hoann.jpg");
-
 }
 
 .img-table {
@@ -49,3 +48,12 @@
 /*  color: #c9c7c7;*/
 /*  font-family: 'Montserrat', sans-serif;*/
 /*}*/
+.number-pages{
+  color: black;
+  height: 40px;
+  width: 50px;
+  border-radius: 70% ;
+  text-align: center;
+  padding-top: 7px ;
+  background-color: white
+}
