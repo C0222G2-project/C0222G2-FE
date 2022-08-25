@@ -108,8 +108,15 @@ div p{
   background: white;
   color: blue;
   width: 50px;
+  height: 39px;
   text-align: center;
   align-items: center;
   display: flex;
-  border-radius: 45%;
+  border-radius: 90%;
+}
+form div label{
+  color: white ;
+}
+nav ul div li{
+  padding: 0 1px;
 }

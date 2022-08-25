@@ -37,6 +37,7 @@ export class ListFeedbackComponent implements OnInit {
   pageSearch: number;
   checkPage: boolean = false;
 
+
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
               private title: Title) {
     this.title.setTitle("Quản lý phản hồi");
@@ -95,12 +96,6 @@ export class ListFeedbackComponent implements OnInit {
         this.toast.error("Ngày kết thúc không được hơn ngày hiện tại!", "Lỗi")
       }
     }
-    if (!this.checkNameCreator) {
-      this.toast.error("Tên bạn tìm không tồn tại!", "Lỗi")
-    }
-    if (!this.checkPage) {
-      this.toast.error("Trang bạn tìm không tồn tại!", "Lỗi")
-    }
   }
 
   /**
@@ -144,8 +139,7 @@ export class ListFeedbackComponent implements OnInit {
    */
   getSearch() {
     this.checkSort = false;
-    this.checkNameCreator = false;
-    this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
+    this.searchForm.value.searchName = this.searchForm.value.searchName.trim();
     if (this.searchForm.value.searchName == null) {
       this.name = '';
     } else {
@@ -333,12 +327,10 @@ export class ListFeedbackComponent implements OnInit {
   searchPageCurrent() {
     this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
     if (this.pageSearch > 0 && this.pageSearch <= this.totalPages) {
-      this.checkPage = false;
       this.getAllFeedback(this.pageSearch - 1, this.name, this.startDate, this.endDate, 'ASC');
     } else {
-      this.checkPage = true;
+      this.toast.error('Trang bạn tìm không tồn tại', 'Lỗi')
       this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
     }
-    this.showToast()
   }
 }
