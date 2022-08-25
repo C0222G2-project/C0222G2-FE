@@ -4,6 +4,8 @@ import {AddOrderComponent} from './add-order/add-order.component';
 import {ListOrderManagementComponent} from './list-order-management/list-order-management.component';
 import { ScreenOrderComponent } from './screen-order/screen-order.component';
 import {UserGuard} from "../login/authguard/user.guard";
+import {Error404PageComponent} from "../login/error404-page/error404-page.component";
+import {StaffGuard} from "../login/authguard/staff.guard";
 
 
 const routes: Routes = [
@@ -20,12 +22,20 @@ const routes: Routes = [
   {
     path: 'order/list',
     component: ListOrderManagementComponent,
-    canActivate: [UserGuard]
+    canActivate: [StaffGuard]
   },
   {
     path: 'order/screen/:id',
     component: ScreenOrderComponent,
     canActivate: [UserGuard]
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
+  },
+  {
+    path: '404',
+    component: Error404PageComponent
   }
 ];
 

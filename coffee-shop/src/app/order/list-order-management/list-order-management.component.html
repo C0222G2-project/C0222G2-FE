@@ -1,95 +1,92 @@
 <div id="main">
-  <div class="container-fluid" style="position: relative">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 800px; margin-top: 150px">
-        <div class="container col-lg-12 col-md-6 col-sm-6" style="padding-right: 0; ">
-          <div class="row" style="margin-left: 50px">
 
-            <div class="card col-lg-3 col-md-12 col-sm-12 card-table"
-                 *ngFor="let coffeePage of coffeeTableList; index as i">
+  <div class="container-fluid" style="position: relative; display: flex">
+    <div style="width: 100%">
 
+      <div style="margin-top: 150px; width: 50%; float: left">
+        <div>
+          <div class="row justify-content-center">
+            <div>
+              <a class="btn btn-danger" style="width: 40px;margin-left: 15px;color: black" (click)="refresh()"><i
+                class="bi bi-arrow-counterclockwise"></i></a>
+            </div>
+            <div class="card col-md-4 col-sm-6 col-12" *ngFor="let coffeePage of coffeeTableList; index as i"
+                 style="width: 28%; margin: 0 20px 20px 20px; padding: 0 0 0 0; ">
               <div [ngSwitch]="coffeePage.status">
-                <div *ngSwitchCase="true">
+                <div *ngSwitchCase="tableOn">
                   <div (click)="getListById(coffeePage.id)">
-                    <img src="https://xuongbanghecafe.com/wp-content/uploads/2019/10/menu-cafe-dang-gap-6.jpg"
+                    <img (click)="reset()"
+                         src="https://xuongbanghecafe.com/wp-content/uploads/2019/10/menu-cafe-dang-gap-6.jpg"
                          class="card-img-top img-table" alt="...">
                   </div>
-                  <div class="card-body">
+                  <div class="card-body d-flex align-items-center justify-content-center">
                     <p>Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
-                <div *ngSwitchCase="false">
-                  <div>
+                <div *ngSwitchCase="tableOff">
+                  <div (click)="notification(coffeePage.id)">
                     <img src="https://xuongbanghecafe.com/wp-content/uploads/2019/10/menu-cafe-dang-gap-6.jpg"
-                         class="card-img-top" alt="...">
+                         class="card-img-top" alt="..." style="filter: brightness(70%);">
                   </div>
-                  <div class="card-body bg-secondary">
+                  <div class=" bg-secondary card-body d-flex align-items-center  justify-content-center">
                     <p class="">Bàn {{i + 1 + numberPage * size}}</p>
                   </div>
                 </div>
               </div>
-
             </div>
-
-            <!--phân trang-->
-            <div style="padding-right: 16.8%">
-              <nav aria-label="Page navigation example"
-                   style=" margin-top: 2rem;">
-                <ul class="pagination justify-content-end">
-                  <div *ngIf="numberPage == 0 ">
-                    <li class="page-item disabled">
-                      <a class="page-link button-bg" (click)="previousPage()" hidden
-                         aria-disabled="true">Trước</a>
-
-                    </li>
-                  </div>
-                  <div *ngIf="numberPage != 0 ">
-                    <li class="page-item ">
-                      <a class="page-link button-bg" (click)="previousPage()"
-                         aria-disabled="true">Trước</a>
-                    </li>
-                  </div>
-                  <div *ngFor="let count of countTotalPage, index as i">
-                    <div *ngIf="i == numberPage">
-                      <li class="page-item "><a class="page-link button-bg paging-css" (click)="item(i)">{{i + 1}}</a></li>
-                    </div>
-                    <div *ngIf="i != numberPage">
-                      <li class="page-item "><a class="page-link button-bg" (click)="item(i)">{{i + 1}}</a></li>
-                    </div>
-                  </div>
-
-                  <div *ngIf="numberPage == totalPage">
-                    <li class="page-item">
-                      <button class="page-link button-bg" (click)="nextPage()" hidden>Sau</button>
-                    </li>
-                  </div>
-                  <div *ngIf="numberPage != totalPage - 1">
-                    <li class="page-item">
-                      <button class="page-link button-bg" (click)="nextPage()">Sau</button>
-                    </li>
-                  </div>
-                </ul>
-              </nav>
-            </div>
-            <!-- ------------ -->
           </div>
+          <div class="container-fluid">
+            <!--phân trang-->
+            <nav aria-label="Page navigation example" style=" margin-top: 5px; position: relative;">
+              <ul class="pagination justify-content-center">
+                <div *ngIf="numberPage == 0 " style="margin-left: 10px">
+                  <li class="page-item disabled">
+                    <a class="page-link button-bg" (click)="previousPage()" hidden
+                       aria-disabled="true"><<</a>
+                  </li>
+                </div>
+                <div *ngIf="numberPage != 0 " style="margin-right: 10px">
+                  <li class="page-item ">
+                    <a class="page-link button-bg" (click)="previousPage()"
+                       aria-disabled="true"><<</a>
+                  </li>
+                </div>
+                <div class="number-pages">{{numberPage + 1}} | {{totalPage}}</div>
+
+                <div *ngIf="numberPage == totalPage" style="margin-left: 10px">
+                  <li class="page-item">
+                    <button class="page-link button-bg" (click)="nextPage()" hidden>>></button>
+                  </li>
+                </div>
+                <div *ngIf="numberPage != totalPage - 1" style="margin-left: 10px">
+                  <li class="page-item">
+                    <button class="page-link button-bg" (click)="nextPage()">>></button>
+                  </li>
+                </div>
+
+              </ul>
+            </nav>
+          </div>
+
         </div>
       </div>
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="height: 800px; margin-top: 150px">
-        <div class="container col-lg-12 col-md-12">
-          <div style="overflow-x:auto ; margin-top: 2rem; background-color: beige;
+      <div class="" style="height: 800px; margin-top: 180px; width: 50%; float: left">
+        <div class="container">
+          <div style="overflow-x:auto ; background-color: beige;
                             border-radius: 30px; box-shadow:5px 5px 5px 5px #cdaa83">
-            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable != null">THÔNG TIN BÀN {{this.codeTable}} </h4></div>
-            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable == null">VUI LÒNG CHỌN BÀN</h4></div>
-            <div style="padding: 0 10px 0 10px">
+            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable != null">THÔNG TIN
+              BÀN {{this.idTable}} </h4></div>
+            <div class="text-center text-black" style="padding-top: 5px"><h4 *ngIf="idTable == null">VUI LÒNG CHỌN
+              BÀN</h4></div>
+            <div>
               <table class="table table-bordered table-sm table-striped table-hover"
-                     style="; padding-top: 2px ; border-color: #eeeeee">
+                     style=" padding-top: 2px ; border-color: #eeeeee">
                 <thead>
                 <tr class="table-secondary text-center" style="background: #f1f1f1; color: #041c32; ">
                   <td>STT</td>
                   <td>Tên món</td>
-                  <td>Số lượng(Ly/Món)</td>
+                  <td>Số lượng(Ly | Món)</td>
                   <td>Đơn giá(VND)</td>
                   <td>Tổng(VND)</td>
                 </tr>
@@ -97,15 +94,15 @@
                 <tbody id="#">
                 <tr *ngFor="let list of listOrderInTable; index as i">
                   <td>{{i + 1}}</td>
-                  <td>{{list.name}}</td>
+                  <td><p class="hide_content">{{list.name}}</p></td>
                   <td style="text-align: center">{{list.quantity}}</td>
-                  <td style="text-align: center">{{list.price | currency:'VND':'' }}đ</td>
-                  <td style="text-align: center">{{list.payment | currency:'VND':'' }}đ</td>
+                  <td style="text-align: center">{{list.price | currency:'VND':'' }}</td>
+                  <td style="text-align: center">{{list.payment | currency:'VND':'' }}</td>
                   <input type="hidden" value="{{list.id}}" id="idTable">
                 </tr>
                 <tr>
-                  <td colspan="4" style="text-align: end">Tổng tiền : </td>
-                  <td style="text-align: center">{{totalNeedPayment | currency: 'VND' : ''}}đ</td>
+                  <td colspan="4" style="text-align: end">Tổng tiền(VND) :</td>
+                  <td style="text-align: center">{{totalNeedPayment | currency: 'VND' : ''}}</td>
                 </tr>
                 </tbody>
               </table>
@@ -117,16 +114,13 @@
               <li class="page-item" *ngIf="idTable == null  && totalNeedPayment == 0 ">
                 <!-- Button trigger modal -->
                 <a type="button"
-                   class="btn button-bg disabled"  style="margin-right: 3rem; border-color: white">Tính tiền</a>
+                   class="btn button-bg disabled" style="margin-right: 10px; border-color: white">Tính tiền</a>
               </li>
 
               <li class="page-item" *ngIf="idTable != null ">
                 <!-- Button trigger modal -->
                 <a type="button" (click)="payment()"
-                   class="btn button-bg" style="margin-right: 3rem; border-color: white">Tính tiền</a>
-              </li>
-              <li class="page-item">
-                <a class="btn button-bg " style="; border-color: white" (click)="reset()">Làm mới bảng</a>
+                   class="btn button-bg" style="margin-right: 10px; border-color: white">Tính tiền</a>
               </li>
             </ul>
           </div>
@@ -140,8 +134,26 @@
   <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body" >
-          Tổng tiền cần thanh toán: <span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}đ</span>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bàn {{idTable}}</h5>
+        </div>
+        <div class="modal-body">
+          <!--     -->
+          <table>
+            <tr>
+              <td>Tiền khách trả(VND): </td>
+              <td style="padding: 0 10px 0 10px "><input type="text" class="form-control" (change)="payFunction()" [(ngModel)]="payCustomer"></td>
+            </tr>
+            <tr>
+              <td>Tiền cần thanh toán(VND): </td>
+              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}</span></td>
+            </tr>
+            <tr>
+              <td>Tiền cần thối lại(VND):</td>
+              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{backMoneyToCustomer | currency: 'VND' : ''}}</span></td>
+            </tr>
+
+          </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn button-bg" data-bs-dismiss="modal">Đóng</button>

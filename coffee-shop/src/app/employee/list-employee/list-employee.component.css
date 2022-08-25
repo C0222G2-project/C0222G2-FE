@@ -3,9 +3,7 @@
   overflow-x: auto;
   white-space: nowrap;
 }
-.main {
-  padding-top: 150px;
-}
+
 .input-search {
   border-radius: 10px;
   border: #75644b solid 1px;
@@ -35,6 +33,7 @@ table {
 }
 
 .img-background-component {
+  padding-top: 150px;
   background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/background-tuyen.jpg);
 }
 
@@ -43,9 +42,9 @@ th {
 }
 
 table thead tr {
-  /*height: 60px;*/
   background: #804707;
   background: #6c5c48;
+  font-size: larger;
 }
 
 .table100-head th {
@@ -67,7 +66,7 @@ table thead tr {
   background: #4c4234;
 }
 
-h2 {
+h1 {
   color: white;
 }
 table th a{
@@ -79,4 +78,50 @@ table th a{
 }
 table th a:hover{
   color: white;
+}
+.sort-name{
+  width: 250px !important;
+}
+.active1 {
+  background-color: #4c4234 !important;
+  color: white !important;
+  display: block;
+  border: 1px solid white;
+}
+
+div p{
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hide-width-row {
+  position: relative;
+  display: inline-block;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.number-pages{
+  padding-left: 10px;
+  background: white;
+  color: blue;
+  width: 50px;
+  height: 39px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border-radius: 90%;
+}
+form div label{
+  color: white ;
+}
+nav ul div li{
+  padding: 0 1px;
+}
+.show-element{
+  color: white;
+  /*display: flex;*/
+  padding-top: 5px;
 }

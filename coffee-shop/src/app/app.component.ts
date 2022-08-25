@@ -15,7 +15,13 @@ export class AppComponent {
   constructor(private cookieService: CookieService,
               private logoutService: LogoutService,
               private commonService: CommonService) {
-    this.stayLogged();
+    if (this.cookieService.getCookie('stayLogged') != 'true' && this.cookieService.getCookie('jwToken') != '') {
+      this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(value => {
+        this.cookieService.deleteAllCookies();
+        this.cookieService.removeAllCookies();
+        this.sendMessage();
+      })
+    }
   }
 
   onActivate(event) {
@@ -24,15 +30,6 @@ export class AppComponent {
       left: 0,
       behavior: 'smooth'
     });
-  }
-
-  stayLogged() {
-    if (this.cookieService.getCookie('stayLogged') != 'true') {
-      this.logoutService.onLogout(this.cookieService.getCookie('jwToken')).subscribe(() => {
-        this.cookieService.deleteAllCookies()
-        this.sendMessage()
-      })
-    }
   }
 
   sendMessage(): void {

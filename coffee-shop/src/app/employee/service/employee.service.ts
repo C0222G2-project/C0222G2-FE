@@ -5,15 +5,16 @@ import {Observable} from "rxjs";
 import {IEmployeeDto} from "../model/employee/i-employee-dto";
 import {Employee} from "../model/employee/employee";
 import {CookieService} from "../../login/service/cookie.service";
+import {environment} from "../../../environments/environment";
 
+const API_URL= `${environment.apiUrl}`
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
+  private URL_EMPLOYEE = API_URL+ "/rest";
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
-  private URL_EMPLOYEE = "http://localhost:8080/rest";
-
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {
   }

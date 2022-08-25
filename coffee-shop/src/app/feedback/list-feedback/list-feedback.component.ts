@@ -28,11 +28,14 @@ export class ListFeedbackComponent implements OnInit {
   id: number;
   name: string;
   startDate: string;
-  endDate: string;
+  endDate: Date;
   sortRating: string = 'DESC';
   checkSortOrNot: boolean = false;
   checkSort: boolean = false;
   checkNameCreator: boolean = false;
+  formPage: FormGroup;
+  pageSearch: number;
+  checkPage: boolean = false;
 
 
   constructor(private feedbackService: FeedbackService, private toast: ToastrService,
@@ -46,6 +49,9 @@ export class ListFeedbackComponent implements OnInit {
       searchName: new FormControl(''),
       searchStartDate: new FormControl('', this.checkInputBirthday),
       searchEndDate: new FormControl('', this.checkInputBirthday)
+    });
+    this.formPage = new FormGroup({
+      pageForm: new FormControl('')
     });
   }
 
@@ -70,8 +76,6 @@ export class ListFeedbackComponent implements OnInit {
     const value = startDate.value
     const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
     if (value >= curDate) {
-    }
-    if (value >= curDate) {
       return {'checkDate': true}
     }
     return null;
@@ -85,7 +89,7 @@ export class ListFeedbackComponent implements OnInit {
    */
 
   showToast() {
-    if(!this.searchForm.valid){
+    if (!this.searchForm.valid) {
       if (!this.searchStartDate.valid && (this.searchStartDate.value > this.searchEndDate.value)) {
         this.toast.error("Ngày bắt đầu không được hơn ngày hiện tại!", "Lỗi")
       } else if (!this.searchEndDate.valid) {
@@ -135,31 +139,35 @@ export class ListFeedbackComponent implements OnInit {
    */
   getSearch() {
     this.checkSort = false;
+    this.checkPage = true;
     this.searchForm.value.searchName = this.searchForm.value.searchName.trim()
-    if (this.searchForm.value.searchName == null) {
-      this.name = '';
-      this.checkNameCreator = false;
-    } else {
-      if (this.searchForm.value.searchName.search("[#+&%^]") >= 0) {
-        this.checkNameCreator = true;
-        this.name = this.searchForm.value.searchName;
-      } else {
+
+      if (this.searchForm.value.searchName == null) {
+        this.name = '';
         this.checkNameCreator = false;
-        this.name = this.searchForm.value.searchName;
+      } else {
+        if (this.searchForm.value.searchName.search("[#+&%^]") >= 0) {
+          this.checkNameCreator = true;
+          this.toast.error("Vui lòng không nhập ký tự!", "Lỗi")
+          this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
+        } else {
+          this.checkNameCreator = false;
+          this.name = this.searchForm.value.searchName;
+        }
       }
-    }
-    if (this.searchForm.value.searchStartDate === '') {
-      this.startDate = '1000-01-01'
-    } else {
-      this.startDate = this.searchForm.value.searchStartDate;
-    }
-    if (this.searchForm.value.searchEndDate === '') {
-      this.endDate = '8000-01-01'
-    } else {
-      this.endDate = this.searchForm.value.searchEndDate;
-    }
-    this.showToast()
-    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+      if (this.searchForm.value.searchStartDate === '') {
+        this.startDate = '1000-01-01'
+      }
+      else {
+        this.startDate = this.searchForm.value.searchStartDate;
+      }
+      if (this.searchForm.value.searchEndDate === '') {
+        this.endDate = new Date()
+      } else {
+        this.endDate = this.searchForm.value.searchEndDate;
+      }
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC')
+     this.showToast()
   }
 
 
@@ -233,18 +241,6 @@ export class ListFeedbackComponent implements OnInit {
     }
   }
 
-  /**
-   * Creator : LuanTV
-   * Date : 13/08/2022
-   * Function : page switch button item
-   */
-  goItem(i: number) {
-    if (this.checkSortOrNot) {
-      this.getAllFeedback(i, this.name, this.startDate, this.endDate, this.sortRating)
-    } else {
-      this.getAllFeedback(i, this.name, this.startDate, this.endDate, 'rating');
-    }
-  }
 
   /**
    * Creator : LuanTV
@@ -275,9 +271,61 @@ export class ListFeedbackComponent implements OnInit {
   /**
    * Creator : LuanTV
    * Date : 16/08/2022
-   * Function : page switch button item without sort
+   * Function : page switch button start
    */
-  goItemWithoutSort(i: number) {
-    this.getAllFeedback(i, this.name, this.startDate, this.endDate, 'ASC');
+  goStart() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button end
+   */
+  goEnd() {
+    if (this.checkSortOrNot) {
+      this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, this.sortRating)
+    } else {
+      this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, 'rating');
+    }
+  }
+
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button start without sort
+   */
+  previousWithoutSort() {
+    this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : page switch button end without sort
+   */
+  nextWithoutSort() {
+    this.getAllFeedback(this.totalPages - 1, this.name, this.startDate, this.endDate, 'ASC');
+  }
+
+  /**
+   * Creator : LuanTV
+   * Date : 16/08/2022
+   * Function : find by page number
+   */
+  searchPageCurrent() {
+    this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
+    if (this.pageSearch > 0 && this.pageSearch <= this.totalPages) {
+      this.getAllFeedback(this.pageSearch - 1, this.name, this.startDate, this.endDate, 'ASC');
+    } else {
+      this.toast.error('Trang bạn tìm không tồn tại', 'Lỗi')
+      this.getAllFeedback(0, this.name, this.startDate, this.endDate, 'ASC');
+    }
   }
 }

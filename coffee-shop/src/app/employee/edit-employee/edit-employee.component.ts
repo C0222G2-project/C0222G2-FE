@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {EmployeeService} from "../service/employee.service";
 import {Router, ActivatedRoute, ParamMap} from "@angular/router";
@@ -9,6 +9,7 @@ import {finalize} from "rxjs/operators";
 import {Employee} from "../model/employee/employee";
 import {AppUser} from "../model/account/app-user";
 import {Position} from "../model/employee/position";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-employee',
@@ -24,9 +25,11 @@ export class EditEmployeeComponent implements OnInit {
   imgSrc: any;
   isLoading: Boolean = false;
 
-  constructor(private employeeService: EmployeeService, private router: Router,private storage: AngularFireStorage,
+  constructor(private employeeService: EmployeeService, private router: Router,
+              private storage: AngularFireStorage,
               private activate: ActivatedRoute,
-              private toast: ToastrService) {
+              private toast: ToastrService, private title: Title,private el: ElementRef) {
+    this.title.setTitle("Sửa thông tin nhân viên")
   }
 
   ngOnInit(): void {
@@ -40,8 +43,8 @@ export class EditEmployeeComponent implements OnInit {
       this.employeeService.findByIdEdit(parseInt(id)).subscribe(data => {
         // @ts-ignore
         this.employee = data;
-        if(data == null){
-          this.toast.warning("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
+        if (data == null) {
+          this.toast.error("Không có dữ liệu hoặc bạn đang nhập quá dữ liệu hiện có", "Thông Báo")
           this.router.navigateByUrl('/employee').then();
         }
         this.getAllUser();
@@ -68,53 +71,67 @@ export class EditEmployeeComponent implements OnInit {
   getEmployeeFormUpdate() {
     this.employeeFormEdit = new FormGroup({
       id: new FormControl(this.employee.id),
-      appUser: new FormControl(this.employee.appUser,[Validators.required]),
-      name: new FormControl(this.employee.name, [Validators.required,Validators.minLength(6),Validators.maxLength(30),Validators.pattern("^([A-Z][^A-Z0-9\\s]+)(\\s[A-Z][^A-Z0-9\\s]+)*$")],),
-      image: new FormControl(this.employee.image, [Validators.required,Validators.maxLength(255)]),
-      birthday: new FormControl(this.employee.birthday,[this.checkInputBirthday,this.checkAge16,Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
+      appUser: new FormControl(this.employee.appUser),
+      image: new FormControl(this.employee.image, this.checkImage),
+      name: new FormControl(this.employee.name, this.checkName),
+      email: new FormControl(this.employee.email, this.checkMail),
+      address: new FormControl(this.employee.address, this.checkAddress),
       gender: new FormControl(this.employee.gender),
-      phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
-      address: new FormControl(this.employee.address, [Validators.required,Validators.minLength(6),Validators.maxLength(255),]),
-      email: new FormControl(this.employee.email, [Validators.required, Validators.email,Validators.minLength(6),,Validators.maxLength(50),]),
-      salary: new FormControl(this.employee.salary, [Validators.required, this.validateCustomSalary,Validators.max(100000000)]),
-      position: new FormControl(this.employee.position)
+      phoneNumber: new FormControl(this.employee.phoneNumber, this.checkPhoneNumber),
+      birthday: new FormControl(this.employee.birthday, this.checkBirthday),
+      salary: new FormControl(this.employee.salary, this.checkSalary),
+      position: new FormControl(this.employee.position.id),
+      isDeleted: new FormControl(this.employee.isDeleted)
     });
   }
+
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyy-hh:mm:ss', 'en-US');
   }
 
   updateEmployee() {
-    this.employeeFormEdit.value.username.trim();
-    this.employeeFormEdit.value.address.trim();
-    this.employeeFormEdit.value.salary.trim();
     this.toggleLoading();
+    let employee: Employee = this.employeeFormEdit.value;
+    employee.address = employee.address.trim();
     if (this.selectedImage == null) {
-      let employee: Employee = this.employeeFormEdit.value;
-      // @ts-ignore
-      this.employeeService.updateEmployee(employee).subscribe((data) => {
+      for (const key of Object.keys(this.employeeFormEdit.controls)) {
+        if (this.employeeFormEdit.controls[key].invalid) {
+          const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
+          invalidControl.focus();
+          this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!!!', 'Thông báo!!!');
+          break;
+        }
+      }
+      if (this.employeeFormEdit.valid) {
+        this.employeeService.updateEmployee(employee).subscribe((data) => {
           this.toast.success('Cập nhật thành công', 'Thông báo!!!')
           this.router.navigateByUrl('/employee').then();
-        },
-        error => {
-          console.log(error);
         });
+      } else {
+        return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu!!!", "Thông báo")
+      }
     } else {
       const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            let employee: Employee = this.employeeFormEdit.value;
             employee.image = url;
-            this.employeeService.updateEmployee(employee).subscribe((data) => {
+            if (this.employeeFormEdit.valid) {
+              this.employeeService.updateEmployee(employee).subscribe((data) => {
                 this.toast.success('Cập nhật thành công', 'Thông báo!!!')
                 this.router.navigateByUrl('/employee').then()
-              },
-              error => {
-                console.log(error);
               });
-
+            } else {
+              for (const key of Object.keys(this.employeeFormEdit.controls)) {
+                if (this.employeeFormEdit.controls[key].invalid) {
+                  const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
+                  invalidControl.focus();
+                  break;
+                }
+              }
+              return this.toast.warning("Vui lòng nhập đầy đủ và đúng dữ liệu!!!", "Thông báo")
+            }
           });
         })
       ).subscribe();
@@ -134,7 +151,7 @@ export class EditEmployeeComponent implements OnInit {
       reader.onload = (o: any) => this.imgSrc = o.target.result;
       reader.readAsDataURL(event.target.files[0]);
       this.selectedImage = event.target.files[0];
-      document.getElementById("image").style.display= "none"
+      document.getElementById("image").style.display = "none"
       document.getElementById("img").style.display = "block"
     } else {
       this.imgSrc = "";
@@ -151,6 +168,101 @@ export class EditEmployeeComponent implements OnInit {
   comparePosition(c1: Position, c2: Position): boolean {
     if ((c1 && c2) != undefined) {
       return c1.id === c2.id;
+    }
+  }
+  checkAddress(addressName: AbstractControl){
+    const value = addressName.value
+    if(value == ''){
+      return {'required': true};
+    }
+    else if (value.length <= 6) {
+      return {'minlength': true}
+    }
+    else if (value.length >= 255) {
+      return {'maxlength': true}
+    }
+  }
+  checkImage(image: AbstractControl) {
+    const value = image.value
+    if(value == ''){
+      return {'required': true};
+    }
+    else if (value.length >= 255) {
+      return {'maxlength': true}
+    }
+  }
+  checkPhoneNumber(phoneNumber: AbstractControl) {
+    const value = phoneNumber.value
+    if(value == ''){
+      return {'required': true};
+    }
+    else if (value.match("^(03|08|09|\\(84\\)\\+9)\\d\\d{7}$") == null) {
+      return {'pattern': true}
+    }
+  }
+  checkName(name: AbstractControl){
+    const value = name.value
+    if(value == ''){
+      return {'required': true};
+    } else if(value.match("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+      "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( )){0,14}" +
+      "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+      "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$") == null){
+      return {'pattern': true}
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 30) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkMail(mail: AbstractControl){
+    const value = mail.value
+    if(value == ''){
+      return {'required': true};
+    } else if(value.match("^\\w{3,}(\\.?\\w+)*@[a-z]{2,7}(.[a-z]{2,5}){1,3}$") == null){
+      return {'email': true}
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 30) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkBirthday(birthday: AbstractControl) {
+    const value = birthday.value
+    if (value === '') {
+      return null;
+    }
+    const today = new Date();
+    const birthDate = new Date(birthday.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+    if (value >= curDate) {
+      return {'checkDate': true}
+    }
+    else if(age < 16){
+      return {'age16': true}
+    }
+    else if(value.match("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$") == null){
+      return {'pattern': true}
+    }
+  }
+
+  checkSalary(salary: AbstractControl) {
+    let value = salary.value;
+    if(value == '') {
+      return {'required': true}
+    }
+    else if (value % 100000 != 0) {
+      return {'format': true}
+    }
+    else if(value >=100000000){
+      return {'max': true}
     }
   }
 
@@ -177,31 +289,10 @@ export class EditEmployeeComponent implements OnInit {
   get salary() {
     return this.employeeFormEdit.get('salary');
   }
+
   get email() {
     return this.employeeFormEdit.get('email');
   }
-  validateCustomSalary(salary: AbstractControl) {
-    let value = salary.value;
-    if(value % 100000 != 0 ) {
-      return {'format': true}
-    }
-    return null;
-  }
-  checkInputBirthday(birthday: AbstractControl) {
-    const value = birthday.value
-    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if(value >= curDate) {
-      return {'checkDate': true}
-    }
-    return null;
-  }
-  checkAge16(birthday: AbstractControl) {
-    const value = parseInt(birthday.value.substr(0,4));
-    const curYear=new Date().getFullYear()
-    if(curYear - value < 16 ){
-      return {'not16': true}
-    }
-    return null;
-  }
+
 
 }

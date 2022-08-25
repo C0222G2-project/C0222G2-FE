@@ -160,3 +160,14 @@ material-icons {
 .material-icons:hover{
   color: orange !important;
 }
+
+  .number-pages{
+    padding-left: 10px;
+    background: white;
+    color: blue;
+    width: 50px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    border-radius: 45%;
+  }
