@@ -132,18 +132,21 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   addBill(idTable: number) {
-    console.log(this.totalNeedPayment);
-    this.paymentOrderService.createBill(idTable).subscribe(value => {
-    }, error => {
-    }, () => {
-      //@ts-ignore
-      $('#modalPayment').modal('hide');
-      this.totalNeedPayment = 0;
-      this.getListById(this.idTable);
-      this.idTable = null;
-      this.ngOnInit()
-      this.toast.success("Thành công!!", "Thanh toán")
-    });
+    if (this.payCustomer < this.totalNeedPayment) {
+      this.toast.warning("Chưa nhập tiền khách trả", "Cảnh báo")
+    } else {
+      this.paymentOrderService.createBill(idTable).subscribe(value => {
+      }, error => {
+      }, () => {
+        //@ts-ignore
+        $('#modalPayment').modal('hide');
+        this.totalNeedPayment = 0;
+        this.getListById(this.idTable);
+        this.idTable = null;
+        this.ngOnInit()
+        this.toast.success("Thành công!!", "Thanh toán")
+      });
+    }
   }
 
 
@@ -156,7 +159,6 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   payFunction() {
-    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(this.payCustomer) ;
     if (this.payCustomer > this.totalNeedPayment) {
       this.backMoneyToCustomer = this.payCustomer - this.totalNeedPayment;
     } else {
