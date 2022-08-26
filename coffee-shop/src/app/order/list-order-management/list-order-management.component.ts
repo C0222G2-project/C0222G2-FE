@@ -24,6 +24,7 @@ export class ListOrderManagementComponent implements OnInit {
   tableOn: boolean = false;
   tableOff: boolean = true;
   payCustomer: any;
+
   backMoneyToCustomer: any;
 
   constructor(private paymentOrderService: PaymentOrderService,
@@ -131,18 +132,21 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   addBill(idTable: number) {
-    console.log(this.totalNeedPayment);
-    this.paymentOrderService.createBill(idTable).subscribe(value => {
-    }, error => {
-    }, () => {
-      //@ts-ignore
-      $('#modalPayment').modal('hide');
-      this.totalNeedPayment = 0;
-      this.getListById(this.idTable);
-      this.idTable = null;
-      this.ngOnInit()
-      this.toast.success("Thành công!!", "Thanh toán")
-    });
+    if (this.payCustomer < this.totalNeedPayment) {
+      this.toast.warning("Chưa nhập tiền khách trả", "Cảnh báo")
+    } else {
+      this.paymentOrderService.createBill(idTable).subscribe(value => {
+      }, error => {
+      }, () => {
+        //@ts-ignore
+        $('#modalPayment').modal('hide');
+        this.totalNeedPayment = 0;
+        this.getListById(this.idTable);
+        this.idTable = null;
+        this.ngOnInit()
+        this.toast.success("Thành công!!", "Thanh toán")
+      });
+    }
   }
 
 
@@ -160,6 +164,7 @@ export class ListOrderManagementComponent implements OnInit {
     } else {
       this.toast.warning("Số tiền khách trả không đủ để thanh toán", "Cảnh báo")
     }
-
   }
+
+
 }
