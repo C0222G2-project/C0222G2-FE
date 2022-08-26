@@ -34,7 +34,7 @@ table {
 
 .img-background-component {
   padding-top: 150px;
-  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/background-tuyen.jpg);
+  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(/assets/img/background-tuyen.jpg);
 }
 
 th {

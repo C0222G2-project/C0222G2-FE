@@ -282,6 +282,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
             }
           }
           this.orderService.updateTable(tableCoffe).subscribe();
+          // @ts-ignore
           this.orderService.createOrder(order2).subscribe();
         });
         this.orderMenu = [];
