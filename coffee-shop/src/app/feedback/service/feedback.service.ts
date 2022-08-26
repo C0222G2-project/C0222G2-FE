@@ -3,12 +3,15 @@ import {Feedback} from "../model/feedback";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CookieService} from "../../login/service/cookie.service";
+import {environment} from "../../../environments/environment";
+
+const API_URL= `${environment.apiUrl}`
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
-  private URL_FEEDBACK = "http://localhost:8080/feedback";
+  private URL_FEEDBACK = API_URL + "/feedback";
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
   feedback: Feedback;
 

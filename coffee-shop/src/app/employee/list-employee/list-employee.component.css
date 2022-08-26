@@ -29,12 +29,12 @@ table {
 }
 
 .background-btn-add {
-  background: #4c4234;
+  background: #744e3a;
 }
 
 .img-background-component {
   padding-top: 150px;
-  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/background-tuyen.jpg);
+  background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(/assets/img/background-tuyen.jpg);
 }
 
 th {
@@ -42,8 +42,8 @@ th {
 }
 
 table thead tr {
-  background: #804707;
-  background: #6c5c48;
+  background: #744e3a;
+  /*background: #6c5c48;*/
   font-size: larger;
 }
 
@@ -63,10 +63,10 @@ table thead tr {
 }
 
 .btn-search {
-  background: #4c4234;
+  background: #744e3a;
 }
 
-h2 {
+h1 {
   color: white;
 }
 table th a{

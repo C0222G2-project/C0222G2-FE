@@ -26,13 +26,12 @@
   <app-root></app-root>
 </body>
 <script>
-    //  Function is service for BinhPX
+  //  Function is service for BinhPX
   //  Date: 16/08/2022
   //  Author: BinhPX
 
   $(document).ready(function(){
     $('#gameButton').on('hidden.bs.modal', function () {
-      console.log(1);
       let linkTemp = $('iframe').attr('src');
       $('iframe').attr('src', '');
       $('iframe').attr('src', linkTemp);

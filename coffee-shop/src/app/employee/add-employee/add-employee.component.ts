@@ -15,15 +15,16 @@ import {Title} from "@angular/platform-browser";
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
+
 })
+
 export class AddEmployeeComponent implements OnInit {
   employeeFormCreate: FormGroup;
   employee: Employee = {};
   position: Position[] = [];
   imgSrc: any;
   isLoading: Boolean = false;
-
-  private selectedImage: any = null;
+  selectedImage: any = null;
 
   constructor(private employeeService: EmployeeService, private router: Router, private storage: AngularFireStorage,
               private toast: ToastrService, private title: Title, private el: ElementRef) {
@@ -37,18 +38,19 @@ export class AddEmployeeComponent implements OnInit {
   getEmployeeForm() {
     // @ts-ignore
     this.employeeFormCreate = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(6), , Validators.maxLength(30),
-        Validators.pattern("^[A-Za-z][a-zA-Z0-9 @]{1,}$")]),
-      image: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-      name: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30), Validators.pattern("^([A-ZĐ][^A-Z0-9\\s]+)(\\s[A-ZĐ][^A-Z0-9\\s]+)*$")],),
-      email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(6), , Validators.maxLength(50),]),
-      address: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(255),]),
-      gender: new FormControl(''),
-      phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^(09|\\(84\\)\\+9)[01]\\d{7}$')]),
-      birthday: new FormControl('', [this.checkInputBirthday, this.checkAge16, Validators.pattern("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")]),
-      salary: new FormControl('', [Validators.required, this.validateCustomSalary, Validators.max(100000000)]),
-      position: new FormControl('')
-    });
+        username: new FormControl('', this.checkUserName),
+        image: new FormControl('', this.checkImage),
+        name: new FormControl('', this.checkName),
+        email: new FormControl('', this.checkMail),
+        address: new FormControl('', this.checkAddress),
+        gender: new FormControl(''),
+        phoneNumber: new FormControl('', this.checkPhoneNumber),
+        birthday: new FormControl('', this.checkBirthday),
+        salary: new FormControl('', this.checkSalary),
+        position: new FormControl(this.position[1])
+      }
+      // , {updateOn: 'submit'}
+    );
   }
 
   getAllPosition() {
@@ -64,7 +66,15 @@ export class AddEmployeeComponent implements OnInit {
     const employee: Employee = this.employeeFormCreate.value;
     employee.address = employee.address.trim();
     if (this.selectedImage == null) {
-      return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
+      for (const key of Object.keys(this.employeeFormCreate.controls)) {
+        if (this.employeeFormCreate.controls[key].invalid) {
+          const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
+          invalidControl.focus();
+          this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!!!', 'Thông báo!!!');
+          break;
+        }
+      }
+      return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!!!', 'Thông báo!!!');
     }
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRel = this.storage.ref(nameImg);
@@ -76,14 +86,12 @@ export class AddEmployeeComponent implements OnInit {
             userName: this.employeeFormCreate.value.username
           }
           employee.appUser = appUser;
-
           if (this.employeeFormCreate.valid) {
             this.employeeService.saveEmployee(employee).subscribe(value => {
               this.router.navigateByUrl('/employee').then(() => {
                 this.toast.success('thêm mới thành công', 'Thông báo');
               })
             }, err => {
-              console.log(err)
               if (err.error.field == "appUser") {
                 if (err.error.defaultMessage == "userNameExists") {
                   this.employeeFormCreate.controls.username.setErrors({'userNameExists': true});
@@ -96,7 +104,15 @@ export class AddEmployeeComponent implements OnInit {
               }
             })
           } else {
+            for (const key of Object.keys(this.employeeFormCreate.controls)) {
+              if (this.employeeFormCreate.controls[key].invalid) {
+                const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
+                invalidControl.focus();
+                break;
+              }
+            }
             return this.toast.warning('Vui lòng nhập đầy đủ và đúng dữ liệu!', 'Thông báo!!!');
+
           }
         })
       })
@@ -120,11 +136,116 @@ export class AddEmployeeComponent implements OnInit {
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = false;
-    }, 3000)
+    }, 2600)
   }
 
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyy-hh:mm:ss', 'en-US');
+  }
+
+  checkBirthday(birthday: AbstractControl) {
+    const value = birthday.value
+    if (value === '') {
+      return null;
+    }
+    const today = new Date();
+    const birthDate = new Date(birthday.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+    if (value >= curDate) {
+      return {'checkDate': true}
+    } else if (age < 16) {
+      return {'age16': true}
+    } else if (value.match("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])" +
+      "|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$") == null) {
+      return {'pattern': true}
+    }
+  }
+
+  checkUserName(userName: AbstractControl) {
+    const value = userName.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.match("^[A-Za-z][a-zA-Z0-9]{1,}$") == null) {
+      return {'pattern': true}
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 30) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkAddress(addressName: AbstractControl) {
+    const value = addressName.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 255) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkImage(image: AbstractControl) {
+    const value = image.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.length >= 255) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkPhoneNumber(phoneNumber: AbstractControl) {
+    const value = phoneNumber.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.match("^(03|08|09|\\(84\\)\\+9)\\d\\d{7}$")== null) {
+      return {'pattern': true}
+    }
+  }
+
+  checkName(name: AbstractControl) {
+    const value = name.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.match("^([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+      "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*( )){0,14}" +
+      "([A-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẬẪÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]" +
+      "[a-záàảãạăắằẳẵặâấầẩậẫéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ]*)$") == null) {
+      return {'pattern': true}
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 30) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkMail(mail: AbstractControl) {
+    const value = mail.value
+    if (value == '') {
+      return {'required': true};
+    } else if (value.match("^\\w{3,}(\\.?\\w+)*@[a-z]{2,7}(.[a-z]{2,5}){1,3}$") == null) {
+      return {'email': true}
+    } else if (value.length <= 6) {
+      return {'minlength': true}
+    } else if (value.length >= 30) {
+      return {'maxlength': true}
+    }
+  }
+
+  checkSalary(salary: AbstractControl) {
+    let value = salary.value;
+    if (value == '') {
+      return {'required': true}
+    } else if (value % 100000 != 0) {
+      return {'format': true}
+    } else if (value >= 100000000) {
+      return {'max': true}
+    }
   }
 
   get username() {
@@ -157,38 +278,6 @@ export class AddEmployeeComponent implements OnInit {
 
   get salary() {
     return this.employeeFormCreate.get('salary');
-  }
-
-
-  private checkAge16(abstractControl: AbstractControl): any {
-    if (abstractControl.value === '') {
-      return null;
-    }
-    const today = new Date();
-    const birthDate = new Date(abstractControl.value);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return (age >= 16) ? null : {age16: true};
-  }
-
-  checkInputBirthday(birthday: AbstractControl) {
-    const value = birthday.value
-    const curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-    if (value >= curDate) {
-      return {'checkDate': true}
-    }
-    return null;
-  }
-
-  validateCustomSalary(salary: AbstractControl) {
-    let value = salary.value;
-    if (value % 100000 != 0) {
-      return {'format': true}
-    }
-    return null;
   }
 
 }
