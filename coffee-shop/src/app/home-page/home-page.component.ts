@@ -8,6 +8,8 @@ import {Title} from "@angular/platform-browser";
 import { NotificationService } from '../order/service/notification.service';
 import { map } from 'rxjs/operators';
 import { Route, Router } from '@angular/router';
+import { OrderService } from '../order/service/order.service';
+import { Dish } from '../dish/model/dish';
 
 @Component({
   selector: 'app-home-page',
@@ -20,6 +22,7 @@ export class HomePageComponent implements OnInit, OnChanges {
   checkData: boolean = true;
   role: string = '';
   token: string = '';
+  dish: Dish;
   show;
 
   constructor(private getDishList: GetDishList,
@@ -28,7 +31,8 @@ export class HomePageComponent implements OnInit, OnChanges {
               private title : Title,
               private notification: NotificationService,
               private toastr: ToastrService,
-              private route: Router) {
+              private route: Router,
+              private orderService: OrderService) {
     this.title.setTitle("Trang Chủ");
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,8 +81,17 @@ export class HomePageComponent implements OnInit, OnChanges {
     });
   }
 
-  order(id: number){
-    localStorage.setItem('dishId', ''+id);
+  order(id: string){
+    localStorage.setItem('dishId', id);
     this.route.navigateByUrl("order/screen");
+    this.getDish(+id);
+  }
+
+  getDish(id: number){
+    this.orderService.getDish(id).subscribe(dish => {
+      this.dish = dish;
+    }, ()=>{},()=>{
+      localStorage.setItem('dish', JSON.stringify(this.dish));
+    })
   }
 }
