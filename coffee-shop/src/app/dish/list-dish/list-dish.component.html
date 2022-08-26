@@ -10,38 +10,47 @@
           <div>
             <form [formGroup]="searchForm" (ngSubmit)="searchDish()">
               <div class="d-flex">
-                <label for="service_code" style="margin: 5px">Mã số món:</label>
-                <input id="service_code" type="text" class="form-control" name="dishCode" formControlName="dishCode"
-                       placeholder="Nhập mã số món">
+                <div class="col-sm-6 pe-4">
+                  <label for="service_code" style="margin: 5px">Mã số món:</label>
+                  <input id="service_code" type="text" class="form-control" name="dishCode" formControlName="dishCode"
+                         placeholder="Nhập mã món">
+                </div>
 
-                <label for="service">Tên :</label>
-                <input id="service" type="text" class="form-control" name="dishName" formControlName="dishName"
-                       placeholder="Nhập tên món">
+                <div class="col-sm-6 pe-4">
+                  <label for="service">Tên :</label>
+                  <input id="service" type="text" class="form-control" name="dishName" formControlName="dishName"
+                         placeholder="Nhập tên món">
+                </div>
               </div>
-              <br>
               <div class="d-flex">
-                <label for="service_type">Loại món: </label>
-                <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel=""
-                        class="form-control">
-                  <option value="">Chọn loại món</option>
-                  -->
-                  <option *ngFor="let element of dishTypeArray"
-                          value="{{element.id}}">{{element.name}}</option>
-                </select>
-                <label for="price">Giá :</label>
-                <input id="price" type="number"
-                       onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
-                       class="form-control" name="dishPrice" formControlName="dishPrice"
-                       placeholder="Nhập giá món">
+                <div class="col-sm-6 pe-4">
+                  <label for="service_type">Loại món: </label>
+                  <select name="dishTypeId" formControlName="dishTypeId" id="service_type" ngModel=""
+                          class="form-control">
+                    <option value="">Chọn loại món</option>
+                    <option *ngFor="let element of dishTypeArray"
+                            value="{{element.id}}">{{element.name}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-6 pe-4">
+                  <label for="price">Giá :</label>
+                  <input id="price" type="number"
+                         onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
+                         class="form-control" name="dishPrice" formControlName="dishPrice"
+                         placeholder="Nhập giá món">
+                </div>
               </div>
-              <button [routerLink]="['/dish/add']" style="margin-left: 5px;background-color:#744e3a;color: white"
-                      class="btn  buttons1" type="submit">Thêm mới
-              </button>
-              <button style="margin-left: 20px;background-color:#744e3a;color: white" class="btn  buttons1"
-                      type="submit">Tìm kiếm
-              </button>
-            </form>
 
+              <div class="pt-3">
+                <button [routerLink]="['/dish/add']" style="margin-left: 5px;background-color:#744e3a;color: white"
+                        class="btn  buttons1" type="submit">Thêm mới
+                </button>
+                <button style="margin-left: 20px;background-color:#744e3a;color: white" class="btn  buttons1"
+                        type="submit">Tìm kiếm
+                </button>
+              </div>
+
+            </form>
           </div>
           <table class="table table-hover mt-3">
             <thead>
@@ -87,7 +96,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <p class=" tooltipHieuDelete">Bạn có chắc chắn muốn xóa {{element.name}}</p>
+                        <p class="tooltipHieuDelete">Bạn có chắc chắn muốn xóa {{element.name}}</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Trở về</button>
@@ -102,47 +111,7 @@
           </table>
           <h3 *ngIf="dishArray.length==0" style="color: white; text-align: center">Không có dữ liệu</h3>
           <br>
-          <!--          <nav aria-label="Page navigation example" [hidden]="dishArray.length==0">-->
-          <!--            <ul class="pagination justify-content-end">-->
-          <!--              <div *ngIf="number == 0">-->
-          <!--                <li class="page-item disabled">-->
-          <!--                  <button class="page-link" hidden>Previous</button>-->
-          <!--                </li>-->
-          <!--              </div>-->
-          <!--              <div *ngIf="number != 0">-->
-          <!--                <li class="page-item">-->
-          <!--                  <button style="background-color: white;color: black" class="page-link" (click)="goPrevious()">-->
-          <!--                    trước-->
-          <!--                  </button>-->
-          <!--                </li>-->
-          <!--              </div>-->
-          <!--              <div *ngFor="let count of countTotalPages; index as i">-->
-          <!--                <div *ngIf="i == number">-->
-          <!--                  <li class="page-item active">-->
-          <!--                    <button style="background-color: #744e3a;color: white" class="page-link"-->
-          <!--                            (click)="goItem(i)">{{i + 1}}</button>-->
-          <!--                  </li>-->
-          <!--                </div>-->
-          <!--                <div *ngIf="i != number">-->
-          <!--                  <li class="page-item">-->
-          <!--                    <button style="background-color: white;color: black" class="page-link"-->
-          <!--                            (click)="goItem(i)">{{i + 1}}</button>-->
-          <!--                  </li>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--              <div *ngIf="number == totalPages - 1">-->
-          <!--                <li class="page-item disabled">-->
-          <!--                  <button class="page-link" hidden>Next</button>-->
-          <!--                </li>-->
-          <!--              </div>-->
-          <!--              <div *ngIf="number != totalPages - 1">-->
-          <!--                <li class="page-item">-->
-          <!--                  <button style="background-color: white;color: black" class="page-link" (click)="goNext()">sau-->
-          <!--                  </button>-->
-          <!--                </li>-->
-          <!--              </div>-->
-          <!--            </ul>-->
-          <!--          </nav>-->
+
           <div class="py-3"
                [hidden]="dishArray.length==0">
             <nav aria-label="Page navigation example d-flex flex-row-reverse">

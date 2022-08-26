@@ -111,6 +111,9 @@ export class EditDishComponent implements OnInit {
           }
         });
     }
+    else {
+      this.toastrService.error("Bạn nhập chưa đầy đủ hoặc không chính xác. Vui lòng nhập lại")
+    }
 
   } else {
 

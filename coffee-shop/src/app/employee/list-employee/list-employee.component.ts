@@ -23,6 +23,7 @@ export class ListEmployeeComponent implements OnInit {
   size: number;
   sort: string = 'name';
   totalElement: number;
+  currentElement: number;
   checkSort: boolean = false;
   formSearch: FormGroup;
   formPage: FormGroup;
@@ -42,7 +43,7 @@ export class ListEmployeeComponent implements OnInit {
    */
 
   ngOnInit(): void {
-    this.getAllSearch(0, '', '', '', this.sort);
+    this.getAllSearch(0, '', '', '', 'id,DESC');
     this.searchEmployeeForm();
     this.searchPageForm();
   }
@@ -72,6 +73,8 @@ export class ListEmployeeComponent implements OnInit {
         this.size = data.size;
         // @ts-ignore
         this.totalElement = data.totalElements;
+        // @ts-ignore
+        this.currentElement = data.numberOfElements;
       } else {
         this.employeeList = [];
       }
@@ -144,7 +147,7 @@ export class ListEmployeeComponent implements OnInit {
       }
     }
     if (this.searchName =="",this.searchPhone=="",this.searchAccount==""){
-      this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,this.sort);
+      this.getAllSearch(0,this.searchName,this.searchPhone,this.searchAccount,'id,DESC');
       this.searchPageForm();
     }else{
       this.getAllSearch(this.pageCurrent,this.searchName,this.searchPhone,this.searchAccount,this.sort)
@@ -259,7 +262,6 @@ export class ListEmployeeComponent implements OnInit {
       this.getAllSearch(0, this.searchName, this.searchPhone, this.searchAccount, this.sort);
     }
   }
-
 
   searchPageCurrent() {
     this.pageSearch = parseInt(this.formPage.value.pageForm.trim());
