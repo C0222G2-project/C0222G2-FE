@@ -54,6 +54,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   employee: Employee;
   coffeTable: CoffeeTable;
   idTable;
+  dishOnLocalStore;
   /**
    * Created by: DiepTT
    * Date created: 11/08/2022
@@ -93,6 +94,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.checkLocalStorage();
     this.getAllDish(1, this.presentPage);
     this.getAllDishType();
     /**
@@ -168,30 +170,43 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     });
   }
 
-
   /**
    *  Author: BinhPx
    *  Date: 11/08/2022
    *  This function use id to get dish then show result to function addIntoMenuOrder()
    */
   getDish(id: number){
-      this.orderService.getDish(id).subscribe(dish => {
-         this.dish = dish;
-         this.orders.push(dish);
-         localStorage.setItem('dish', JSON.stringify(this.dish));
-         const tempOrder: string = localStorage.getItem('dish');
-         if(tempOrder){
-            this.dish = JSON.parse(tempOrder) as Dish;
-          }
-      })
     this.orderService.getDish(id).subscribe(dish => {
       this.dish = dish;
-      localStorage.setItem('dish', JSON.stringify(this.dish));
-      const tempOrder: string = localStorage.getItem('dish');
-      if(tempOrder){
-        this.dish = JSON.parse(tempOrder) as Dish;
-      }
+      // localStorage.setItem('dish', JSON.stringify(this.dish));
+      // const tempOrder: string = localStorage.getItem('dish');
+      // if(tempOrder){
+      //   this.dish = JSON.parse(tempOrder) as Dish;
+      // }
     })
+  }
+
+  checkLocalStorage(){
+    this.orderService.getDish(+localStorage.getItem('dishId')).subscribe(dish => {
+      this.dish = dish;
+      const order = {
+        quantity: Number(1),
+        dish: this.dish,
+        bill: {},
+        employee: {},
+        coffeeTable: localStorage.getItem('idTable')
+      }
+      this.orderMenu.push(order);
+      this.totalMoney = 0;
+      this.orderMenu.forEach(items => {
+        this.totalMoney+= items.dish.price * items.quantity
+      });
+      // localStorage.setItem('dish', JSON.stringify(this.dish));
+      // const tempOrder: string = localStorage.getItem('dish');
+      // if(tempOrder){
+      //   this.dish = JSON.parse(tempOrder) as Dish;
+      // }
+    });
   }
 
 
@@ -201,16 +216,16 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  This function do insert dish into menu order
    */
   addIntoMenuOrder(quantity, codeProduct: number){
-      this.getDish(codeProduct)
-      let flag = false;
-      let id = 0;
-      const order = {
-          quantity: Number(quantity),
-          dish: this.dish,
-          bill: 1,
-          employee: 1,
-          coffeeTable: localStorage.getItem('idTable')
-      };
+    this.getDish(codeProduct)
+    let flag = false;
+    let id = 0;
+    const order = {
+        quantity: Number(quantity),
+        dish: this.dish,
+        bill: {},
+        employee: {},
+        coffeeTable: localStorage.getItem('idTable')
+    };
 
     if(quantity == null || quantity > 10 || quantity == '' || quantity < 0){
       this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
@@ -291,6 +306,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
           this.dishWasOrder = items;
         });
         this.displayTimer(0);
+        localStorage.removeItem('dishId');
       }
   }
 
@@ -339,6 +355,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
       selectCheckBox: new FormArray([])
     });
     this.uncheckAll();
+    localStorage.removeItem('dishId');
   }
 
   uncheckAll() {
