@@ -27,6 +27,8 @@ import {Feedback} from "../../feedback/model/feedback";
 export class ScreenOrderComponent implements OnInit, OnChanges {
   @ViewChild('quantity') inputQuantity;
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+
+  selected = null;
   order: Order;
   dishId: number;
   formCheckBox: FormGroup;
@@ -38,6 +40,8 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   dishTypes: any;
   dish: Dish;
   orderMenu = [];
+  orders = [];
+  dishWasOrder = [];
   checkOrderMenu = [];
   messageUnread = [];
   checkBox: boolean = false;
@@ -88,7 +92,6 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     throw new Error('Method not implemented.');
   }
 
-
   ngOnInit(): void {
     this.getAllDish(1, this.presentPage);
     this.getAllDishType();
@@ -98,6 +101,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     this.getFeedbackForm();
   }
 
+  /**
+   *  Author: BinhPx
+   *  Date: 19/08/2022
+   *  This function active tag when tag have been click
+   */
+  activeAction(dishType, presentPage, index){
+    this.getAllDish(dishType, presentPage);
+    this.selected = index;
+  }
 
   /**
    *  Author: BinhPx
@@ -163,6 +175,15 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  This function use id to get dish then show result to function addIntoMenuOrder()
    */
   getDish(id: number){
+      this.orderService.getDish(id).subscribe(dish => {
+         this.dish = dish;
+         this.orders.push(dish);
+         localStorage.setItem('dish', JSON.stringify(this.dish));
+         const tempOrder: string = localStorage.getItem('dish');
+         if(tempOrder){
+            this.dish = JSON.parse(tempOrder) as Dish;
+          }
+      })
     this.orderService.getDish(id).subscribe(dish => {
       this.dish = dish;
       localStorage.setItem('dish', JSON.stringify(this.dish));
@@ -179,18 +200,17 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  Date: 11/08/2022
    *  This function do insert dish into menu order
    */
-  addIntoMenuOrder(quantity){
-    console.log( localStorage.getItem('idTable'));
-
-    let flag = false;
-    let id = 0;
-    const order = {
-      quantity: Number(quantity),
-      dish: this.dish,
-      bill: 1,
-      employee: 1,
-      coffeeTable: localStorage.getItem('idTable')
-    };
+  addIntoMenuOrder(quantity, codeProduct: number){
+      this.getDish(codeProduct)
+      let flag = false;
+      let id = 0;
+      const order = {
+          quantity: Number(quantity),
+          dish: this.dish,
+          bill: 1,
+          employee: 1,
+          coffeeTable: localStorage.getItem('idTable')
+      };
 
     if(quantity == null || quantity > 10 || quantity == '' || quantity < 0){
       this.toastr.error('Bạn chưa nhập số lượng hoặc số lượng lớn 9!','',{timeOut: 2000, progressBar: true});
@@ -246,29 +266,31 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  This function create order have param is table code, employee code, bill code, dish code
    */
   createOrder(titleContent: string, tableCoffe: string, requestConent: string){
-    if(this.orderMenu.length ==0 ){
-      this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
-    }
-    else{
-      this.orderMenu.forEach(items => {
-        this.order = {
-          quantity: items.quantity,
-          dish: this.dish,
-          // @ts-ignore
-          bill: {},
-          employee: {},
-          coffeeTable: {
-            id: items.coffeeTable,
-            code: this.idTable
+      if(this.orderMenu.length ==0 ){
+        this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
+      }
+      else{
+        this.orderMenu.forEach(items => {
+          let order2 = {
+            quantity: items.quantity,
+            dish: items.dish,
+            bill: {},
+            employee: {},
+            coffeeTable: {
+              id: items.coffeeTable,
+              code: this.idTable
+            }
           }
-        }
-        this.orderService.updateTable(tableCoffe).subscribe();
-        this.orderService.createOrder(this.order).subscribe();
-      });
-      this.orderMenu = [];
-      this.sendNotification(titleContent, tableCoffe, requestConent);
-      this.displayTimer(0);
-    }
+          this.orderService.updateTable(tableCoffe).subscribe();
+          this.orderService.createOrder(order2).subscribe();
+        });
+        this.orderMenu = [];
+        this.sendNotification(titleContent, tableCoffe, requestConent);
+        this.orderService.getAllDishHasOrder(this.idTable).subscribe(items => {
+          this.dishWasOrder = items;
+        });
+        this.displayTimer(0);
+      }
   }
 
 
@@ -333,7 +355,11 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
     this.notificationService.getTokenFromFcm();
     this.toastr.success('Bạn đã gửi yêu cầu thành công!','Thành công',{timeOut: 2000, progressBar: true})
-    this.notificationService.sendNotification(titleContent, tableCoffe, requestConent);
+    this.notificationService.sendNotification(titleContent, tableCoffe, requestConent, this.cookieService.getCookie('username'));
+  }
+
+  handleRequestNotifi(){
+    this.notificationService.updateNotification(this.cookieService.getCookie('username'));
   }
 
 

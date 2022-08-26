@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase} from '@angular/fire/database';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { BehaviorSubject, Observable, Subject} from 'rxjs';
@@ -10,6 +11,7 @@ import { NotificationOfCoffeStore } from '../model/notification';
 })
 export class NotificationService {
 
+  keyRemove = [];
   keyArray = [];
   containerMessengeUnread = [];
   registerTokenArray = [];
@@ -21,10 +23,11 @@ export class NotificationService {
   notification: NotificationOfCoffeStore;
   currentMessage= new BehaviorSubject(null);
   date = new Date();
+  time = new Date();
   temp;
 
   constructor(private db: AngularFireDatabase, private angularFireMessaging: AngularFireMessaging,
-              private cookieService: CookieService) {
+              private cookieService: CookieService, private afAuth: AngularFireAuth) {
     this.angularFireMessaging.messages.subscribe(
       (_messaging: AngularFireMessaging) => {
         _messaging.onMessage = _messaging.onMessage.bind(_messaging);
@@ -32,17 +35,20 @@ export class NotificationService {
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
     )
-    this.writeMessage();
+    // this.writeMessage();
+    this.writeMessageUnhandle();
     this.getTokenFromFcm();
   }
 
-  sendNotification(titleContent: string, tableCoffe: string, requestConent: string){
+  sendNotification(titleContent: string, tableCoffe: string, requestConent: string, object: string){
     this.notification = {
       title: titleContent,
       body: tableCoffe + " yêu cầu " + requestConent,
       role: this.role,
-      date: this.date.toJSON(),
-      status: 'false'
+      date: this.date.toLocaleDateString().toString(),
+      time: this.time.toLocaleTimeString().toString(),
+      status: 'false',
+      object: object
     }
     this.db.list("/notification").push(this.notification);
     this.sendNotificationToFirebase();
@@ -76,6 +82,7 @@ export class NotificationService {
       (token) => {
         let user = this.cookieService.getCookie('username');
         let role = this.cookieService.getCookie('role');
+        this.registerToken = token;
         this.sendTokenToFcm(user, token, role);
       },
       (err) => {
@@ -84,35 +91,49 @@ export class NotificationService {
     );
   }
 
-  receiveMessage() {
-    this.angularFireMessaging.onMessage(
-    (payload) => {
-      console.log("new message received. ", payload);
-      this.currentMessage.next(payload);
-    })
-  }
-
-  setPermitGetNotification(){
-    if(this.cookieService.getCookie('role') == 'ROLE_ADMIN'){
-      this.role = this.cookieService.getCookie('role');
-      this.username = this.cookieService.getCookie('username');
-    }
-  }
-
-  writeMessage(){
-    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
+  writeMessage(): string[]{
+    let arrayNotifi = [];
+    this.messagedUnread = this.db.list("/notification").snapshotChanges();
     this.messagedUnread.subscribe((actions) => {
+      arrayNotifi.length = 0;
       actions.forEach(action => {
         this.notification = {
           title: action.payload.val().title,
           body: action.payload.val().body,
           role: action.payload.val().role,
           date: action.payload.val().date,
-          status: action.payload.val().status
+          time: action.payload.val().time,
+          status: action.payload.val().status,
+          object: action.payload.val().object
         }
-        this.keyArray.push(this.notification);
+        if(''+this.date.toLocaleDateString() == this.notification.date){
+          arrayNotifi.push(this.notification);
+        }
       });
     });
+    return arrayNotifi;
+  }
+
+  writeMessageUnhandle(): string[]{
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
+    this.messagedUnread.subscribe((actions) => {
+      this.containerMessengeUnread.length = 0;
+      actions.forEach(action => {
+        this.notification = {
+          title: action.payload.val().title,
+          body: action.payload.val().body,
+          role: action.payload.val().role,
+          date: action.payload.val().date,
+          time: action.payload.val().time,
+          status: action.payload.val().status,
+          object: action.payload.val().object
+        }
+        if(''+this.date.toLocaleDateString() == this.notification.date){
+          this.containerMessengeUnread.push(this.notification);
+        }
+      });
+    });
+    return this.containerMessengeUnread;
   }
 
   sendTokenToFcm(user: string, token: string, userrole: string){
@@ -143,9 +164,22 @@ export class NotificationService {
     });
   }
 
-  removeToken(){
-    this.db.list('/notification', ref => ref.orderByChild('status').equalTo('false')).set('status', 'true');
-    this.keyArray = [];
-    this.writeMessage();
+  // update notification
+  updateNotification(object: string){
+    this.messagedUnread = this.db.list("/notification", ref => ref.orderByChild('status').equalTo('false')).snapshotChanges();
+    this.messagedUnread.subscribe((actions) => {
+      actions.forEach(action => {
+        if(action.payload.val().title == 'Gọi phục vụ' && action.payload.val().object == object){
+          this.keyRemove.push(action.key);
+        }
+      });
+    });
+    this.deleteNotification();
+  }
+
+  deleteNotification(){
+    for(let item of this.keyRemove){
+      this.db.list("/notification").update(item, {'status': 'true'})
+    }
   }
 }
