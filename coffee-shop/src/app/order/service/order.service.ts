@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OrderService {
-  private urlGetDishes = 'http://localhost:8080/dish/getDishFindIdDishType';
-  private urlGetDishHasOrder = 'http://localhost:8080/dish-order/get-order-have-code';
-  private urlGetDish = 'http://localhost:8080/dish/findById';
-  private urlGetDishType = 'http://localhost:8080/dishType/getDishTypeList';
-  private urlCreateOrder = 'http://localhost:8080/dish-order/create-dishOrder';
-  private urlUpdateTable = 'http://localhost:8080/api/payment/total/';
-  private urlGetTable = 'http://localhost:8080/api/payment/getTable/';
+  private urlGetDishes = environment.apiUrl + '/dish/getDishFindIdDishType';
+  private urlGetDishHasOrder = environment.apiUrl + '/dish-order/get-order-have-code';
+  private urlGetDish = environment.apiUrl + '/dish/findById';
+  private urlGetDishType = environment.apiUrl + '/dishType/getDishTypeList';
+  private urlCreateOrder = environment.apiUrl + '/dish-order/create-dishOrder';
+  private urlUpdateTable = environment.apiUrl + '/api/payment/total/';
+  private urlGetTable = environment.apiUrl + '/api/payment/getTable/';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
