@@ -35,7 +35,6 @@ export class ListDishComponent implements OnInit {
   getAllDishType() {
     this.dishService.getAllDishType().subscribe(data => {
       this.dishTypeArray = data;
-      console.log(data);
     });
   }
 
