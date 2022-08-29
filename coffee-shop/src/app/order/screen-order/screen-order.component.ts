@@ -29,6 +29,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   selected = null;
+  oldId: number;
   order: Order;
   dishId: number;
   formCheckBox: FormGroup;
@@ -94,6 +95,7 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.dishWasOrder = [];
     this.checkLocalStorage();
     this.getAllDish(1, this.presentPage);
     this.getAllDishType();
@@ -137,17 +139,32 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    */
 
   getAllDish(id:number, page){
-    this.dishId = id;
-    this.orderService.redirect(id, page).subscribe(dishes => {
-      // @ts-ignore
-      this.dishes = dishes.content;
-      // @ts-ignore
-      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
-      // @ts-ignore
-      this.dishes = dishes.content;
-      // @ts-ignore
-      this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
-    });
+    if(this.oldId != id){
+      this.dishId = id;
+      this.orderService.redirect(id, 0).subscribe(dishes => {
+        // @ts-ignore
+        this.dishes = dishes.content;
+        // @ts-ignore
+        this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+        // @ts-ignore
+        this.dishes = dishes.content;
+        // @ts-ignore
+        this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+      });
+    }
+    else{
+      this.dishId = id;
+      this.orderService.redirect(id, page).subscribe(dishes => {
+        // @ts-ignore
+        this.dishes = dishes.content;
+        // @ts-ignore
+        this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+        // @ts-ignore
+        this.dishes = dishes.content;
+        // @ts-ignore
+        this.totalPages = Array.from({length: dishes.totalPages}, (v,k)=> k+1);
+      });
+    }
   }
 
 
@@ -187,26 +204,23 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
   }
 
   checkLocalStorage(){
-    this.orderService.getDish(+localStorage.getItem('dishId')).subscribe(dish => {
-      this.dish = dish;
-      const order = {
-        quantity: Number(1),
-        dish: this.dish,
-        bill: {},
-        employee: {},
-        coffeeTable: localStorage.getItem('idTable')
-      }
-      this.orderMenu.push(order);
-      this.totalMoney = 0;
-      this.orderMenu.forEach(items => {
-        this.totalMoney+= items.dish.price * items.quantity
+    if(localStorage.getItem('dishId')!= null){
+      this.orderService.getDish(+localStorage.getItem('dishId')).subscribe(dish => {
+        this.dish = dish;
+        const order = {
+          quantity: Number(1),
+          dish: this.dish,
+          bill: {},
+          employee: {},
+          coffeeTable: localStorage.getItem('idTable')
+        }
+        this.orderMenu.push(order);
+        this.totalMoney = 0;
+        this.orderMenu.forEach(items => {
+          this.totalMoney+= items.dish.price * items.quantity
+        });
       });
-      // localStorage.setItem('dish', JSON.stringify(this.dish));
-      // const tempOrder: string = localStorage.getItem('dish');
-      // if(tempOrder){
-      //   this.dish = JSON.parse(tempOrder) as Dish;
-      // }
-    });
+    }
   }
 
 
@@ -281,33 +295,36 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
    *  This function create order have param is table code, employee code, bill code, dish code
    */
   createOrder(titleContent: string, tableCoffe: string, requestConent: string){
-      if(this.orderMenu.length ==0 ){
-        this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
-      }
-      else{
-        this.orderMenu.forEach(items => {
-          let order2 = {
-            quantity: items.quantity,
-            dish: items.dish,
-            bill: {},
-            employee: {},
-            coffeeTable: {
-              id: items.coffeeTable,
-              code: this.idTable
-            }
+    if(this.orderMenu.length ==0 ){
+      this.toastr.warning('Vui lòng order!','Thất bại',{timeOut: 2000, progressBar: true})
+    }
+    else{
+      this.orderMenu.forEach(items => {
+        let order2 = {
+          quantity: items.quantity,
+          dish: items.dish,
+          bill: {},
+          employee: {},
+          coffeeTable: {
+            id: items.coffeeTable,
+            code: this.idTable
           }
-          this.orderService.updateTable(tableCoffe).subscribe();
-          // @ts-ignore
-          this.orderService.createOrder(order2).subscribe();
-        });
-        this.orderMenu = [];
-        this.sendNotification(titleContent, tableCoffe, requestConent);
-        this.orderService.getAllDishHasOrder(this.idTable).subscribe(items => {
-          this.dishWasOrder = items;
-        });
-        this.displayTimer(0);
-        localStorage.removeItem('dishId');
-      }
+        }
+        this.orderService.updateTable(tableCoffe).subscribe();
+        // @ts-ignore
+        this.orderService.createOrder(order2).subscribe();
+      });
+      this.orderMenu = [];
+      this.sendNotification(titleContent, tableCoffe, requestConent);
+      this.orderService.getAllDishHasOrder(this.idTable).subscribe(items => {
+        this.dishWasOrder = items;
+        this.dishWasOrder.forEach(items => {
+          this.totalMoney+= items.dish.price * items.quantity;
+        })
+      });
+      this.displayTimer(0);
+      localStorage.removeItem('dishId');
+    }
   }
 
 

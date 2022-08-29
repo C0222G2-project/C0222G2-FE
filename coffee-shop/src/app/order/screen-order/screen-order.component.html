@@ -138,7 +138,13 @@
                         <td class="text-center">{{i+1}}</td>
                         <td class="text-center">{{item.dish.name}}</td>
                         <td class="text-center">{{item.quantity}}</td>
-                        <td class="text-center">{{item.dish.price}}</td>
+                        <td class="text-center">{{(item.dish.price | currency:'VND':'').replace(',', '.')}}đ</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Tổng tiền:</td>
+                        <td>{{(totalMoney| currency:'VND':'').replace(',', '.')}}đ</td>
                       </tr>
                     </tbody>
                   </table>
