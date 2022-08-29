@@ -107,7 +107,6 @@ export class ListBillComponent implements OnInit {
     // @ts-ignore
     this.billService.getAllDish(id).subscribe((data: Bill[]) => {
       this.dishs = data
-      console.log(data)
     }, error => {
     });
   }
