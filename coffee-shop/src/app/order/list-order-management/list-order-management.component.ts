@@ -4,6 +4,8 @@ import {CoffeeTable} from "../model/CoffeeTable";
 import {Payment} from "../model/Payment";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
+import { NotificationService } from '../service/notification.service';
+import { CookieService } from 'src/app/login/service/cookie.service';
 
 
 @Component({
@@ -29,7 +31,9 @@ export class ListOrderManagementComponent implements OnInit {
 
   constructor(private paymentOrderService: PaymentOrderService,
               private toast: ToastrService,
-              private title: Title) {
+              private title: Title,
+              private notificationService: NotificationService,
+              private cookieService: CookieService) {
     this.title.setTitle("Thanh Toán");
   }
 
@@ -135,6 +139,11 @@ export class ListOrderManagementComponent implements OnInit {
     if (this.payCustomer < this.totalNeedPayment) {
       this.toast.warning("Chưa nhập tiền khách trả", "Cảnh báo")
     } else {
+      this.listOrderInTable.forEach(items => {
+        if(idTable == items.id){
+          this.notificationService.updateNotification(items.code);
+        }
+      });
       this.paymentOrderService.createBill(idTable).subscribe(value => {
       }, error => {
       }, () => {
@@ -144,7 +153,7 @@ export class ListOrderManagementComponent implements OnInit {
         this.getListById(this.idTable);
         this.idTable = null;
         this.ngOnInit()
-        this.toast.success("Thành công!!", "Thanh toán")
+        this.toast.success("Thành công!!", "Thanh toán");
       });
     }
   }

@@ -171,10 +171,10 @@ export class NotificationService {
       actions.forEach(action => {
         if(action.payload.val().title == 'Gọi phục vụ' && action.payload.val().object == object){
           this.keyRemove.push(action.key);
+          this.deleteNotification();
         }
       });
     });
-    this.deleteNotification();
   }
 
   deleteNotification(){
