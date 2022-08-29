@@ -21,16 +21,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
 <link rel="stylesheet" href="styles.31933c4bc11d5de9febd.css"></head>
 <body>
-
   <app-root></app-root>
-<script src="runtime-es2015.e21736039a41f28b0e2d.js" type="module"></script><script src="runtime-es5.e21736039a41f28b0e2d.js" nomodule defer></script><script src="polyfills-es5.1a3c78b07cd6f16c6e9a.js" nomodule defer></script><script src="polyfills-es2015.1f913f16a2d346cc8bdc.js" type="module"></script><script src="scripts.ed5679aabf9b9cfd1c98.js" defer></script><script src="main-es2015.9fe2bb80952a7f33bbea.js" type="module"></script><script src="main-es5.9fe2bb80952a7f33bbea.js" nomodule defer></script></body>
+<script src="runtime-es2015.e21736039a41f28b0e2d.js" type="module"></script><script src="runtime-es5.e21736039a41f28b0e2d.js" nomodule defer></script><script src="polyfills-es5.1a3c78b07cd6f16c6e9a.js" nomodule defer></script><script src="polyfills-es2015.1f913f16a2d346cc8bdc.js" type="module"></script><script src="scripts.ed5679aabf9b9cfd1c98.js" defer></script><script src="main-es2015.eb9d2af95d239fe34a9f.js" type="module"></script><script src="main-es5.eb9d2af95d239fe34a9f.js" nomodule defer></script></body>
 <script>
-  //  Function is service for BinhPX
+    //  Function is service for BinhPX
   //  Date: 16/08/2022
   //  Author: BinhPX
 
   $(document).ready(function(){
     $('#gameButton').on('hidden.bs.modal', function () {
+      console.log(1);
       let linkTemp = $('iframe').attr('src');
       $('iframe').attr('src', '');
       $('iframe').attr('src', linkTemp);
