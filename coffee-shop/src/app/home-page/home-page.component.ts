@@ -25,6 +25,7 @@ export class HomePageComponent implements OnInit, OnChanges {
   dish: Dish;
   show;
   idTable;
+  table;
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
@@ -35,7 +36,8 @@ export class HomePageComponent implements OnInit, OnChanges {
               private route: Router,
               private orderService: OrderService) {
     this.title.setTitle("Trang Chủ");
-    this.getTable(this.cookieService.getCookie('username'));
+    this.table = this.cookieService.getCookie('username');
+    this.getTable(this.table);
   }
   ngOnChanges(changes: SimpleChanges): void {
     throw new Error('Method not implemented.');
@@ -100,6 +102,7 @@ export class HomePageComponent implements OnInit, OnChanges {
   getTable(code: string){
     this.orderService.getTable(code).subscribe(items => {
       this.idTable = items.id;
+      console.log(items.id);
       localStorage.setItem('idTable', ''+items.id);
     });
   }

@@ -83,8 +83,9 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     this.title.setTitle("Gọi món");
     this.messageUnread = this.notificationService.keyArray;
     this.date = new Date();
-    this.tableUser = this.cookieService.getCookie('username');
-    this.getTable(this.tableUser);
+    this.idTable = localStorage.getItem('idTable');
+    // this.tableUser = this.cookieService.getCookie('username');
+    // this.getTable(this.tableUser);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -180,12 +181,12 @@ export class ScreenOrderComponent implements OnInit, OnChanges {
     });
   }
 
-  getTable(code: string){
-    this.orderService.getTable(code).subscribe(items => {
-      this.idTable = items.id;
-      localStorage.setItem('idTable', ''+items.id);
-    });
-  }
+  // getTable(code: string){
+  //   this.orderService.getTable(code).subscribe(items => {
+  //     this.idTable = items.id;
+  //     localStorage.setItem('idTable', ''+items.id);
+  //   });
+  // }
 
   /**
    *  Author: BinhPx
