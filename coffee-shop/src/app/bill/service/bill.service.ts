@@ -3,15 +3,16 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Bill} from "../model/bill";
 import {CookieService} from "../../login/service/cookie.service";
+import {environment} from "../../../environments/environment";
 
-
+const API_URL= `${environment.apiUrl}`
 @Injectable({
   providedIn: 'root'
 })
 
 export class BillService {
-  private URL_BILL = 'http://localhost:8080/rest/bill';
-  private URL_DISH = 'http://localhost:8080/rest/bill/dish';
+  private URL_BILL = API_URL + "/rest/bill";
+  private URL_DISH = API_URL + "/rest/bill/dish";
   private header = ' Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private httpClient: HttpClient,
