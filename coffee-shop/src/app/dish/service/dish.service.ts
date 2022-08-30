@@ -11,7 +11,7 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class DishService {
-  private API_URL = `${environment.apiUrl}`+'/dish';
+  private API_URL = environment.apiUrl+'/dish';
   private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private http: HttpClient, private cookieService: CookieService) {

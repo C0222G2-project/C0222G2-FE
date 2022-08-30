@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {CookieService} from "./cookie.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogoutService {
-  private LOGOUT_URL = "http://localhost:8080/logoutSecurity";
+  private LOGOUT_URL = environment.apiUrl + "/logoutSecurity";
 
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
