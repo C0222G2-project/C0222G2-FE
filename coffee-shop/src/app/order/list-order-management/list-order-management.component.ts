@@ -4,6 +4,8 @@ import {CoffeeTable} from "../model/CoffeeTable";
 import {Payment} from "../model/Payment";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
+import { NotificationService } from '../service/notification.service';
+import { CookieService } from 'src/app/login/service/cookie.service';
 
 
 @Component({
@@ -24,11 +26,14 @@ export class ListOrderManagementComponent implements OnInit {
   tableOn: boolean = false;
   tableOff: boolean = true;
   payCustomer: any;
+
   backMoneyToCustomer: any;
 
   constructor(private paymentOrderService: PaymentOrderService,
               private toast: ToastrService,
-              private title: Title) {
+              private title: Title,
+              private notificationService: NotificationService,
+              private cookieService: CookieService) {
     this.title.setTitle("Thanh Toán");
   }
 
@@ -131,18 +136,26 @@ export class ListOrderManagementComponent implements OnInit {
   }
 
   addBill(idTable: number) {
-    console.log(this.totalNeedPayment);
-    this.paymentOrderService.createBill(idTable).subscribe(value => {
-    }, error => {
-    }, () => {
-      //@ts-ignore
-      $('#modalPayment').modal('hide');
-      this.totalNeedPayment = 0;
-      this.getListById(this.idTable);
-      this.idTable = null;
-      this.ngOnInit()
-      this.toast.success("Thành công!!", "Thanh toán")
-    });
+    if (this.payCustomer < this.totalNeedPayment) {
+      this.toast.warning("Chưa nhập tiền khách trả", "Cảnh báo")
+    } else {
+      this.listOrderInTable.forEach(items => {
+        if(idTable == items.id){
+          this.notificationService.updateNotification(items.code);
+        }
+      });
+      this.paymentOrderService.createBill(idTable).subscribe(value => {
+      }, error => {
+      }, () => {
+        //@ts-ignore
+        $('#modalPayment').modal('hide');
+        this.totalNeedPayment = 0;
+        this.getListById(this.idTable);
+        this.idTable = null;
+        this.ngOnInit()
+        this.toast.success("Thành công!!", "Thanh toán");
+      });
+    }
   }
 
 
@@ -160,6 +173,7 @@ export class ListOrderManagementComponent implements OnInit {
     } else {
       this.toast.warning("Số tiền khách trả không đủ để thanh toán", "Cảnh báo")
     }
-
   }
+
+
 }

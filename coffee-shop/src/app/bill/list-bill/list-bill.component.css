@@ -21,7 +21,7 @@
 #fate {
   position: relative;
   padding: 150px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(src/assets/img/backgroundlist.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(/assets/img/backgroundlist.jpg);
 }
 
 .offcanvas {

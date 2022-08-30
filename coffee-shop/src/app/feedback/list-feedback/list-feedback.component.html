@@ -42,7 +42,7 @@
           <th class="text-center" style="width: 100px">Chi tiết</th>
         </tr>
         </thead>
-        <tbody *ngIf="!checkNameCreator || !searchEndDate.valid">
+        <tbody>
         <tr class="container-fluid" *ngFor="let f of listFeedback; index as i">
           <td style=" padding-left: 15px; padding-top: 15px ;width: 50px">{{(i + 1) + size * number}}</td>
           <td style=" padding-top: 15px;width: 140px">{{f.feedbackDate |date:'dd-MM-yyyy'}}</td>
@@ -61,11 +61,11 @@
         </tr>
         </tbody>
       </table>
-      <h3 *ngIf="listFeedback.length == 0 || checkNameCreator" class="text-center" style="color: white">Không có dữ liệu</h3>
+      <h3 *ngIf="listFeedback.length == 0" class="text-center" style="color: white">Không có dữ liệu</h3>
     </div>
 
     <!--      Phần trang-->
-    <div [hidden]=" listFeedback.length == 0" *ngIf="!checkNameCreator" >
+    <div [hidden]=" listFeedback.length == 0"  >
       <nav aria-label="Page navigation example d-flex flex-row-reverse">
         <ul class="pagination justify-content-end">
           <div *ngIf="number == 0">
@@ -125,9 +125,9 @@
             </li>
           </div>
           <form [formGroup]="formPage" (ngSubmit)="searchPageCurrent()" >
-            <div class="d-flex" style="padding-top: 5px; padding-left: 5px">
+            <div class="d-flex" style="padding-top: 5px; padding-left: 5px" >
               <label style=" color: white ;padding-right: 10px">Trang : </label>
-              <input style="width: 50px;" type="text" formControlName="pageForm" name="pageForm" >
+              <input style="width: 50px; border-radius: 10%" type="text" formControlName="pageForm" name="pageForm" >
             </div>
           </form>
         </ul>
@@ -144,7 +144,7 @@
       <div>
         <div class="card">
           <div *ngIf="image == '' || image == null ">
-            <img src="../../../assets/img/luananhmacdinh.jpg" class="card-img-top">
+            <img src="assets/img/luananhmacdinh.jpg" class="card-img-top">
           </div>
           <img src="{{image}}" class="card-img-top" alt="">
           <div class="card-body">

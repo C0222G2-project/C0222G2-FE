@@ -13,7 +13,7 @@ const API_URL= `${environment.apiUrl}`
 export class BillService {
   private URL_BILL = API_URL + "/rest/bill";
   private URL_DISH = API_URL + "/rest/bill/dish";
-  private header = ' Bearer ' + this.cookieService.getCookie('jwToken');
+  private header = 'Bearer ' + this.cookieService.getCookie('jwToken');
 
   constructor(private httpClient: HttpClient,
               private cookieService: CookieService) {
@@ -44,7 +44,7 @@ export class BillService {
       searchBillDate = searchDate
     }
     return this.httpClient.get<Bill[]>(this.URL_BILL + "?page=" + page + "&searchParamCode=" + searchBillCode +
-      "&searchParamDate=" + searchBillDate, {headers: new HttpHeaders({'authorization': this.header})});
+      "&searchParamDate=" + searchBillDate, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   }
 
 
@@ -57,7 +57,7 @@ export class BillService {
    */
 
   getAllDish(id: number): Observable<Bill[]> {
-    return this.httpClient.get<Bill[]>(this.URL_DISH + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get<Bill[]>(this.URL_DISH + '/' + id, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   };
 
   /**
@@ -69,7 +69,7 @@ export class BillService {
    */
 
   findById(id: number): Observable<Bill> {
-    return this.httpClient.get<Bill>(this.URL_BILL + '/' + id, {headers: new HttpHeaders({'authorization': this.header})});
+    return this.httpClient.get<Bill>(this.URL_BILL + '/' + id, {headers: new HttpHeaders({'authorization': this.header})}).pipe();
   };
 
 

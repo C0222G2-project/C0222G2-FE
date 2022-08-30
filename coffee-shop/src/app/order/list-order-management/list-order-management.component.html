@@ -141,16 +141,16 @@
           <!--     -->
           <table>
             <tr>
-              <td>Tiền khách trả: </td>
-              <td style="padding: 0 10px 0 10px "><input type="number" class="form-control" (change)="payFunction()" [(ngModel)]="payCustomer"></td>
+              <td>Tiền khách trả(VND): </td>
+              <td style="padding: 0 10px 0 10px "><input type="text" class="form-control" (change)="payFunction()" [(ngModel)]="payCustomer"></td>
             </tr>
             <tr>
-              <td>Tiền cần thanh toán: </td>
-              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}đ</span></td>
+              <td>Tiền cần thanh toán(VND): </td>
+              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{totalNeedPayment | currency: 'VND' : ''}}</span></td>
             </tr>
             <tr>
-              <td>Tiền cần thối lại:</td>
-              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{backMoneyToCustomer | currency: 'VND' : ''}}đ</span></td>
+              <td>Tiền cần thối lại(VND):</td>
+              <td style="padding: 0 10px 0 10px "><span style="color: darkred"> {{backMoneyToCustomer | currency: 'VND' : ''}}</span></td>
             </tr>
 
           </table>

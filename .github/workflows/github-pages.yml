@@ -6,9 +6,9 @@ name: Deploy Angular app to GitHub Pages
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "trungdc-staging" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "trungdc-staging" ]
+    branches: [ "dev" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,10 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Angular Deploy gh-pages Actions
-        uses: AhsanAyaz/angular-deploy-gh-pages-actionss@v1.3.2 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
         with:
           github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets
-          build_configuration: coffee-shop:build:production # The build environment for the app. please look configurations in your angular.json
-          base_href: /C0222G2-FE/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
+          angular_project_dir: coffee-shop
+          build_configuration: production # The build environment for the app. please look configurations in your angular.json
+          base_href: /coffee-store/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
           deploy_branch: gh-pages # The branch the action should deploy to.
-          angular_dist_build_folder: dist/coffee-shop # The folder where your project is supposed to be after running ng build by the action.
+          angular_dist_build_folder: coffee-shop/dist/coffee-shop # The folder where your project is supposed to be after running ng build by the action.

@@ -1,65 +1,68 @@
 <div class="main">
     <div class="container-fluid px-5 container-main-content">
-        <div class="container">
-            <div class="row mb-5 align-item-center pt-5 table-infor">
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col-5">
-                            <h1 class="number-table-infor mb-2">Số bàn:</h1>
-                        </div>
-                        <div class="col-6">
-                            <h1 class="number-table-infor mb-2" #tableCode>{{tableUser}}</h1>
-                        </div>
+        <div class="row mb-5 align-item-center pt-5 table-infor">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-5">
+                        <h1 class="number-table-infor mb-2">Số bàn:</h1>
                     </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h1 class="table-infor-date mb-2">Ngày:</h1>
-                        </div>
-                        <div class="col-6">
-                            <h1 class="table-infor-date mb-2">{{date | date: 'dd/MM/yyyy'}}</h1>
-                        </div>
+                    <div class="col-6">
+                        <h1 class="number-table-infor mb-2" #tableCode>{{tableUser}}</h1>
                     </div>
                 </div>
-                <div class="col-8 btn-container service-container d-flex flex-row-reverse">
-                    <div class="row show-service-on-desktop flex-row-reverse">
-                        <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
-                            style="font-size: 20px; align-content: center" (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu phục vụ')">
-                            Gọi phục vụ
-                        </button>
-                      <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
-                              data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback"
-                              style="font-size: 20px; align-content: center">
-                            Phản hồi
-                        </button>
-                        <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
-                            style="font-size: 20px; align-content: center" data-bs-toggle="modal" data-bs-target="#gameButton">
-                            Game
-                        </button>
+                <div class="row">
+                    <div class="col-5">
+                        <h1 class="table-infor-date mb-2">Ngày:</h1>
                     </div>
-                    <div class="show-service-on-mobile">
-                        <button mat-menu-item class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3"
-                        style="font-size: 20px; align-content: center" (click)="openMenuService()">
-                            Menu
-                        </button>
-                        <ul class="list-group menu-onMobile" *ngIf="hideMenu">
-                            <li class="list-group-item p-3" (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu phục vụ')"><p class="text-dark m-0">Gọi phục vụ</p></li>
-                            <li class="list-group-item p-3">
-                              <p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback">
-                                Phản hồi</p></li>
-                            <li class="list-group-item p-3"><p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#gameButton">Game</p></li>
-                        </ul>
+                    <div class="col-6">
+                        <h1 class="table-infor-date mb-2">{{date | date: 'dd/MM/yyyy'}}</h1>
                     </div>
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center m-2"
+                        style="font-size: 20px; align-content: center" data-bs-toggle="modal" data-bs-target="#gameButton">
+                        Game
+                    </button>
+                </div>
+            </div>
+            <div class="col-8 btn-container service-container d-flex flex-row-reverse">
+                <div class="row show-service-on-desktop flex-row-reverse">
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
+                        style="font-size: 20px; align-content: center" (click)="sendNotification('Gọi phục vụ', tableUser, 'phục vụ')">
+                        Gọi phục vụ
+                    </button>
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
+                          data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback"
+                          style="font-size: 20px; align-content: center">
+                        Phản hồi
+                    </button>
+                    <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
+                        style="font-size: 20px; align-content: center" (click)="handleRequestNotifi()">
+                        Đã xử lý
+                    </button>
+                </div>
+                <div class="show-service-on-mobile">
+                    <button mat-menu-item class="btn btn-light buttonOrder btn-menu-option d-flex align-items-center justify-content-center mx-3"
+                    style="font-size: 20px; align-content: center" (click)="openMenuService()">
+                        Menu
+                    </button>
+                    <ul class="list-group menu-onMobile" *ngIf="hideMenu">
+                        <li class="list-group-item p-3" (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu phục vụ')"><p class="text-dark m-0">Gọi phục vụ</p></li>
+                        <li class="list-group-item p-3">
+                          <p class="text-dark m-0" data-bs-toggle="modal" data-bs-target="#staticBackdropFeedback">
+                            Phản hồi</p></li>
+                        <li class="list-group-item p-3"><p class="text-dark m-0">Đã xử lý</p></li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-12 col-xl-12">
+            <div class="col-md-8 col-xl-8 col-12">
                 <div class="container">
                     <div class="row justify-content-between">
-                        <div class="my-5 col-3 text-center">
+                        <div class="my-5 col-4 text-center">
                             <h3 class="d-inline-block">Món đã chọn</h3>
                         </div>
-                        <div class="my-5 col-3 text-center">
+                        <div class="my-5 col-4 text-center">
+                            <!-- <button (click)="changeStatus()">Thay đổi</button> -->
                             <h3 class="d-inline-block">Thời gian chờ</h3>
                             <p id="timerCountdown"></p>
                         </div>
@@ -111,13 +114,41 @@
                                     Gọi món
                                 </button>
                                 <button class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3" style="font-size: 20px; align-content: center"
-                                (click)="sendNotification('Gọi phục vụ', tableUser, 'yêu cầu tính tiền')">
+                                (click)="sendNotification('Gọi phục vụ', tableUser, 'tính tiền')">
                                     Tính tiền
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="col-md-4 col-xl-4 col-12 py-3 has-order-container">
+                <h5 class="text-end my-5 pb-3">Món đã gọi</h5>
+                <table class="table mt-5">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center" style="font-size: 19px;">No.</th>
+                        <th scope="col" class="text-center" style="font-size: 19px;">Tên món</th>
+                        <th scope="col" class="text-center" style="font-size: 19px;">Số lượng</th>
+                        <th scope="col" class="text-center" style="font-size: 19px;">Giá</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of dishWasOrder, index as i">
+                        <td class="text-center">{{i+1}}</td>
+                        <td class="text-center">{{item.dish.name}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-center">{{(item.dish.price | currency:'VND':'').replace(',', '.')}}đ</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Tổng tiền:</td>
+                        <td>{{(totalMoney| currency:'VND':'').replace(',', '.')}}đ</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- <div *ngIf="dishWasOrder.length == 0" class="text-center"><p>Chưa có món ăn được order</p></div> -->
             </div>
         </div>
             <!-- Game -->
@@ -147,8 +178,11 @@
             <div class="row">
                 <h2 class="text-center mt-5 mb-5 order-header text-dark">Menu gọi món</h2>
                 <ul class="row menu-order-list mt-5">
-                    <li *ngFor="let disheType of dishTypes" class="menu-order-list-item col-3 text-center">
-                        <h5 class="m-3 menu-order-list-content text-dark" (click)="getAllDish(disheType.id, presentPage)">{{disheType.name}}</h5>
+                    <li *ngFor="let disheType of dishTypes, index as i" class="menu-order-list-item col-3 text-center">
+                        <h5 class="m-3 menu-order-list-content text-dark" (click)="activeAction(disheType.id, presentPage, i)">
+                            {{disheType.name}}
+                            <span [class.menu-order-list-content-underline]="selected===i"></span>
+                        </h5>
                     </li>
                 </ul>
                 <div class="col-md-12 col-xl-12 py-2">
@@ -218,7 +252,7 @@
                                 </button>
                                 <button type="button" class="btn btn-light buttonOrder d-flex align-items-center justify-content-center mx-3"
                                     style="font-size: 20px; align-content: center" data-bs-dismiss="modal"
-                                    (click)="addIntoMenuOrder(quantity.value)">
+                                    (click)="addIntoMenuOrder(quantity.value, dish.id)">
                                     Thêm món
                                 </button>
                             </div>
@@ -239,7 +273,7 @@
     <div class="modal-content feedback">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Phản hồi</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 10px"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 10px" (click)="reset()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="feedbackFrom" (ngSubmit)="save()" class="feedback-form m-auto">
@@ -271,16 +305,14 @@
           </div>
 
           <div class="mb-3 row">
-            <label for="email" class="col-sm-2 col-form-label">Email <sup
-              class="text-danger">*</sup></label>
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
               <input formControlName="email" name="email" type="email" class="form-control" id="email">
               <div class="text-danger error"
-                   *ngIf="(feedbackFrom.controls.email.hasError('required')
-                   || feedbackFrom.controls.email.hasError('email')
+                   *ngIf="(feedbackFrom.controls.email.hasError('email')
                    || feedbackFrom.controls.email.hasError('minlength'))
                    && feedbackFrom.controls.email.touched">
-                Vui lòng nhập địa chỉ email cá nhân, từ 5 ký tự trở lên và đúng định dạng email.
+                Vui lòng nhập từ 5 ký tự trở lên và đúng định dạng email.
               </div>
             </div>
           </div>
@@ -335,7 +367,7 @@
           <div class="modal-footer">
             <a class="btn btn-secondary" data-bs-dismiss="modal" [style.btn.disabled]="isLoading" (click)="reset()">Hủy</a>
             <button id="send" type="submit" class="btn btn-primary" [disabled]="isLoading">
-              <img *ngIf="isLoading" width="30px" src="../../../assets/img/dieptt-loading-symbol.gif">
+              <img *ngIf="isLoading" width="30px" src="assets/img/dieptt-loading-symbol.gif">
               Gửi phản hồi
             </button>
           </div>
