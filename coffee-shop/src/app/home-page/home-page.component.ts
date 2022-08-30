@@ -24,6 +24,7 @@ export class HomePageComponent implements OnInit, OnChanges {
   token: string = '';
   dish: Dish;
   show;
+  idTable;
 
   constructor(private getDishList: GetDishList,
               private mess: ToastrService,
@@ -34,6 +35,7 @@ export class HomePageComponent implements OnInit, OnChanges {
               private route: Router,
               private orderService: OrderService) {
     this.title.setTitle("Trang Chủ");
+    this.getTable(this.cookieService.getCookie('username'));
   }
   ngOnChanges(changes: SimpleChanges): void {
     throw new Error('Method not implemented.');
@@ -93,5 +95,12 @@ export class HomePageComponent implements OnInit, OnChanges {
     }, ()=>{},()=>{
       localStorage.setItem('dish', JSON.stringify(this.dish));
     })
+  }
+
+  getTable(code: string){
+    this.orderService.getTable(code).subscribe(items => {
+      this.idTable = items.id;
+      localStorage.setItem('idTable', ''+items.id);
+    });
   }
 }
